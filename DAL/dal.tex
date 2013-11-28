@@ -1,0 +1,205 @@
+\documentclass[a4paper,11pt,french]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel} 
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, includeheadfoot]{geometry} %pour les marges
+\usepackage{lmodern}
+\usepackage{pict2e}
+\usepackage{tikz}	
+\usepackage{tikz-uml}
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{tabularx, longtable}
+\usepackage{color, colortbl}
+\usepackage{lscape}
+\usepackage[hidelinks]{hyperref}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{pgfgantt}
+\usepackage{pgfcalendar}
+\usepackage{ifthen}
+\usepackage{gensymb}
+\usepgflibrary{arrows} % for pgf-umlsd
+
+\usetikzlibrary{trees,shapes.geometric,arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains	}
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
+\rhead{\includegraphics[width=10em]{logo_univ.png}}
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ / \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength{\headheight}{40pt}
+
+\newcommand{\hmwkTitle}{Transchiffrement} % Assignment title
+\newcommand{\hmwkClass}{Master 2 SSI } % Course/class
+\newcommand{\hmwkAuthorName}{Yves Nouafo} % Your name
+\newcommand{\hmwkSubject}{Conduite de projet} % Subject
+\newcommand{\hmwkDocName}{Architecture Logicielle} % Document name
+
+\newcommand{\version}{1.0} % Document version
+\newcommand{\docDate}{28 novembre 2013} % Document date
+\newcommand{\checked}{} % Checker name
+\newcommand{\approved}{Magali Bardet} % Approver name
+
+\makeatletter
+\newcommand{\resettranslate}{\let\translate\@firstofone}
+\makeatother
+
+\definecolor{gris}{rgb}{0.95, 0.95, 0.95}
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass :\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+\vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{} % Insert date here if you want it to appear below your name
+
+
+\usepackage{amsmath}
+\begin{document}
+\newcount\startdate
+\newcount\daynum
+\pgfcalendardatetojulian{2013-01-021}{\startdate}
+\pagestyle{fancy}
+
+\vspace*{5cm}
+\begin{center}\textbf{\Huge{\hmwkDocName}}\end{center}
+\vspace*{4.5cm}
+	
+
+\fcolorbox{black}{gris}{
+\begin{minipage}{15cm}
+\begin{tabularx}{10cm}{lXl}
+	\bfseries{Version} & & \version\\
+	& & \\
+	\bfseries{Date} & & \docDate\\
+	& & \\
+	\bfseries{Rédigé par} & & \hmwkAuthorName \\
+	& & \\
+	\bfseries{Relu par} & & \checked \\
+	& & \\
+	\bfseries{Approuvé par} & & \approved \\
+	& & \\
+\end{tabularx}
+\end{minipage}
+}
+
+\newpage
+
+%Tableau de mises à jour
+\vspace*{1cm}
+\begin{center}
+\textbf{\huge{MISES À JOUR}}\\
+\vspace*{3cm}
+	\begin{tabularx}{16cm}{|c|c|X|}
+	\hline
+	\bfseries{Version} & \bfseries{Date} & \bfseries{Modifications réalisées}\\
+	\hline
+	1.0 & 28/11/2013 & Création\\
+	\hline
+	& & \\
+	\hline
+	& & \\
+	\hline
+	& & \\
+	\hline
+	& & \\
+	\hline
+	& & \\
+	\hline
+	& & \\
+	\hline
+	\end{tabularx}
+\end{center}
+
+%La table des matières
+\clearpage
+\tableofcontents
+\clearpage
+
+\section{Objet}
+
+Ce document met en évidence les éléments et les évènements qui interviendront dans la mise en place du transchiffrement. L'ensemble des composants formeront l'architecture du procédé que l'on va mettre en place. Chaque composant sera implanté de manière indépendante mais pourra communiquer avec les autres en respectant les critères suivants:
+
+\begin{itemize}
+\item Les connexions client / proxy et proxy / serveur seront chiffrées
+\item L'exécution du transchiffrement au niveau du proxy devra être rapide
+\item L'autorité intermédiaire doit signer les certificats auxquels le client veut se connecter
+\item Rechercher en parallèle des collisions MD5 et forger si possible un faux certificats
+\end{itemize}
+
+
+\section{Documents applicables et de références}
+\begin{itemize}
+\item STB (Spécification Techniques des besoins]
+\item MD5 considered harmful today (creating a rogue CA certificate) [Alexander Sotirov, Marc Stevens, ... 2008]
+\end{itemize}
+
+
+\section{Terminologie et sigles utilisés}
+
+\begin{itemize}
+\item IGC: Infrastructure de Gestion de Clés
+\item AC: Autorité de certification
+\item BDD: Base de données
+\end{itemize}
+
+
+\section{Configuration requise}
+
+\subsection{Performances du calculateur}
+
+\begin{itemize}
+\item 2Go de RAM
+\item Intel Celeron
+\item Machine virutelle ???
+\end{itemize}
+
+\subsection{Système d'exploitation}
+
+\begin{itemize}
+\item Ubuntu serveur
+\end{itemize}
+
+\subsection{Produits logiciels nécessaires}
+
+\section{Architecture statique}
+
+\subsection{Structure}
+Les principales parties à développer:
+\begin{itemize}
+\item L'application client-serveur: le proxy
+\item Le serveur: la fausse autorité intermédiaire
+\item Les données: base de données contenant les clés publiques des entités
+\end{itemize}
+
+
+\subsection{Description des constituants}
+
+\begin{tabular}{ll}
+	 & Proxy\\
+	Rôle & Réalise le transchiffrement\\
+	Propriétés et attributs de caractérisation & Déchiffrement et rechiffrement des messages\\
+	Dépendances avec d'autres constituants & navigateur web client, fausse AC, base de données de la fausse AC, Site que le client veut visiter\\
+	Langages de programmation & Java, perl ???\\
+	Procédé de développement & établissement de fonctionnalités, schématisation des fonctionnalités, développement des focntionnalités\\
+	Taille complexité & 35\% du projet, complexité du à l'efficience du programme et à la programmation réseaux\\
+\end{tabular}
+
+
+\end{document}
