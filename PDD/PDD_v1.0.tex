@@ -1,0 +1,239 @@
+\documentclass[a4paper,11pt,french]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel} 
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, includeheadfoot]{geometry} %pour les marges
+\usepackage{lmodern}
+\usepackage{pict2e}
+\usepackage{tikz}	
+\usepackage{tikz-uml}
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{tabularx, longtable}
+\usepackage{color, colortbl}
+\usepackage{lscape}
+%\usepackage[hidelinks]{hyperref}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{rotating}
+%\usepackage{pgfgantt}
+%\usepackage{pgfcalendar}
+%\usepackage{ifthen}
+\usepackage{gensymb}
+\usepgflibrary{arrows} % for pgf-umlsd
+
+\usetikzlibrary{trees,shapes.geometric,arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains	}
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
+\rhead{\includegraphics[width=10em]{logo_univ.png}}
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ / \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength{\headheight}{40pt}
+
+\newcommand{\hmwkTitle}{Transchiffrement} % Assignment title
+\newcommand{\hmwkClass}{Master 2 SSI } % Course/class
+\newcommand{\hmwkAuthorName}{Emile Générat} % Your name
+\newcommand{\hmwkSubject}{Conduite de projet} % Subject
+\newcommand{\hmwkDocName}{Plan de Développement} % Document name
+
+\newcommand{\version}{1.0} % Document version
+\newcommand{\docDate}{13 Décembre 2013} % Document date
+\newcommand{\checked}{} % Checker name
+\newcommand{\approved}{} % Approver name
+
+\makeatletter
+\newcommand{\resettranslate}{\let\translate\@firstofone}
+\makeatother
+
+\definecolor{gris}{rgb}{0.95, 0.95, 0.95}
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass :\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+\vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{} % Insert date here if you want it to appear below your name
+
+
+\usepackage{amsmath}
+\begin{document}
+\newcount\startdate
+\newcount\daynum
+%\pgfcalendardatetojulian{2013-01-021}{\startdate}
+\pagestyle{fancy}
+
+\vspace*{5cm}
+\begin{center}\textbf{\Huge{\hmwkDocName}}\end{center}
+\vspace*{4.5cm}
+	
+
+\fcolorbox{black}{gris}{
+\begin{minipage}{15cm}
+\begin{tabularx}{10cm}{lXl}
+	\bfseries{Version} & & \version\\
+	& & \\
+	\bfseries{Date} & & \docDate\\
+	& & \\
+	\bfseries{Rédigé par} & & \hmwkAuthorName \\
+	& & \\
+	\bfseries{Relu par} & & \checked \\
+	& & \\
+	\bfseries{Approuvé par} & & \approved \\
+	& & \\
+\end{tabularx}
+\end{minipage}
+}
+
+\newpage
+
+%Tableau de mises à jour
+\vspace*{1cm}
+\begin{center}
+\textbf{\huge{MISES À JOUR}}\\
+\vspace*{3cm}
+	\begin{tabularx}{16cm}{|c|c|X|}
+	\hline
+	\bfseries{Version} & \bfseries{Date} & \bfseries{Modifications réalisées}\\
+	\hline
+	1.0 & 13/12/2013 & Création\\
+	\hline
+	\end{tabularx}
+\end{center}
+
+%La table des matières
+\clearpage
+\tableofcontents
+\clearpage
+\newpage
+\section{Contexte du projet}
+
+
+Pour garantir la confidentialité du trafic internet, les sites ont de plus en plus souvent recours à du chiffrement des échanges. Ce chiffrement s'effectue de bout en bout, du client jusqu'au serveur.
+Ainsi, un intrus qui intercepte les connexions ne peut pas lire les paquets qui transitent.
+Cela peut poser des problèmes dans certains cadres.
+
+Le principe repose sur la hiérarchie des autorités de certification.
+
+Le but du projet est de fournir une solution de transchiffrement, ainsi qu'une étude des collisions MD5 qui peuvent permettre l'élaboration d'un faux certificat racine.
+
+Respect de la législation en vigueur
+Le résultat du projet ne doit pas faire l'objet d'une utilisation illégale
+- Le dispositif ne peut être utilisé qu'avec l'accord explicite du propriétaire du réseau
+- La surveillance du trafic ne peut être faite sans le conscentement des utilisateurs
+\newpage
+\section{Documents de référence}
+
+\begin{itemize}
+\item Étude et mise en oeuvre de solutions de Transchiffrement SSL : sujet\_projet\_ssi.pdf
+\item Spécification Technique du besoin : STB\_v1.0.pdf
+\item Architecture Logicielle : DAL\_v1.0.pdf
+\item Cahier des Recettes : CDR\_v1.0.pdf
+\item Analyse des risques : ADR\_v1.0.pdf
+\item Plan de développement : PDD\_v1.0.pdf
+\end{itemize}
+
+\newpage
+\section{Terminologie et sigles utilisés}
+
+\begin{description}
+\item[SSL] Secure Sockets Layer
+\item[TLS] Transport Layer Security (remplace SSL)
+\item[HTTPS] Hypertext Transfer Protocol Secure
+\item[MD5] Message-digest algorithm
+\item[AC] Autorité de Certification
+\end{description}
+
+%\newpage
+%\section{Méthodologie de développement}
+
+\newpage
+\section{Organisation et responsabilités}
+
+\begin{itemize}
+\item Les développeurs : Tous les membres du projets sont en charge de la production de l'application, ainsi que des recherches sur les collisions de certificats.
+
+\item Relation client : Julien BOURDON est en charge du suivi de la relation client. Il doit s'assurer de l'adéquation du travail réalisé par le groupe, par rapport aux besoins exprimés par le client.
+
+\item Testeur : Jean-Baptiste SOUCHAL s'occupe de tester les fonctionnalités du produit final. C'est lui qui s'assure que les fonctionnalités développées sont conformes aux spécifications.
+
+\item Le chef de projet : Emile GÉNÉRAT rend compte de l'évolution du projet. De plus il s'assure du bon fonctionnement du travail d'équipe, au niveau de la communication et du suivi des rôles de chacun.
+\end{itemize}
+
+%\newpage
+%\section{Organigramme des tâches}
+\newpage
+\section{Lotissement}
+
+La répartition des fonctionnalités par lot n'est pas encore définie.
+Les fonctionnalités finales attendues sont :
+\begin{itemize}
+\item une application servant de proxy  
+\item un dossier de recherche sur les collisions MD5
+\end{itemize}
+
+
+\newpage
+\section{Dimensionnement des moyens}
+
+Un serveur dédié au calcul de collisions.
+
+\subsection{Description des tâches}
+
+Le lotissement n'est pas définitif. Le projet contient deux parties principales, qui doivent être développées parallèlement.
+
+Développement d'un proxy applicatif.
+\begin{itemize}
+\item Installation et acceptation de l'autorité sur le client
+\item Établissement d'une connexion chiffrée
+\item Transchiffrement des paquets
+\item Génération d'un certificat signé par une autorité reconnue
+\end{itemize}
+Recherche de collisions de certificats.
+\begin{itemize}
+\item Lecture des documents
+\item Étude de la faisabilité d'une collision
+\item Développement d'une application qui permette de rechercher des collisions.
+\item Mise en production d'un programme de recherche de collisions, sur une machine mise à notre disposition.
+\end{itemize}
+\subsection{Évaluation des charges et répartition des tâches}
+
+\begin{figure}[h!]
+\includegraphics[width=\textheight, angle=90]{planification.png}
+\end{figure}
+
+\newpage
+\section{Procédés de gestion}
+%\subsection{Gestion de la documentation}
+%\subsection{Gestion des configurations}
+
+\subsection{Revues et points clefs}
+\begin{itemize}
+\item Début du projet : 20 janvier 2014
+\item Revue de fin de projet : 28 février 2014
+\end{itemize}
+
+\newpage
+\section{Procédures de suivi d'avancement}
+
+Chaque semaine, l'équipe se réunit pour évaluer l'avancement des tâches.
+Chaque membre de l'équipe présente l'avancement des tâches qui lui ont été affectées.
+Cette réunion permet d'établir un avancement global du projet.
+C'est dans cette réunion que les ajustements éventuels du planning sont décidés, en accord avec le client.
+
+
+\end{document}
