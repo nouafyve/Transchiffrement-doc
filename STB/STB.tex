@@ -119,53 +119,44 @@
 
 
 \newpage
-\section{Documents en référence}
-\begin{itemize}
-\item Spécification Technique du Besoin v1.0
-\end{itemize}
+\section{Présentation de la mission du produit logiciel}
 
 
-
-\newpage
-\section{}
-\subsection{Présentation de la mission du produit logiciel}
-
-
-La première partie du projet est de créer un proxy de transchiffrement, c'est à dire de s'interposer entre un client et le serveur auquel il veut avoir accès.
-Pour ce faire, il faut d'abord trouver un moyen d'authentifier notre proxy.
+La première partie du projet est de créer un proxy transparent qui réalise du transchiffrement, c'est à dire de récupérer toutes les conversations normalement impossibles à lire entre un client et le serveur auquel il veut avoir accès.
+Pour ce faire, il faut d'abord trouver un moyen d'authentifier notre proxy en utilisant une autorité de certification pour signer les certificats que nous allons créer par la suite.
 Nous avons 3 choix qui s'offrent à nous :
 
 \begin{itemize}
-\item Installer directement une fausse autorité de certification dans le système.
+\item Installer directement notre autorité de certification dans le système.
 \item Forcer l'utilisateur à accepter notre autorité de certification
-\item Forger une fausse autorité intermédiaire qui a le même haché MD5 que la vraie.
+\item Forger un faux certificat d'autorité qui a le même haché MD5 qu'un certificat d'autorité valide existant.
 \end{itemize}
 
 Cette dernière façon de faire étant plus compliquée à réaliser, nous allons en faire la deuxième partie de notre projet que nous détaillerons un peu plus loin.
 
-Une fois l'autorité intermédiaire installée et acceptée, nous l'utiliserons pour signer des certificats correspondant aux serveurs auxquels le client veut se connecter que nous créerons à la volée.
+Une fois l'autorité installée et acceptée, nous l'utiliserons pour signer des certificats correspondant aux serveurs auxquels le client veut se connecter que nous créerons à la volée. Une fois créés, nous pourrons les stocker pour une éventuelle réutilisation, ce qui nous fera gagner un temps précieux.
 
-	Les connexions client / proxy et proxy / serveur seront évidemment chiffrées et de ce fait, notre proxy agira comme un « man in the middle ».
+	Les connexions client / proxy et proxy / serveur seront soit en "clair" (HTTP) ce qui n'implique pas de transchiffrement car les données seront directement lisibles sur le réseau, soit chiffrées et de ce fait, notre proxy agira comme un « man in the middle ».
 
-	La vitesse d'exécution est un facteur important pour ne pas que le proxy soit détécté pendant le déchiffrement / rechiffrement.
+	La vitesse d'exécution est un facteur important pour ne pas que le proxy soit détecté pendant le déchiffrement / rechiffrement.
 
 La deuxième partie du projet est surtout un travail de recherche sur les collisions MD5 afin de trouver un algorithme qui nous permette de forger cette fausse autorité. Nous aurons donc à faire tourner un programme de comparaison pendant une durée assez longue en parallèle de la première partie du projet.
 
-\subsubsection{Terminologie et sigles utilisés}
+\subsection{Terminologie et sigles utilisés}
 
 \begin{description}
-\item[Client] utilisateur d'une machine privée (ordinateur)
-\item[Proxy] machine intermédiaire écoutant sur le réseau qui sera en charge de réaliser le transchiffrement SSL.
-\item[Serveur] serveur web, accessible à partir d'une URL
-Autorité de certification : certificat intermédiaire servant au chiffrement SSL depuis le proxy
+\item[Client] Utilisateur d'une machine privée (ordinateur) qui souhaite se connecter à un serveur web.
+\item[Proxy] Machine intermédiaire écoutant sur le réseau qui va réaliser le transchiffrement TLS/SSL.
+\item[Serveur] Serveur web, accessible à partir d'une URL.
+\item[Autorité de certification] Ici, l'autorité utilise sa clé privée pour signer des certificats qui prouvent l'appartenance d'une clé publique à un individu.
 
 \end{description}
 
+\subsection{Liste des cas d'utilisation}
 
 Pour commencer le projet, une liste des différents cas possibles d’utilisation de l’application a été faite afin de répondre au besoin du client selon leur priorité. Chaque cas est alors développé afin d’identifier les étapes nécessaires pour sa réalisation. 
 
-
-
+\begin{center}
 \begin{tabular}{|c|c|c|}
 \hline 
 ID & Intitulé & Priorité \\ 
@@ -183,15 +174,68 @@ P.5 & Transchiffrement & Indispensable \\
 P.6 & Forge d'une fausse autorité & Optionnel \\ 
 \hline 
 \end{tabular} 
-
+\end{center}
+~~\\
+~~\\
 
 \huge
-Ajouter le schéma
+\subsection{Diagramme UML}
+\begin{center}
+\includegraphics[width=\textwidth]{images/cas_utilisation.pdf}
+\end{center}
 \normalsize
 
-\subsection{Cas d'utilisation}
+\subsection{Schémas explicatifs}
 
-\subsubsection{Configuration du proxy}
+\subsubsection{Phase de partage de certificats}
+
+\begin{center}
+\includegraphics[width=\textwidth]{images/Certificats.pdf}
+\end{center}
+
+1. Le client envoie une requête au serveur pour négocier une connexion SSL/TLS.
+
+2. Le proxy intercepte la requête.
+
+3. Le proxy envoie sa propre requête de connexion au serveur demandé par le client.
+
+4. Le serveur répond au proxy et envoie son certificat signé par une autorité.
+
+5. Le proxy génère un faux certificat avec la clé publique du proxy et la signature de notre autorité.
+
+6. Le proxy envoie le faux certificat au client.
+
+7. Le client vérifie que le certificat est valide.\\
+
+Une fois les certificats partagés, il faut maintenant échanger une clé de session pour avoir une connexion sécurisée.
+
+\subsubsection{Phase d'échange des clés}
+
+\begin{center}
+\includegraphics[width=\textwidth]{images/Cles.pdf}
+\end{center}
+
+
+1. Le client envoie une clé de session chiffrée avec la clé publique présente sur le certificat du proxy.
+
+2. Le proxy déchiffre avec la clé privée associée.
+
+3. Le proxy ouvre une connexion sécurisée avec le client avec la clé de session.
+
+4. Le proxy chiffre une nouvelle clé de session avec la clé publique du serveur.
+
+5. Le proxy envoie la clé chiffrée au serveur.
+
+6. Le serveur déchiffre la clé de session.
+
+7. Le serveur ouvre une connexion sécurisée avec le proxy en utilisant la clé de session.
+
+
+\section{Cas d'utilisation}
+
+\subsection{Configuration du proxy}
+
+Installation et configuration du proxy pour que tout le trafic en provenance du client passe par le proxy.
 
 \begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
    \hline
@@ -199,7 +243,7 @@ Ajouter le schéma
    \hline
    Pré-conditions & Implémentation du cas d'utilisation Transchiffrement\\
    \hline
-   Évènement déclanchant & Début du projet \\
+   Évènement déclenchant & Début du projet \\
    \hline
    Condition d'arrêt & Proxy installé \\
    \hline
@@ -215,11 +259,11 @@ Description du flot d'évènements principal :
    \hline
    Acteur(s) & Système \\
    \hline
-   1. Configuration du proxy & \\
+   1. Lancement de l'exécutable du proxy & \\
    \hline
 \end{tabular}
 
-\subsubsection{Installation de l'autorité}
+\subsection{Installation de l'autorité}
 
 Dans ce cas de figure, on prend l'exemple d'un administrateur système qui installe directement l'autorité sur les machines clientes.
 
@@ -228,13 +272,13 @@ Dans ce cas de figure, on prend l'exemple d'un administrateur système qui insta
    \hline
    Description & Première façon de faire : installer directement l'autorité dans le système\\
    \hline
-   Pré-conditions &Pas d'autorité présente \\
+   Pré-conditions &Autorité par défaut présente \\
    \hline
-   Évènement déclanchant &  Mise en place de l'autorité\\
+   Évènement déclenchant &  Mise en place de l'autorité\\
    \hline
-   Condition d'arrêt & Autorité installée \\
+   Condition d'arrêt & Autorité reconnue comme valide \\
    \hline
-   Cas d'exception  & L'autorité est considérée comme non-sûre par le navigateur. \\
+   Cas d'exception  & \\
    \hline   
 \end{tabular}
 
@@ -249,13 +293,11 @@ Description du flot d'évènements principal :
    \hline
    1. Installation de l'autorité directement dans le système du client. & \\
    \hline
-    & 2. Autorité reconnue comme valide.\\
-   \hline
 \end{tabular}
 
-\subsubsection{Acceptation de l'autorité}
+\subsection{Acceptation de l'autorité}
 
-Dans ce cas de figure, on veut forcer le client à accepter notre fausse autorité.
+Dans ce cas de figure, on veut forcer le client à accepter notre fausse autorité par une suite d'actions de paramétrage dans son navigateur.
 
 \begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
    \hline
@@ -263,11 +305,11 @@ Dans ce cas de figure, on veut forcer le client à accepter notre fausse autorit
    \hline
    Pré-conditions & Pas d'autorité présente\\
    \hline
-   Évènement déclanchant & Première connexion au proxy par la client \\
+   Évènement déclenchant & Première connexion au proxy par le client \\
    \hline
-   Condition d'arrêt & Autorité acceptée \\
+   Condition d'arrêt & Autorité reconnue comme valide \\
    \hline
-   Cas d'exception  & L'autorité n'est pas acceptée par le client ou est reconnue comme non-sûre par le navigateur. \\
+   Cas d'exception  & L'autorité n'est pas acceptée par le client. \\
    \hline   
 \end{tabular}
 
@@ -285,15 +327,52 @@ Description du flot d'évènements principal :
    \hline
    3. Le client accepte et installe l'autorité. &  \\
    \hline
-   & 4. Autorité reconnue comme valide. \\
-   \hline
 \end{tabular}
 
 
+\subsection{Utilisation d'une fausse autorité forgée}
 
-\subsubsection{Génération de certificats}
+Si la deuxième partie du projet a donné un résultat, nous aurons donc réussi à forger un faux certificat d'autorité ayant le même haché MD5 que celui choisi.
+Dans ce cas, nous utiliserons ce certificat.
 
-Une fois l'autorité acceptée, à chaque tentative de connexion du client à un serveur, un faux certificat doit être généré à la volée.
+\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
+   \hline
+   Description & Utilisation d'une fausse autorité forgée \\
+   \hline
+   Pré-conditions & L'algorithme de recherche a renvoyé un certificat ayant le même haché MD5 que celui attendu.
+ \\
+   \hline
+   Évènement déclenchant & L'algorithme de recherche a donné une réponse positive \\
+   \hline
+   Condition d'arrêt & L'autorité est reconnue comme valide \\
+   \hline
+   Cas d'exception  &  L'algorithme de recherche n'a pas donné le résultat voulu et nous n'utiliserons pas cette  façon de faire. \\
+   \hline   
+\end{tabular}
+
+~\\
+
+~\\
+
+Description du flot d'évènements principal :
+
+\begin{tabular}{|m{8cm}|m{8cm}|}
+   \hline
+  \rowcolor[gray]{.8} Acteur(s) & Système \\
+   \hline
+   1. Le client se connecte au proxy. & \\
+   \hline
+    & 2. Proposition de l'autorité au client. \\
+   \hline
+      3. Le client compare les hachés MD5 des deux autorités et l'accepte car ils sont égaux & \\
+   \hline
+    4. Le client installe l'autorité. &  \\
+   \hline
+\end{tabular}
+
+\subsection{Génération de certificats}
+
+Une fois l'autorité acceptée, à chaque demande de connexion HTTPS du client à un serveur, un faux certificat doit être généré à la volée.
 
 \begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
    \hline
@@ -301,7 +380,7 @@ Une fois l'autorité acceptée, à chaque tentative de connexion du client à un
    \hline
    Pré-conditions & Le client ne s'est pas encore connecté à ce serveur \\
    \hline
-   Évènement déclanchant & Le client tente de se connecter à un serveur \\
+   Évènement déclenchant & Le client tente de se connecter à un serveur \\
    \hline
    Condition d'arrêt &  Certificat généré et valide \\
    \hline
@@ -321,26 +400,26 @@ Description du flot d'évènements principal :
    1. Le client tente de se connecter à un serveur & \\
    \hline
     & 
-2. Un faux certificat est généré\\
+2. Un faux certificat semblable en tout point au vrai est généré, seule la clé publique est remplacée par celle du proxy \\
    \hline
 \end{tabular}
 
-\subsubsection{Transchiffrement}
+\subsection{Transchiffrement des paquets d'une connexion HTTPS}
 
-Une fois le certificat généré, le client envoie sa requête au proxy de manière chiffrée, le proxy déchiffre, la garde dans les logs (éventuellement) puis rechiffre cette requête pour le serveur (avec une autre clé). Le but de ce processus est d'être indétectable donc très rapide.
+Une fois le certificat généré, le client établit une connexion TLS/SSL et envoie sa requête au proxy de manière chiffrée, le proxy déchiffre, la garde dans les logs (éventuellement) puis rechiffre cette requête pour le serveur (avec une autre clé). Le but de ce processus est d'être transparent donc très rapide.
 On a bien évidemment le même processus dans l'autre sens pour la réponse du serveur au client.
 
 \begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
    \hline
    Description & Déchiffrement / Rechiffrement de la requête du client pour l'envoyer au serveur et de la réponse du serveur pour l'envoyer au client. \\
    \hline
-   Pré-conditions & Certificat généré\\
+   Pré-conditions & Certificat généré et deux connexions TLS/SSL ouvertes\\
    \hline
-   Évènement déclanchant &  Envoi d'une requête du client\\
+   Évènement déclenchant &  Envoi d'une requête du client\\
    \hline
    Condition d'arrêt & Message rédigé et transfert d’envoi terminé \\
    \hline
-   Cas d'exception  &  \\
+   Cas d'exception  & Renégociation TLS/SSL \\
    \hline   
 \end{tabular}
 
@@ -380,27 +459,23 @@ Description du flot d'évènements principal :
    \hline
 \end{tabular}
 
+\subsection{Transfert des paquets HTTP}
 
-\subsubsection{Forge d'une fausse autorité}
-
-Deuxième partie du projet, réussir à forger une fausse autorité de certification ayant le même haché MD5 que la vraie.
+Si le client tente de se connecter en HTTP à un serveur web, on ne fait que de transférer les paquets.
 
 \begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
    \hline
-   Description & Forge d'une fausse autorité de certification \\
+   Description & Transfert des paquets en clair \\
    \hline
-   Pré-conditions & Algorithme de recherche fonctionnel et lancé
- \\
+   Pré-conditions & Proxy configuré pour le HTTP\\
    \hline
-   Évènement déclanchant & L'algorithme de recherche a donné une réponse positive  \\
+   Évènement déclenchant &  Envoi d'une requête du client\\
    \hline
-   Condition d'arrêt & L'algorithme n'a toujours pas trouvé de réponse positive \\
+   Condition d'arrêt & Message rédigé et transfert d’envoi terminé \\
    \hline
-   Cas d'exception  &  L'algorithme de recherche n'a pas donné le résultat voulu et nous n'utiliserons pas cette  façon de faire. \\
+   Cas d'exception  & \\
    \hline   
 \end{tabular}
-
-~\\
 
 ~\\
 
@@ -410,25 +485,29 @@ Description du flot d'évènements principal :
    \hline
   \rowcolor[gray]{.8} Acteur(s) & Système \\
    \hline
-   1. Recherche d'anciens certificats utilisant MD5
-
-2. Recherche d'algorithme existant et développement de notre algorithme
-
-3. Lancement de notre algorithme de comparaison
- & \\
+   1. Envoi d'une requête en clair par le client & \\
    \hline
-
-& 4. Comparaison avec des hachés MD5 sélectionnés
-
-5. Une fois le résultat trouvé, la forge de la fausse autorité est réussie et envoyée au client
-
-    \\
+& 2. Transfert de la requête au serveur  \\
+& 3. Réception de la réponse du serveur  \\
    \hline
-   6. Le client compare les hachés MD5 des deux autorités et l'accepte car ils sont égaux & \\
+  
+4. Envoi de la réponse au client  &  \\
    \hline
 \end{tabular}
 
+\section{Etude}
 
+Notre étude porte sur la recherche de seconde pré-image du MD5.\\
+Nous devons comprendre le fonctionnement de MD5 et utiliser la faiblesse de cet algorithme.\\
+Nous allons développer un algorithme de recherche pour générer un certificat d'autorité ayant le même haché qu'un existant choisi.\\
+Nous savons que le champ qui permet le plus de modifications est celui de la clé publique du certificat.\\
+Grâce à une étude réalisée en 2008, nous savons quels champs nous pouvons modifier pour que le haché MD5 soit le plus proche de l'original.\\
+C'est donc sur les bits du modulo de la clé publique que nous allons opérer la majeure partie des changements.\\
+Pour que ce certificat d'autorité soit considéré comme valide, il faut que le haché de ce certificat soit le même que celui que nous voulons imiter.\\
+Si nous arrivons à générer un certificat d'autorité remplissant cette condition, nous pourrons l'inclure dans le proxy de transchiffrement.\\
+Nous serons donc capables de signer les certificats générés à la volée quand un utilisateur veut y avoir accès.\\
+Grâce à ces faux-certificats, nous pourrons alors voir tout ce qui transite sans que l'utilisateur s'en aperçoive.\\
+Nous allons donc livrer un rapport d'étude pour expliquer notre démarche pour la création de l'algorithme.\\
 
 
 \end{document}
