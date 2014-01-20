@@ -1,0 +1,148 @@
+\documentclass[a4paper,11pt,french]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel} 
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, includeheadfoot]{geometry} %pour les marges
+\usepackage{lmodern}
+\usepackage{pict2e}
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{tabularx, longtable}
+\usepackage{color, colortbl}
+\usepackage{lscape}
+%\usepackage[hidelinks]{hyperref}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{rotating}
+%\usepackage{pgfgantt}
+%\usepackage{pgfcalendar}
+%\usepackage{ifthen}
+\usepackage{gensymb}
+
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
+\rhead{\includegraphics[width=10em]{logo_univ.png}}
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ / \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength{\headheight}{40pt}
+
+\newcommand{\hmwkTitle}{Transchiffrement} % Assignment title
+\newcommand{\hmwkClass}{Master 2 SSI } % Course/class
+\newcommand{\hmwkAuthorName}{Jean-Baptiste Souchal} % Your name
+\newcommand{\hmwkSubject}{Conduite de projet} % Subject
+\newcommand{\hmwkDocName}{Compte rendu audit 20/12/13} % Document name
+
+\newcommand{\version}{1.0} % Document version
+\newcommand{\docDate}{20 Décembre 2013} % Document date
+\newcommand{\checked}{Julien Bourdon} % Checker name
+
+\makeatletter
+\newcommand{\resettranslate}{\let\translate\@firstofone}
+\makeatother
+
+\definecolor{gris}{rgb}{0.95, 0.95, 0.95}
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass :\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+\vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{} % Insert date here if you want it to appear below your name
+
+
+\usepackage{amsmath}
+\begin{document}
+\newcount\startdate
+\newcount\daynum
+%\pgfcalendardatetojulian{2013-01-021}{\startdate}
+\pagestyle{fancy}
+
+\vspace*{5cm}
+\begin{center}\textbf{\Huge{\hmwkDocName}}\end{center}
+\vspace*{4.5cm}
+	
+
+\fcolorbox{black}{gris}{
+\begin{minipage}{15cm}
+\begin{tabularx}{10cm}{lXl}
+	\bfseries{Version} & & \version\\
+	& & \\
+	\bfseries{Date} & & \docDate\\
+	& & \\
+	\bfseries{Rédigé par} & & \hmwkAuthorName \\
+	& & \\
+	\bfseries{Relu par} & & \checked \\
+	& & \\
+\end{tabularx}
+\end{minipage}
+}
+
+\newpage
+
+%Tableau de mises à jour
+
+
+%La table des matières
+%\clearpage
+%\tableofcontents
+%\clearpage
+
+Liste des remarques à prendre en compte:
+\begin{itemize}
+  \item lister les tâches à suivre suite à chaque réunion
+  \item avancer sur les documents pour le prochain audit de projet
+  \item mettre dans la STB une liste des exigences du client
+  \item mettre les études sur la partie MD5 dans la STB
+  \item mettre un code sur chaque livrable pour le reporter sur les autres 
+  documents (mettre en place une convention)
+  \item faire valider les études par le client
+  \item détailler chaque donnée utilisée (surtout pour la partie recherche MD5)
+  \item exigence de qualité
+\end{itemize}
+~~\\
+CDR:
+~~\\
+\begin{itemize}
+  \item modification des responsabilités
+  \item détailler le testeur, qui vérifie les tests ...
+  \item définir l'environnement de test (Linux, Windows ...), navigateur ...
+\end{itemize}
+~~\\
+DAL:
+~~\\
+\begin{itemize}
+  \item détailler les cas d'utilisation
+  \item finir les diagrammes de séquence
+  \item utiliser des classes dans les diagrammes (puisque c'est un projet Java)
+\end{itemize}
+~~\\
+PDD:
+~~\\
+\begin{itemize}
+  \item faire un schéma sur l'interaction entre les acteurs principaux du projet
+  \item développer l'introduction
+  \item expliquer les besoins du cassage SSL, dans quel contexte (attaque par https...)
+\end{itemize}
+~~\\
+STB:
+~~\\
+\begin{itemize}
+  \item projet en 2 parties, faire la séparation dans la STB
+  \item mettre à jour les terminologies et les règles utilisées
+\end{itemize}
+\end{document}
