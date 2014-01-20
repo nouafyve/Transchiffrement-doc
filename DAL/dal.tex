@@ -15,13 +15,10 @@
 \usepackage{tabularx, longtable}
 \usepackage{color, colortbl}
 \usepackage{lscape}
-\usepackage[hidelinks]{hyperref}
+%\usepackage[hidelinks]{hyperref}
 \usepackage{longtable}
 \usepackage{multirow}
 \usepackage{rotating}
-\usepackage{pgfgantt}
-\usepackage{pgfcalendar}
-\usepackage{ifthen}
 \usepackage{gensymb}
 \usepgflibrary{arrows} % for pgf-umlsd
 
@@ -43,7 +40,7 @@
 
 \newcommand{\hmwkTitle}{Transchiffrement} % Assignment title
 \newcommand{\hmwkClass}{Master 2 SSI } % Course/class
-\newcommand{\hmwkAuthorName}{Yves Nouafo} % Your name
+\newcommand{\hmwkAuthorName}{Yves Nouafo, Ouissem Hamdani} % Your name
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Architecture Logicielle} % Document name
 
@@ -74,7 +71,7 @@
 \begin{document}
 \newcount\startdate
 \newcount\daynum
-\pgfcalendardatetojulian{2013-01-021}{\startdate}
+%\pgfcalendardatetojulian{2013-01-021}{\startdate}
 \pagestyle{fancy}
 
 \vspace*{5cm}
@@ -132,18 +129,27 @@
 \tableofcontents
 \clearpage
 
+
+%=========================================================
 \section{Objet}
 
-Ce document met en évidence les éléments et les évènements qui interviendront dans la mise en place du transchiffrement. L'ensemble des composants formeront l'architecture du procédé que l'on va mettre en place. Chaque composant sera implanté de manière indépendante mais pourra communiquer avec les autres en respectant les critères suivants:
-
+Ce document met en évidence les éléments et les évènements qui interviendront dans la mise en place du transchiffrement. L'ensemble des composants formeront l'architecture du procédé que l'on va mettre en place. Cette étude sera décomposée en deux phases.  
+\subsection{L'étude du proxy}
+Installer un proxy entre le navigateur et le client. Celui-ci réalisera l'opération de transchiffrement.  \\
+Le proxy devra avoir les caractéristiques suivantes:
 \begin{itemize}
-\item Les connexions client / proxy et proxy / serveur seront chiffrées
-\item L'exécution du transchiffrement au niveau du proxy devra être rapide
-\item L'autorité intermédiaire doit signer les certificats auxquels le client veut se connecter
-\item Rechercher en parallèle des collisions MD5 et forger si possible un faux certificats
+\item Les connexions client / proxy et proxy / serveur pouvant être  chiffrées ou non.
+\item L'exécution du transchiffrement au niveau doit être rapide.
 \end{itemize}
 
-
+\subsection{L'étude de l'algorithme MD5}
+Mener une étude sur la recherche de seconde pré-image de l'algorithme MD5 et forger si possible un faux certificat.  \\ 
+\begin{itemize}
+\item Notre autorité doit être reconnu comme valide par les navigateurs des utilisateurs.
+\end{itemize}
+%=========================================================
+%Documents applicables et de références
+%=========================================================
 \section{Documents applicables et de références}
 \begin{itemize}
 \item STB (Spécification Techniques des besoins]
@@ -154,9 +160,15 @@ Ce document met en évidence les éléments et les évènements qui interviendro
 \section{Terminologie et sigles utilisés}
 
 \begin{itemize}
+\item SSL/TLS: Secure Sockets Layer, Transport Layer Security 
+\item MD5: Message Digest 5
 \item IGC: Infrastructure de Gestion de Clés
 \item AC: Autorité de certification
 \item BDD: Base de données
+\item Client: utilisateur d'une machine privée
+\item Proxy: machine intermédiaire écoutant sur le réseau qui sera en charge de réaliser le transchiffrement SSL/TLS
+\item Serveur: serveur web, accessible à partir d'une URL
+\item Autorité de certification: certificat intermédiaire servant au chiffrement SSL/TLS depuis le proxy.
 \end{itemize}
 
 
@@ -165,9 +177,8 @@ Ce document met en évidence les éléments et les évènements qui interviendro
 \subsection{Performances du calculateur}
 
 \begin{itemize}
-\item 2Go de RAM
-\item Intel Celeron
-\item Machine virutelle ???
+\item Machines de la salle M2 SSI
+\item Calculateur du LITIS
 \end{itemize}
 
 \subsection{Système d'exploitation}
@@ -184,22 +195,324 @@ Ce document met en évidence les éléments et les évènements qui interviendro
 Les principales parties à développer:
 \begin{itemize}
 \item L'application client-serveur: le proxy
-\item Le serveur: la fausse autorité intermédiaire
+\item Le serveur: la fausse autorité 
 \item Les données: base de données contenant les clés publiques des entités
 \end{itemize}
 
 
 \subsection{Description des constituants}
 
-\begin{tabular}{ll}
-	 & Proxy\\
-	Rôle & Réalise le transchiffrement\\
-	Propriétés et attributs de caractérisation & Déchiffrement et rechiffrement des messages\\
-	Dépendances avec d'autres constituants & navigateur web client, fausse AC, base de données de la fausse AC, Site que le client veut visiter\\
-	Langages de programmation & Java, perl ???\\
-	Procédé de développement & établissement de fonctionnalités, schématisation des fonctionnalités, développement des focntionnalités\\
-	Taille complexité & 35\% du projet, complexité du à l'efficience du programme et à la programmation réseaux\\
-\end{tabular}
+%% ===  creation et configuration proxy ===
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|r|}{\textbf{création et configuration du proxy}}\\
+        \hline
+        R\^ole &  \begin{itemize}\item Déchiffrement et rechiffrement des messages
+        \item Utilisation de protocole SSL/TLS pour la connexion \end{itemize}\\
+        \hline
+        Propriétés et attributs de caractérisation & \begin{itemize} \item Génération et distribution de faux certificats \end{itemize}\\
+        \hline
+        Dépendances avec d'autres constituants & \begin{itemize}\item Client \end{itemize}\\
+        \hline
+        Langages de programmation & \begin{itemize} \item Java \end{itemize}\\
+        \hline
+        Procédé de développement & \begin{itemize}\item Demande de connexion sécurisée par SSL/TLS \item Présentation du certificat \item Transmission de clé chiffrement \item Génération de faux certificats \item déchiffrment à l'aide de sa clé privée \end{itemize}\\
+        \hline
+        Taille complexité & \begin{itemize}\item 35\% du projet \item Complexité du à l'utilisation de la libraire SSL/TLS.\end{itemize}\\
+        \hline
+        \end{tabularx}
+\end{center}
 
+
+%% === 	installation de l'autorite ===
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|r|}{\textbf{Installation de l'autorité}}\\
+        \hline
+        R\^ole &  \begin{itemize}\item Rendre les faux certificats acceptables par le navigateur web Client\end{itemize}\\
+        \hline
+        Propriétés et attributs de caractérisation & \begin{itemize} \item Doit \^etre installée dans le navigateur Client \end{itemize}\\
+        \hline
+        Dépendances avec d'autres constituants & \begin{itemize}\item Navigateur web Client\end{itemize}\\
+        \hline
+        Langages de programmation & \begin{itemize} \item  \end{itemize}\\
+        \hline
+        Procédé de développement & \begin{itemize}\item Forcer le client à accepter l'autorité\end{itemize}\\
+        \hline
+        Taille complexité & \begin{itemize}\item 5\% du projet \item Complexité due au faire accepter l'autorité par le Client \end{itemize}\\
+        \hline
+        \end{tabularx}
+\end{center}
+
+%% ===création de l'autorité ===
+
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|r|}{\textbf{Création de l'autorité}}\\
+        \hline
+        R\^ole &  \begin{itemize}\item Générer les faux certificats qui seront délivrés au navigateur web du client\end{itemize}\\
+        \hline
+        Propriétés et attributs de caractérisation & \begin{itemize} \item Doit \^etre acceptée par le client \end{itemize}\\
+        \hline
+        Dépendances avec d'autres constituants & \begin{itemize}\item Proxy \item Navigateur web \end{itemize}\\
+        \hline
+        Langages de programmation & \begin{itemize} \item  \end{itemize}\\
+        \hline
+        Procédé de développement & \begin{itemize}\item -\end{itemize}\\
+        \hline
+        Taille complexité & \begin{itemize}\item 5\% du projet \item Complexité due à la mise en place de l'autorité\end{itemize}\\
+        \hline
+        \end{tabularx}
+\end{center}
+
+%% === generation des certificats ===
+
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|r|}{\textbf{Génération des certificats}}\\
+        \hline
+        R\^ole &  \begin{itemize}\item Délivrer au navigateur web Client des faux certificats\end{itemize}\\
+        \hline
+        Propriétés et attributs de caractérisation & \begin{itemize} \item Doit être reconnu comme valide \end{itemize}\\
+        \hline
+        Dépendances avec d'autres constituants & \begin{itemize}\item navigateur web Client\end{itemize}\\
+        \hline
+        Langages de programmation & \begin{itemize} \item  \end{itemize}\\
+        \hline
+        Procédé de développement & \begin{itemize}\item Interception des certificats et forge de nouveaux certificats\end{itemize}\\
+        \hline
+        Taille complexité & \begin{itemize}\item 5\% du projet \item Complexité du à la mise en place de l'IGC\end{itemize}\\
+        \hline
+        \end{tabularx}
+\end{center}
+
+%% === transchiffrement ===
+
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|r|}{\textbf{Transchiffrement}}\\
+        \hline
+        R\^ole &  \begin{itemize}\item Produire un certificat identique au certificat interceptée en changeant quelques champs \end{itemize}\\
+        \hline
+        Propriétés et attributs de caractérisation & \begin{itemize} \item Rapide \item Non détectable\end{itemize}\\
+        \hline
+        Dépendances avec d'autres constituants & \begin{itemize}\item Autorité de certification \item Client\end{itemize}\\
+        \hline
+        Langages de programmation & \begin{itemize} \item Java \end{itemize}\\
+        \hline
+        Procédé de développement & \begin{itemize}\item Détection d'une demande de connexion du client vers le serveur \item Interception du certificat du serveur lors de l'envoie au client \item génération de notre propre certificat à travers une autorité tierce que nous avons crée \item envoi de ce certificat au client 
+        \end{itemize}\\
+        \hline
+        Taille complexité & \begin{itemize}\item 20\% du projet \item Complexité du à la rapidité d'exécution du transchiffrement \end{itemize}\\
+        \hline
+        \end{tabularx}
+\end{center}
+
+%% === forge d'une fausse autorité ===
+
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|r|}{\textbf{Forge d'une fausse autorité}}\\
+        \hline
+        R\^ole &  \begin{itemize}\item Générer de faux certificats dont la signature et certains champs sont changés par la fausse autorité  \end{itemize}\\
+        \hline
+        Propriétés et attributs de caractérisation & \begin{itemize} \item Non détectable \item Résulte d'une collision \end{itemize}\\
+        \hline
+        Dépendances avec d'autres constituants & \begin{itemize}\item  \end{itemize}\\
+        \hline
+        Langages de programmation & \begin{itemize} \item  \end{itemize}\\
+        \hline
+        Procédé de développement & \begin{itemize}\item Étude du protocole MD5 et des attaques \item Recherche comment modifier un certificat(champs, signature...) de façon à garder le même haché \end{itemize}\\
+        \hline
+        Taille complexité & \begin{itemize}\item 40\% du projet \item Complexité du à l'étude de l'algorithme MD5 et de la recherche de collisions\end{itemize}\\
+        \hline
+        \end{tabularx}
+\end{center}
+
+%%==============================
+\vspace{2cm}
+\section{Fonctionnement dynamique}
+\subsection{CU.1: Création et configuration du proxy}
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{UC.1: Création et configuration du proxy}}\\
+        \hline
+        \textbf{Composants mis en jeu} & Client / Serveur\\
+        \hline
+        \textbf{Intervenants} & \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Processus de mise en \oe uvre}}\\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{\begin{enumerate}\item Création et configuration du proxy. \item Transchiffrement. \item Proxy fonctionnel.\end{enumerate}}\\ 
+        \hline
+        \end{tabularx}
+\end{center}
+
+\begin{tikzpicture}[remember picture,transform shape,scale=0.6]
+\begin{umlseqdiag} 
+\umlactor[class=]{User}
+\umlobject[class=]{Client} 
+\umlobject[class=]{Proxy} 
+\umlobject[class=]{Serveur}
+\begin{umlcall}[op={connect()}, return=connected()]{User}{Client} 
+\begin{umlcall}[op={takeCertif()}, return=certifToClient()]{Client}{Proxy} 
+\begin{umlcall}[op={sendCertif()}, return=takeCertif()]{Proxy}{Serveur} 
+\end{umlcall}
+\end{umlcall}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+
+\vspace{2cm}
+\subsection{CU.2: Installation de l'autorité}
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{UC.2: Installation de l'autorité }}\\
+        \hline
+        \textbf{Composants mis en jeu} & Client / Système\\
+        \hline
+        \textbf{Intervenants} & Autorité \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Processus de mise en \oe uvre}}\\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{\begin{enumerate}\item Installation de l'autorité directement dans le système du client. \item  Autorité reconnue comme valide.\end{enumerate}}\\
+        \hline
+        \end{tabularx}
+\end{center}
+
+\begin{tikzpicture}[remember picture,transform shape,scale=0.6]
+\begin{umlseqdiag} 
+\umlactor[class=]{Admin}
+\umlobject[class=]{Client}  
+\umlobject[class=]{Systeme}
+\begin{umlcall}[op={putAutority()}]{Admin}{Client} 
+\begin{umlcall}[op={AcceptAutority()}]{Client}{Systeme}
+\begin{umlcallself}[op={acceptAutority()}]{Systeme} \end{umlcallself}
+\end{umlcall}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+
+
+\subsection{CU.3: Acceptation de l'autorité}
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{UC.3: Acceptation de l'autorité}}\\
+        \hline
+        \textbf{Composants mis en jeu} & Client / Proxy  \\
+        \hline
+        \textbf{Intervenants} &  Autorité \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Processus de mise en \oe uvre} }\\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{\begin{enumerate}\item Le client se connecte au proxy. \item Proposition de l'autorité au client.\item Le client accepte et installe l'autorité.\item Autorité reconnue comme valide.\end{enumerate}}\\ 
+        \hline 
+        \end{tabularx}
+\end{center}
+
+\vspace{2cm}
+\begin{tikzpicture}[remember picture,transform shape,scale=0.6]
+\begin{umlseqdiag} 
+\umlactor[class=]{User}
+\umlobject[class=]{Client} 
+\umlobject[class=]{Proxy}
+\begin{umlcall}[op={action()}]{User}{Client}
+\begin{umlcall}[op={connect()}]{Client}{Proxy}
+\begin{umlcall}[op={proposeAutority()}]{Proxy}{Client}
+\begin{umlcallself}[op={acceptAuthority()}]{Client}\end{umlcallself} 
+\begin{umlcallself}[op={installtAuthority()}]{Client}\end{umlcallself} 
+\end{umlcall} 
+\end{umlcall} 
+\end{umlcall} 
+\end{umlseqdiag} 
+\end{tikzpicture}
+
+
+\subsection{CU.4: Génération de certificats}
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{UC.4: Génération de certificats}}\\
+        \hline
+        \textbf{Composants mis en jeu} & Client / Serveur  \\
+        \hline
+        \textbf{Intervenants} & \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Processus de mise en \oe uvre} }\\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{\begin{enumerate}\item  Le client tente de se connecter à un serveur.\item Un faux certificat est généré.\end{enumerate}}\\ 
+        \hline 
+        \end{tabularx}
+\end{center}
+\vspace{2cm}
+
+
+
+
+\subsection{CU.5: Transchiffrement}
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{CU.5: Transchiffrement}}\\
+        \hline
+        \textbf{Composants mis en jeu} & Client / Serveur / Proxy   \\
+        \hline
+        \textbf{Intervenants} & \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Processus de mise en \oe uvre} }\\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{\begin{enumerate}\item Envoi d'une requête chiffrée par le client.\item Déchiffrement de la requête.\item Log de cette requête.\item Rechiffrement de la requête pour le serveur.\item Envoi de cette requête au serveur; \item Traitement de la requête par le serveur. \item Envoi de la réponse au proxy. \item  Réception de la réponse chiffrée \item Déchiffrement de la réponse. \item Log de la réponse. \item Rechiffrement de la réponse. \item Envoi de la réponse au client. \end{enumerate}}\\ 
+        \hline 
+        \end{tabularx}
+\end{center}
+\vspace{2cm}
+\begin{tikzpicture}[remember picture,transform shape,scale=0.6]
+\begin{umlseqdiag} 
+\umlobject[class=]{Client} 
+\umlobject[class=]{Serveur}
+\umlobject[class=]{Proxy}
+\begin{umlcall}[op={sendRequestCrypt()}]{Client}{Proxy}\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+
+
+\subsection{CU.6: Forge d'une fausse autorité}
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|l|}{\textbf{UC.6: Forge d'une fausse autorité}}\\
+        \hline
+        \textbf{Composants mis en jeu} & Client /    \\
+        \hline
+        \textbf{Intervenants} &   \\
+        \hline
+        \multicolumn{2}{|l|}{\textbf{Processus de mise en \oe uvre} }\\
+        \hline
+        \multicolumn{2}{|p{15cm}|}{\begin{enumerate}\item Recherche d'anciens certificats utilisant MD5. \item Recherche d'algorithme existant et développement de notre algorithme. \item Lancement de notre algorithme de comparaison. \item Comparaison avec des hachés MD5 sélectionnés. \item La forge de la fausse autorité est réussie et envoyée au client. \item Le client compare les hachés MD5 des deux autorités et l'accepte car ils sont égaux.\end{enumerate}}\\ 
+        \hline 
+        \end{tabularx}
+\end{center}
+\vspace{2cm}
 
 \end{document}
