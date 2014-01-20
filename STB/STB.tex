@@ -43,7 +43,7 @@
 \newcommand{\hmwkDocName}{Spécification Technique du Besoin} % Document name
 
 \newcommand{\version}{1.0} % Document version
-\newcommand{\docDate}{20 Janvier 2014} % Document date
+\newcommand{\docDate}{27 novembre 2011} % Document date
 \newcommand{\checked}{} % Checker name
 \newcommand{\approved}{} % Approver name
 
@@ -105,7 +105,9 @@
 	\hline
 	\bfseries{Version} & \bfseries{Date} & \bfseries{Modifications réalisées}\\
 	\hline
-	1.0 & 13/12/2013 & Création\\
+	1.0 & 27/11/2013 & Création\\
+	\hline
+	1.1 & 20/01/2014 & Prise en compte des remarques suite aux réunions client l'audit 1.\\
 	\hline
 	\end{tabularx}
 \end{center}
@@ -117,117 +119,315 @@
 
 
 \newpage
-\section{Documents de référence}
+\section{Documents en référence}
 \begin{itemize}
 \item Spécification Technique du Besoin v1.0
 \end{itemize}
 
 
-\newpage
-\section{Portefeuille de risques}
-
-\begin{landscape}
-
-\begin{longtable}{|m{1.5cm}|m{4cm}|m{3cm}|m{3.2cm}|m{2.2cm}|m{2cm}|m{2cm}|m{2.2cm}|}
-\hline
-\rowcolor[gray]{.8}
-Numéro & Risque & Date de création & Pilote & Catégorie \footnotemark[1] & Indice de probabilité & Indice de gravité & Criticité \footnotemark[2] \\ 
-\hline
-\endfirsthead
-\hline
-\rowcolor[gray]{.8}
-Numéro & Risque & Date de création & Pilote & Catégorie \footnotemark[1] & Indice de probabilité & Indice d'impact & Criticité \footnotemark[2] \\ 
-\hline
-
-\endhead
-n01 & Ne pas livrer le client à temps & 13/12/2013 &  & Planning & 1 & 3 & A surveiller \\
-\hline
-n02 & Insatisfaction du client & 13/12/2013 & & Planning & 1 & 4 &  Critique \\
-\hline
-n03 & Retard, algorithme prêt trop tard & 13/12/2013 & & Planning & 1 & 3 & A surveiller \\
-\hline
-n04 & Niveau technique insuffisant & 13/12/2013 &  &  Compétence & 1 & 2 & Acceptable \\
-\hline
-n05 & Implication insuffisante, ou absences & 13/12/2013 &  & Planning & 1 & 3 & A surveiller \\
-\hline
-n06 & Perte des données du projet & 13/12/2013 &  & Technique & 1 & 4 & Critique \\
-\hline
-n07 & Performances insuffisantes (transchiffrement trop long) & 13/12/2013 &  & Technique & 1 & 3 & A surveiller \\
-\hline
-n08 & Modification du Cahier des Charges & 13/12/2013 &  & Technique & 2 & 2 & Acceptable \\
-\hline
-
-\end{longtable}
-\footnotetext[1]{Compétences / Planning / Technique}
-\footnotetext[2]{Acceptable / À surveiller / Critique}
-\end{landscape}
 
 \newpage
+\section{}
+\subsection{Présentation de la mission du produit logiciel}
 
 
-%\begin{center}
-%\begin{tabular}{|>{\columncolor[gray]{.8}}m{8cm}|m{8cm}|}
-%\hline
-% Intitulé du risque &  \\
-%\hline
-% Description du risque &   \\
-%\hline
-%Pilote du risque &  \\
-%\hline
-%\end{tabular}
-%\end{center}
-%
-%\begin{center}
-%\begin{tabular}{|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|}
-%\hline
-%Indice de gravité &  &Date de début d'effet& Début de la conception \\
-%\hline
-%Indice de probabilité &  & Date de fin d'effet & Fin du projet\\
-%\hline
-%Criticité \footnotemark[1] & À surveiller & Découvreur & \\
-%\hline
-%État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Technique\\
-%\hline
-%\end{tabular}
-%\end{center}
-%
-%\begin{center}
-%\begin{tabular}{|m{5cm}|m{11cm}|}
-%\hline
-%\rowcolor[gray]{.8} Actions préventives & Description\\
-%\hline
-% &  \\
-%\hline
-%\end{tabular}
-%\end{center}
-%
-%\begin{center}
-%\begin{tabular}{|m{5cm}|m{11cm}|}
-%\hline
-%\rowcolor[gray]{.8} Actions correctives & Description\\
-%\hline
-%%\aRemplir{Nom de l'action} & \aRemplir{Lister les actions corrective en étant le plus précis possible} \\
-%&\\
-%\hline
-%\end{tabular}
-%\end{center}
-%
-%\begin{center}
-%\begin{tabular}{|m{2.6cm}|m{5cm}|m{3.8cm}|m{3.8cm}|}
-%\hline
-%\multicolumn{4}{|>{\columncolor[gray]{.8}}c|}{Suivi du risque} \\
-%\hline
-%\hline
-%\rowcolor[gray]{.8} Date & Description & Signature du pilote de risque & Signature du Chef de Projet \\
-%\hline
-% &  &  & \\
-%\hline
-%\end{tabular}
-%\end{center}
-%
-%\footnotetext[1]{Acceptable / À surveiller / Critique}
-%\footnotetext[2]{Actif / Inactif}
-%\footnotetext[3]{Compétences / Planning / Technique}
+La première partie du projet est de créer un proxy de transchiffrement, c'est à dire de s'interposer entre un client et le serveur auquel il veut avoir accès.
+Pour ce faire, il faut d'abord trouver un moyen d'authentifier notre proxy.
+Nous avons 3 choix qui s'offrent à nous :
+
+\begin{itemize}
+\item Installer directement une fausse autorité de certification dans le système.
+\item Forcer l'utilisateur à accepter notre autorité de certification
+\item Forger une fausse autorité intermédiaire qui a le même haché MD5 que la vraie.
+\end{itemize}
+
+Cette dernière façon de faire étant plus compliquée à réaliser, nous allons en faire la deuxième partie de notre projet que nous détaillerons un peu plus loin.
+
+Une fois l'autorité intermédiaire installée et acceptée, nous l'utiliserons pour signer des certificats correspondant aux serveurs auxquels le client veut se connecter que nous créerons à la volée.
+
+	Les connexions client / proxy et proxy / serveur seront évidemment chiffrées et de ce fait, notre proxy agira comme un « man in the middle ».
+
+	La vitesse d'exécution est un facteur important pour ne pas que le proxy soit détécté pendant le déchiffrement / rechiffrement.
+
+La deuxième partie du projet est surtout un travail de recherche sur les collisions MD5 afin de trouver un algorithme qui nous permette de forger cette fausse autorité. Nous aurons donc à faire tourner un programme de comparaison pendant une durée assez longue en parallèle de la première partie du projet.
+
+\subsubsection{Terminologie et sigles utilisés}
+
+\begin{description}
+\item[Client] utilisateur d'une machine privée (ordinateur)
+\item[Proxy] machine intermédiaire écoutant sur le réseau qui sera en charge de réaliser le transchiffrement SSL.
+\item[Serveur] serveur web, accessible à partir d'une URL
+Autorité de certification : certificat intermédiaire servant au chiffrement SSL depuis le proxy
+
+\end{description}
+
+
+Pour commencer le projet, une liste des différents cas possibles d’utilisation de l’application a été faite afin de répondre au besoin du client selon leur priorité. Chaque cas est alors développé afin d’identifier les étapes nécessaires pour sa réalisation. 
+
+
+
+\begin{tabular}{|c|c|c|}
+\hline 
+ID & Intitulé & Priorité \\ 
+\hline 
+P.1 & Configuration du proxy  & Indispensable \\ 
+\hline 
+P.2 & Installation de l'autorité & Indispensable \\ 
+\hline 
+P.3 & Acceptation de l'autorité & Optionnel \\ 
+\hline 
+P.4 & Génération de certificats & Indispensable \\ 
+\hline 
+P.5 & Transchiffrement & Indispensable \\ 
+\hline 
+P.6 & Forge d'une fausse autorité & Optionnel \\ 
+\hline 
+\end{tabular} 
+
+
+\huge
+Ajouter le schéma
+\normalsize
+
+\subsection{Cas d'utilisation}
+
+\subsubsection{Configuration du proxy}
+
+\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
+   \hline
+   Description & Mise en place du proxy \\
+   \hline
+   Pré-conditions & Implémentation du cas d'utilisation Transchiffrement\\
+   \hline
+   Évènement déclanchant & Début du projet \\
+   \hline
+   Condition d'arrêt & Proxy installé \\
+   \hline
+   Cas d'exception  &  \\
+   \hline   
+\end{tabular}
+
+~\\
+
+Description du flot d'évènements principal :
+
+\begin{tabular}{|m{8cm}|m{8cm}|}
+   \hline
+   Acteur(s) & Système \\
+   \hline
+   1. Configuration du proxy & \\
+   \hline
+\end{tabular}
+
+\subsubsection{Installation de l'autorité}
+
+Dans ce cas de figure, on prend l'exemple d'un administrateur système qui installe directement l'autorité sur les machines clientes.
+
+\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
+
+   \hline
+   Description & Première façon de faire : installer directement l'autorité dans le système\\
+   \hline
+   Pré-conditions &Pas d'autorité présente \\
+   \hline
+   Évènement déclanchant &  Mise en place de l'autorité\\
+   \hline
+   Condition d'arrêt & Autorité installée \\
+   \hline
+   Cas d'exception  & L'autorité est considérée comme non-sûre par le navigateur. \\
+   \hline   
+\end{tabular}
+
+
+~\\
+
+Description du flot d'évènements principal :
+
+\begin{tabular}{|m{8cm}|m{8cm}|}
+   \hline
+   Acteur(s) & Système \\
+   \hline
+   1. Installation de l'autorité directement dans le système du client. & \\
+   \hline
+    & 2. Autorité reconnue comme valide.\\
+   \hline
+\end{tabular}
+
+\subsubsection{Acceptation de l'autorité}
+
+Dans ce cas de figure, on veut forcer le client à accepter notre fausse autorité.
+
+\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
+   \hline
+   Description & Deuxième façon de faire : faire accepter au client notre autorité.\\
+   \hline
+   Pré-conditions & Pas d'autorité présente\\
+   \hline
+   Évènement déclanchant & Première connexion au proxy par la client \\
+   \hline
+   Condition d'arrêt & Autorité acceptée \\
+   \hline
+   Cas d'exception  & L'autorité n'est pas acceptée par le client ou est reconnue comme non-sûre par le navigateur. \\
+   \hline   
+\end{tabular}
+
+~\\
+
+Description du flot d'évènements principal :
+
+\begin{tabular}{|m{8cm}|m{8cm}|}
+   \hline
+  \rowcolor[gray]{.8} Acteur(s) & Système \\
+   \hline
+   1. Le client se connecte au proxy. & \\
+   \hline
+    & 2. Proposition de l'autorité au client. \\
+   \hline
+   3. Le client accepte et installe l'autorité. &  \\
+   \hline
+   & 4. Autorité reconnue comme valide. \\
+   \hline
+\end{tabular}
+
+
+
+\subsubsection{Génération de certificats}
+
+Une fois l'autorité acceptée, à chaque tentative de connexion du client à un serveur, un faux certificat doit être généré à la volée.
+
+\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
+   \hline
+   Description & Génération d'un faux certificat pour le serveur \\
+   \hline
+   Pré-conditions & Le client ne s'est pas encore connecté à ce serveur \\
+   \hline
+   Évènement déclanchant & Le client tente de se connecter à un serveur \\
+   \hline
+   Condition d'arrêt &  Certificat généré et valide \\
+   \hline
+   Cas d'exception  &  Si le client s'est déjà connecté à ce serveur, on va le chercher dans une liste de certificats déjà générés auparavant.
+\\
+   \hline   
+\end{tabular}
+
+~\\
+
+Description du flot d'évènements principal :
+
+\begin{tabular}{|m{8cm}|m{8cm}|}
+   \hline
+  \rowcolor[gray]{.8} Acteur(s) & Système \\
+   \hline
+   1. Le client tente de se connecter à un serveur & \\
+   \hline
+    & 
+2. Un faux certificat est généré\\
+   \hline
+\end{tabular}
+
+\subsubsection{Transchiffrement}
+
+Une fois le certificat généré, le client envoie sa requête au proxy de manière chiffrée, le proxy déchiffre, la garde dans les logs (éventuellement) puis rechiffre cette requête pour le serveur (avec une autre clé). Le but de ce processus est d'être indétectable donc très rapide.
+On a bien évidemment le même processus dans l'autre sens pour la réponse du serveur au client.
+
+\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
+   \hline
+   Description & Déchiffrement / Rechiffrement de la requête du client pour l'envoyer au serveur et de la réponse du serveur pour l'envoyer au client. \\
+   \hline
+   Pré-conditions & Certificat généré\\
+   \hline
+   Évènement déclanchant &  Envoi d'une requête du client\\
+   \hline
+   Condition d'arrêt & Message rédigé et transfert d’envoi terminé \\
+   \hline
+   Cas d'exception  &  \\
+   \hline   
+\end{tabular}
+
+~\\
+
+Description du flot d'évènements principal :
+
+\begin{tabular}{|m{8cm}|m{8cm}|}
+   \hline
+  \rowcolor[gray]{.8} Acteur(s) & Système \\
+   \hline
+   1. Envoi d'une requête chiffrée par le client & \\
+   \hline
+    &
+2. Déchiffrement de la requête
+
+3. Log de cette requête
+
+4. Rechiffrement de la requête pour le serveur
+
+5. Envoi de cette requête au serveur
+
+
+8. Réception de la réponse chiffrée
+
+9. Déchiffrement de la réponse
+
+10. Log de la réponse
+
+11. Rechiffrement de la réponse
+
+12. Envoi de la réponse au client \\
+   \hline
+  6. Traitement de la requête par le serveur
+  
+7. Envoi de la réponse au proxy  &  \\
+   \hline
+\end{tabular}
+
+
+\subsubsection{Forge d'une fausse autorité}
+
+Deuxième partie du projet, réussir à forger une fausse autorité de certification ayant le même haché MD5 que la vraie.
+
+\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
+   \hline
+   Description & Forge d'une fausse autorité de certification \\
+   \hline
+   Pré-conditions & Algorithme de recherche fonctionnel et lancé
+ \\
+   \hline
+   Évènement déclanchant & L'algorithme de recherche a donné une réponse positive  \\
+   \hline
+   Condition d'arrêt & L'algorithme n'a toujours pas trouvé de réponse positive \\
+   \hline
+   Cas d'exception  &  L'algorithme de recherche n'a pas donné le résultat voulu et nous n'utiliserons pas cette  façon de faire. \\
+   \hline   
+\end{tabular}
+
+~\\
+
+~\\
+
+Description du flot d'évènements principal :
+
+\begin{tabular}{|m{8cm}|m{8cm}|}
+   \hline
+  \rowcolor[gray]{.8} Acteur(s) & Système \\
+   \hline
+   1. Recherche d'anciens certificats utilisant MD5
+
+2. Recherche d'algorithme existant et développement de notre algorithme
+
+3. Lancement de notre algorithme de comparaison
+ & \\
+   \hline
+
+& 4. Comparaison avec des hachés MD5 sélectionnés
+
+5. Une fois le résultat trouvé, la forge de la fausse autorité est réussie et envoyée au client
+
+    \\
+   \hline
+   6. Le client compare les hachés MD5 des deux autorités et l'accepte car ils sont égaux & \\
+   \hline
+\end{tabular}
+
 
 
 
