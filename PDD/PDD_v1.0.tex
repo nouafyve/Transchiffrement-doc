@@ -104,7 +104,7 @@
 %Tableau de mises à jour
 \vspace*{1cm}
 \begin{center}
-\textbf{\huge{MISES À JOUR}}\\
+\textbf{\huge{Versions}}\\
 \vspace*{3cm}
 	\begin{tabularx}{16cm}{|c|c|X|}
 	\hline
@@ -127,19 +127,21 @@ Pour garantir la confidentialité du trafic internet, les sites ont de plus en p
 Ainsi, un intrus qui intercepte les connexions ne peut pas lire les paquets qui transitent.
 Cela peut poser des problèmes dans certains cadres.
 
-Le principe repose sur la hiérarchie des autorités de certification.
 
 Le but du projet est de fournir une solution de transchiffrement, ainsi qu'une étude des collisions MD5 qui peuvent permettre l'élaboration d'un faux certificat racine.
+
+Le principe repose sur la hiérarchie des autorités de certification.
+
 
 Respect de la législation en vigueur
 Le résultat du projet ne doit pas faire l'objet d'une utilisation illégale
 - Le dispositif ne peut être utilisé qu'avec l'accord explicite du propriétaire du réseau
-- La surveillance du trafic ne peut être faite sans le conscentement des utilisateurs
+- La surveillance du trafic ne peut être faite sans le consentement des utilisateurs
 \newpage
 \section{Documents de référence}
 
 \begin{itemize}
-\item Étude et mise en oeuvre de solutions de Transchiffrement SSL : sujet\_projet\_ssi.pdf
+\item Étude et mise en oeuvre de solutions de Transchiffrement SSL/TLS : sujet\_projet\_ssi.pdf
 \item Spécification Technique du besoin : STB\_v1.0.pdf
 \item Architecture Logicielle : DAL\_v1.0.pdf
 \item Cahier des Recettes : CDR\_v1.0.pdf
@@ -179,13 +181,15 @@ Le résultat du projet ne doit pas faire l'objet d'une utilisation illégale
 \newpage
 \section{Lotissement}
 
-La répartition des fonctionnalités par lot n'est pas encore définie.
 Les fonctionnalités finales attendues sont :
 \begin{itemize}
 \item une application servant de proxy  
 \item un dossier de recherche sur les collisions MD5
 \end{itemize}
 
+Chaque fonctionnalité fait l'objet d'une livraison au client, pour prendre en compte ses remarques.
+
+La livraison finale des deux lots est prévue pour le 21 février.
 
 \newpage
 \section{Dimensionnement des moyens}
