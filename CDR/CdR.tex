@@ -7,7 +7,6 @@
 \usepackage{lmodern}
 \usepackage{pict2e}
 \usepackage{tikz}	
-\usepackage{tikz-uml}
 \usepackage{fancyhdr} % Required for custom headers
 \usepackage{lastpage} % Required to determine the last page for the footer
 \usepackage{extramarks} % Required for headers and footers
@@ -49,7 +48,7 @@
 
 \newcommand{\version}{1.0} % Document version
 \newcommand{\docDate}{20 Janvier 2014} % Document date
-\newcommand{\checked}{} % Checker name
+\newcommand{\checked}{} % Julien Bourdon
 \newcommand{\approved}{} % Approver name
 
 \makeatletter
@@ -112,7 +111,7 @@
 	\hline
 	0.1 & 10/12/2013 & Création\\
 	\hline
-	1.0 & 20/01/2014 & Modification\\
+	1.0 & 20/01/2014 & Prise en compte des modifications\\
 	\hline
 	\end{tabularx}
 \end{center}
@@ -124,20 +123,20 @@
 \newpage
 \section{Objet}
 
-Ce document a pour but de présenter une série de scénario décrivant avec précision les
+Ce document a pour but de présenter une série de scénarios décrivant avec précision les
 démarches et procédures à suivre dans le cadre du fonctionnement du « proxy » réalisant
 du transchiffrement SSL. Les différents tests s’exécuteront dans un environnement physique,
 c’est à dire sur une machine. Les tests auront pour but de mettre en œuvre tous les scénarios
 possibles du fonctionnement de l’application « proxy » et de déterminer si chacun d’eux est fonctionnel.
 Ce document sert de support aux développeurs pour évaluer si le produit répond à leurs attentes, il permet
-également de montrer au client l’état, en terme de fonctionnalité, l’avancement du projet.
+également de montrer au client l’état, en terme de fonctionnalité, de l’avancement du projet.
 
 \section{Portée}
 Le cahier de recette est destiné au chef de projet et au client du projet de
 Transchiffrement SSL ainsi qu’aux membres de l’équipe de développement.
 
 
-\section{Document applicables et de référence}
+\section{Documents applicables et de référence}
 
 \begin{itemize}
   \item Spécification technique des besoins
@@ -147,11 +146,11 @@ Transchiffrement SSL ainsi qu’aux membres de l’équipe de développement.
 \section{Terminologie et sigles utilisés}
 
 \begin{itemize}
-  \item STB : Spécification Technique des Besoins
+  \item STB : Spécification Technique du Besoin
   \item DAL : Document d’Architecture Logicielle
   \item Proxy : Application jouant le rôle de proxy afin de réaliser du transchiffrement SSL
   \item Client : Machine jouant le rôle d'utilisateur sur le réseau
-  \item Serveur : Machine hébergeant le proxy (machine virtuelle, voir section Environnement de test)
+  \item Serveur : Serveur web que le client tente de joindre
 \end{itemize}
 
 \section{Environnement de test}
@@ -161,10 +160,10 @@ proxy, des tests sont à prévoir directement sur cette machine virtuelle. Les
 machine utilisées pour les tests requièrent une connexion internet ainsi qu'un
 navigateur web supportant l'usage de certificats de type MD5. Aucune restriction 
 sur la configuration matérielle des machines.
-L'analyse des échanges entre les différentes entités se feront à l'aide de 
-l'outils Wireshark.
+L'analyse des échanges entre les différentes entités se fera à l'aide de 
+l'outil Wireshark.
 \begin{itemize}
-\item une machine virtuelle « proxy » ou sera installé le proxy 
+\item une machine virtuelle « proxy » où sera installé le proxy 
 \item une machine « client » qui jouera le rôle d'utilisateur lambda sur le réseau
 \end{itemize}
 
@@ -179,7 +178,7 @@ l'outils Wireshark.
   \item Relecture des cas de test par le chef de projet pour une validation avant 
   chaque phase de tests sur l'application.
   \item Relecture du cahier de recette après la réalisation des tests par le 
-  client pour la validation de chaque modules de l'application
+  client pour la validation de chaque module de l'application
 \end{itemize}
 
 \section{Stratégie de tests}
@@ -205,7 +204,7 @@ Le responsable du module concerné par l’anomalie sera chargé de la résoudre
   délai raisonnable en fonction de la gravité de cette anomalie pour le fonctionnement global
   de l’application. Le délai de correction devra être inclus dans le planning du développeur en fonction
   du plan de développement émis par le chef de projet.
-
+\newpage
 \section{Procédures de test}
 \subsection{Installation de l'application proxy}
 
@@ -219,9 +218,9 @@ Le responsable du module concerné par l’anomalie sera chargé de la résoudre
 \hline 
 \rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
 \hline 
-1 & On clique sur l'exécutable de l'application & exécutable proxy & l'application s'installe sur le client &  \\ 
+1 & On clique sur l'exécutable de l'application & Exécutable proxy & L'application s'installe sur le client &  \\ 
 \hline
-2 & On vérifie que le processus associé au proxy est actif sur la machine & & un processus associé au proxy est actif sur le client & \\
+2 & On vérifie que le processus associé au proxy est actif sur la machine & & Un processus associé au proxy est actif sur le client & \\
 \hline
 Commentaires & \multicolumn{4}{|l|}{} \\ 
 \hline
@@ -237,11 +236,11 @@ Commentaires & \multicolumn{4}{|l|}{} \\
 \hline 
 \rowcolor{Blue} Objectif & \multicolumn{4}{|l|}{Vérifier l'installation de l'autorité sur la machine utilisateur} \\ 
 \hline 
-\rowcolor{Blue} Pré-requis & \multicolumn{4}{|l|}{Pas d'autorité présente sur la machine, navigateur qui accepte les certificats MD5} \\ 
+\rowcolor{Blue} Pré-requis & \multicolumn{4}{|l|}{Autorité par défaut présente sur la machine, navigateur qui accepte les certificats MD5} \\ 
 \hline 
 \rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
 \hline 
-1 & Installer l'autorité directement sur le navigateur du client & certificat de l'autorité & le navigateur accepte le certificat &  \\ 
+1 & Installer l'autorité directement sur le navigateur du client & Certificat de l'autorité & Le navigateur accepte le certificat &  \\ 
 \hline 
 Commentaires & \multicolumn{4}{|l|}{} \\ 
 \hline
@@ -261,9 +260,9 @@ Commentaires & \multicolumn{4}{|l|}{} \\
 \hline 
 \rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
 \hline 
-1 & Inclure le certificat dans l'acceptation des termes et conditions du proxy & certificat de l'autorité & le certificat de l'autorité est inclus dans l'acceptation du proxy &  \\ 
+1 & Inclure le certificat dans l'acceptation des termes et conditions du proxy & Certificat de l'autorité & Le certificat de l'autorité est inclus dans l'acceptation du proxy &  \\ 
 \hline
-2 & Le client accepte les termes et conditions du proxy & & le certificat de 
+2 & Le client accepte les termes et conditions du proxy & & Le certificat de 
 l'autorité va automatiquement s'installer sur le navigateur du client & 
 \\
 \hline 
@@ -285,14 +284,14 @@ Commentaires & \multicolumn{4}{|l|}{} \\
 \hline 
 \rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
 \hline 
-1 & le client envoie une requête HTTP sur un serveur &  & le proxy reçoit la requête HTTP &  \\ 
+1 & Le client envoie une requête HTTP sur un serveur &  & Le proxy reçoit la requête HTTP &  \\ 
 \hline
-2 & le proxy envoie la requête HTTP vers le serveur & & le serveur reçoit la requête HTTP & \\
+2 & Le proxy envoie la requête HTTP vers le serveur & & Le serveur reçoit la requête HTTP & \\
 \hline
-3 & le serveur envoie la réponse au proxy & & le proxy 
+3 & Le serveur envoie la réponse au proxy & & Le proxy 
 reçoit la réponse du serveur & \\
 \hline 
-4 & le proxy envoie la réponse vers le client & & le client reçoit la réponse & 
+4 & Le proxy envoie la réponse vers le client & & Le client reçoit la réponse & 
 \\
 \hline
 Commentaires & \multicolumn{4}{|l|}{} \\ 
@@ -309,34 +308,34 @@ Commentaires & \multicolumn{4}{|l|}{} \\
 \hline 
 \rowcolor{Blue} Objectif & \multicolumn{4}{|l|}{Détailler les étapes d'ouverture des sessions privées} \\ 
 \hline 
-\rowcolor{Blue} Pré-requis & \multicolumn{4}{|l|}{deux connexions SSL/TLS ouvertes, certificat de l'autorité installé sur le client} \\ 
+\rowcolor{Blue} Pré-requis & \multicolumn{4}{|l|}{Deux connexions SSL/TLS ouvertes, certificat de l'autorité installé sur le client} \\ 
 \rowcolor{Blue} & \multicolumn{4}{|l|}{et proxy fonctionnel} \\
 \hline
 \rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
 \hline 
-1 & le client envoie une requête HTTPS & URL du serveur & le proxy reçoit la requête HTTPS &  \\ 
+1 & Le client envoie une requête HTTPS & URL du serveur & Le proxy reçoit la requête HTTPS &  \\ 
 \hline
-2 & le proxy envoie la requête HTTPS vers le serveur & & le serveur reçoit la requête HTTPS & \\
+2 & Le proxy envoie la requête HTTPS vers le serveur & & Le serveur reçoit la requête HTTPS & \\
 \hline
-3 & le serveur envoie son certificat au proxy & certificat serveur & le proxy reçoit le certificat & \\
+3 & Le serveur envoie son certificat au proxy & Certificat serveur & Le proxy reçoit le certificat & \\
 \hline 
-4 & le proxy génère son certificat & certificat proxy & le proxy envoie son certificat au client & \\
+4 & Le proxy génère son certificat & Certificat proxy & Le proxy envoie son certificat au client & \\
 \hline
-5 & le client reçoit le certificat du proxy & idem & le client vérfie la 
+5 & Le client reçoit le certificat du proxy & Certificat proxy & Le client vérifie la 
 validité du certificat & \\
 \hline
-6 & le client accepte le certificat & & le client envoi une clé de session au 
+6 & Le client accepte le certificat & & Le client envoie une clé de session au 
 proxy & \\
 \hline
-7 & le proxy reçoit la clé de session & clé session client & le proxy génère sa clé de session & \\
+7 & Le proxy reçoit la clé de session & Clé session client & Le proxy génère sa clé de session & \\
 \hline
-8 & le proxy envoie sa clé de session au serveur & clé session proxy & le serveur 
+8 & Le proxy envoie sa clé de session au serveur & Clé session proxy & Le serveur 
 reçoit la clé de session & \\
 \hline
-9 & session ouverte entre le serveur et le proxy & & le serveur et le proxy 
+9 & Session ouverte entre le serveur et le proxy & & Le serveur et le proxy 
 peuvent échanger des messages chiffrés & \\
 \hline
-10 & session ouverte entre le proxy et le client & & le proxy et le client 
+10 & Session ouverte entre le proxy et le client & & Le proxy et le client 
 peuvent échanger des messages chiffrés & \\
 \hline
 Commentaires & \multicolumn{4}{|l|}{} \\ 
@@ -361,28 +360,28 @@ Commentaires & \multicolumn{4}{|l|}{} \\
 \hline 
 \rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
 \hline 
-1 & le client envoie une requête HTTPS au proxy & URL du serveur & le proxy reçoit la requête HTTPS &  \\ 
+1 & Le client envoie une requête HTTPS au proxy & URL du serveur & Le proxy reçoit la requête HTTPS &  \\ 
 \hline
-2 & le proxy déchiffre la requête HTTPS & & le proxy log la requête en clair & \\
+2 & Le proxy déchiffre la requête HTTPS & & Le proxy log la requête en clair & \\
 \hline
-3 & le proxy chiffre la requête & clé session proxy-serveur & la requête est 
+3 & Le proxy chiffre la requête & Clé session proxy-serveur & La requête est 
 correctement chiffrée & \\
 \hline
-4 & le proxy envoie la requête chiffrée au serveur & & le serveur reçoit la requête & \\
+4 & Le proxy envoie la requête chiffrée au serveur & & Le serveur reçoit la requête & \\
 \hline
-5 & le envois au proxy & & le proxy reçois la 
-requête & \\
+5 & Le serveur envoie une réponse au proxy & & Le proxy reçoit la 
+réponse & \\
 \hline
-6 & le proxy déchiffre la réponse du serveur & & le proxy log la réponse au 
+6 & Le proxy déchiffre la réponse du serveur & & Le proxy log la réponse au 
 serveur en clair & \\
 \hline
-7 & le proxy chiffre la réponse & clé session client-proxy & la réponse est 
-correctement chiffré & \\
+7 & Le proxy chiffre la réponse & Clé session client-proxy & La réponse est 
+correctement chiffrée & \\
 \hline
-8 & le proxy envoie la réponse chiffrée au client & & le client reçoit la réponse 
+8 & Le proxy envoie la réponse chiffrée au client & & Le client reçoit la réponse 
 & \\
 \hline
-9 & le client déchiffre la réponse & & le client peut lire et traiter le réponse 
+9 & Le client déchiffre la réponse & & Le client peut lire et traiter le réponse 
 & \\
 \hline
 Commentaires & \multicolumn{4}{|l|}{} \\ 
