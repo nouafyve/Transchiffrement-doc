@@ -40,14 +40,14 @@
 
 \newcommand{\hmwkTitle}{Transchiffrement} % Assignment title
 \newcommand{\hmwkClass}{Master 2 SSI } % Course/class
-\newcommand{\hmwkAuthorName}{Yves Nouafo, Ouissem Hamdani} % Your name
+\newcommand{\hmwkAuthorName}{Yves NOUAFO, Ouissem HAMDANI} % Your name
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Architecture Logicielle} % Document name
 
-\newcommand{\version}{1.0} % Document version
-\newcommand{\docDate}{28 novembre 2013} % Document date
-\newcommand{\checked}{} % Checker name
-\newcommand{\approved}{Magali Bardet} % Approver name
+\newcommand{\version}{1.1} % Document version
+\newcommand{\docDate}{22 janvier 2014} % Document date
+\newcommand{\checked}{Julien BOURDON} % Checker name
+\newcommand{\approved}{} % Approver name
 
 \makeatletter
 \newcommand{\resettranslate}{\let\translate\@firstofone}
@@ -160,15 +160,15 @@ Mener une étude sur la possibilité de trouver une seconde pré-image sur l'alg
 %=========================================================
 \section{Terminologie et sigles utilisés}
 
-\begin{itemize}
-\item SSL/TLS: Secure Sockets Layer, Transport Layer Security 
-\item MD5: Message Digest 5
-\item Client: utilisateur d'une machine privée
-\item Proxy: machine intermédiaire écoutant sur le réseau qui sera en charge de réaliser le transchiffrement en utilisant le protocole SSL/TLS
-\item Serveur: serveur Web accessible à partir d'une URL
-\item BDD: base de données où seront stockées les clés publiques
+\begin{description}
+\item[SSL/TLS] Secure Sockets Layer, Transport Layer Security 
+\item[MD5] Message Digest 5
+\item[Client] utilisateur d'une machine privée
+\item[Proxy] machine intermédiaire écoutant sur le réseau qui sera en charge de réaliser le transchiffrement en utilisant le protocole SSL/TLS
+\item[Serveur] serveur Web accessible à partir d'une URL
+\item[BDD] base de données où seront stockées les clés publiques
 %\item Autorité de certification: certificat intermédiaire servant au chiffrement SSL/TLS depuis le proxy.
-\end{itemize}
+\end{description}
 
 
 %=========================================================
@@ -197,6 +197,16 @@ Pour pouvoir faire marcher le projet, celui-ci devra être supporté par un syst
 \item Ubuntu serveur 12.04. 
 \end{itemize}
 
+
+\subsection{Choix du langage de développement}
+Nous utiliserons le langage Java pour différentes raisons :
+\begin{itemize}
+\item C'est un langage pré-compilé, les performances devraient donc être meilleures qu'un langage interprété comme le Python ou le Perl.
+\item De nombreuses librairies sont déjà implémentées dans ce langage, dont OpenSSL pour le chiffrement, ou des classes pour manipuler les paquets IP.
+\item Nous sommes déjà formés à ce langage, ce qui minimisera la durée de formation.
+\end{itemize}
+
+Nous utiliserons la classe DatagramPacket pour modéliser les paquets, et la classe DatagramSocket pour gérer l'envoi de paquets sur le réseau.
 
 %\subsection{Produits logiciels nécessaires}
 
@@ -595,8 +605,6 @@ f:
 \end{displaymath}
 
 La particularité de cette fonction est que connaissant f(x), il est difficile de retrouvé x mais connaissant x il est facile de calculer f(x).
-
-\subsection{Présentation de MD5}
 
 %%==============================
 
