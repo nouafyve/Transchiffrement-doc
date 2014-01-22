@@ -1,0 +1,211 @@
+\documentclass[a4paper,11pt,french]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel} 
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, includeheadfoot]{geometry} %pour les marges
+\usepackage{lmodern}
+\usepackage{pict2e}
+\usepackage{tikz}	
+\usepackage{tikz-uml}
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{tabularx, longtable}
+\usepackage{color, colortbl}
+\usepackage{lscape}
+%\usepackage[hidelinks]{hyperref}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{rotating}
+%\usepackage{pgfgantt}
+%\usepackage{pgfcalendar}
+%\usepackage{ifthen}
+\usepackage{gensymb}
+
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
+\rhead{\includegraphics[width=10em]{logo_univ.png}}
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ / \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength{\headheight}{40pt}
+
+\newcommand{\hmwkTitle}{Transchiffrement} % Assignment title
+\newcommand{\hmwkClass}{Master 2 SSI } % Course/class
+\newcommand{\hmwkAuthorName}{Jean-Baptiste Souchal} % Your name
+\newcommand{\hmwkSubject}{Conduite de projet} % Subject
+\newcommand{\hmwkDocName}{Cahier de Recette} % Document name
+
+\newcommand{\version}{1.0} % Document version
+\newcommand{\docDate}{20 Janvier 2014} % Document date
+\newcommand{\checked}{} % Checker name
+\newcommand{\approved}{} % Approver name
+
+\makeatletter
+\newcommand{\resettranslate}{\let\translate\@firstofone}
+\makeatother
+
+\definecolor{gris}{rgb}{0.95, 0.95, 0.95}
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass :\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+\vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{} % Insert date here if you want it to appear below your name
+
+
+\usepackage{amsmath}
+\begin{document}
+\newcount\startdate
+\newcount\daynum
+%\pgfcalendardatetojulian{2013-01-021}{\startdate}
+\pagestyle{fancy}
+
+\vspace*{5cm}
+\begin{center}\textbf{\Huge{\hmwkDocName}}\end{center}
+\vspace*{4.5cm}
+	
+
+\fcolorbox{black}{gris}{
+\begin{minipage}{15cm}
+\begin{tabularx}{10cm}{lXl}
+	\bfseries{Version} & & \version\\
+	& & \\
+	\bfseries{Date} & & \docDate\\
+	& & \\
+	\bfseries{Rédigé par} & & \hmwkAuthorName \\
+	& & \\
+	\bfseries{Relu par} & & \checked \\
+	& & \\
+	\bfseries{Approuvé par} & & \approved \\
+	& & \\
+\end{tabularx}
+\end{minipage}
+}
+
+\newpage
+
+%Tableau de mises à jour
+\vspace*{1cm}
+\begin{center}
+\textbf{\huge{MISES À JOUR}}\\
+\vspace*{3cm}
+	\begin{tabularx}{16cm}{|c|c|X|}
+	\hline
+	\bfseries{Version} & \bfseries{Date} & \bfseries{Modifications réalisées}\\
+	\hline
+	0.1 & 10/12/2013 & Création\\
+	\hline
+	1.0 & 20/01/2014 & Modification\\
+	\hline
+	\end{tabularx}
+\end{center}
+
+%La table des matières
+\clearpage
+\tableofcontents
+\clearpage
+\newpage
+\section{Objet}
+
+Ce document a pour but de présenter une série de scénario décrivant avec précision les
+démarches et procédures à suivre dans le cadre du fonctionnement du « proxy » réalisant
+du transchiffrement SSL. Les différents tests s’exécuteront dans un environnement physique,
+c’est à dire sur une machine. Les tests auront pour but de mettre en œuvre tous les scénarios
+possibles du fonctionnement de l’application « proxy » et de déterminer si chacun d’eux est fonctionnel.
+Ce document sert de support aux développeurs pour évaluer si le produit répond à leurs attentes, il permet
+également de montrer au client l’état, en terme de fonctionnalité, l’avancement du projet.
+
+\section{Portée}
+Le cahier de recette est destiné au chef de projet et au client du projet de
+Transchiffrement SSL ainsi qu’aux membres de l’équipe de développement.
+
+
+\section{Document applicables et de référence}
+
+\begin{itemize}
+  \item Spécification technique des besoins
+  \item Document d'architecture logiciel
+\end{itemize}
+
+\section{Terminologie et sigles utilisés}
+
+\begin{itemize}
+  \item STB : Spécification Technique des Besoins
+  \item DAL : Document d’Architecture Logicielle
+  \item Proxy : Application jouant le rôle de proxy afin de réaliser du transchiffrement SSL
+  \item Client : Machine jouant le rôle d'utilisateur sur le réseau
+  \item Serveur : Machine hébergeant le proxy (machine virtuelle, voir section Environnement de test)
+\end{itemize}
+
+\section{Environnement de test}
+Les tests seront effectués dans un environnement de type Unix (Ubuntu, Mac OS 
+X) pour la partie utilisateur. Utilisation d'une machine virtuelle (Ubuntu) pour l'hébergement du 
+proxy, des tests sont à prévoir directement sur cette machine virtuelle. Les 
+machine utilisées pour les tests requièrent une connexion internet ainsi qu'un
+navigateur web supportant l'usage de certificats de type MD5. Aucune restriction 
+sur la configuration matérielle des machines.
+L'analyse des échanges entre les différentes entités se feront à l'aide de 
+l'outils Wireshark.
+\begin{itemize}
+\item une machine virtuelle « proxy » ou sera installé le proxy 
+\item une machine « client » qui jouera le rôle d'utilisateur lambda sur le réseau
+\end{itemize}
+
+
+
+\section{Responsabilité}
+
+\begin{itemize}
+  \item Client : Magali Bardet
+  \item Chef de projet : Emile Générat
+  \item Testeur/Recetteur : Jean-Baptiste Souchal
+  \item Relecture des cas de test par le chef de projet pour une validation avant 
+  chaque phase de tests sur l'application.
+  \item Relecture du cahier de recette après la réalisation des tests par le 
+  client pour la validation de chaque modules de l'application
+\end{itemize}
+
+\section{Stratégie de tests}
+Un test est validé lorsqu’il répond à l’exigence fonctionnelle à laquelle il est lié.
+Un test non validé fera l’objet d’un retour vers le(s) développeur(s) du module concerné.
+Chaque test non validé implique la correction, par le(s) développeur(s), du module concerné dans
+un délai raisonnable en fonction du planning et du plan de développement mis en place par le chef de
+projet. Après correction, le module sera de nouveau testé. Après avoir effectué tous les tests, les
+résultats seront envoyés au chef de projet et au client pour leurs validation.
+
+\section{Gestion des anomalies}
+Lors des tests, les anomalies seront rédigées dans un tableur. Il contiendra :
+
+\begin{itemize}
+  \item le numéro du test
+  \item le module concerné
+  \item une description de l'erreur
+  \item les développeurs impliqués
+  \item l’état d’avancement de la correction
+\end{itemize}
+
+Le responsable du module concerné par l’anomalie sera chargé de la résoudre dans un
+  délai raisonnable en fonction de la gravité de cette anomalie pour le fonctionnement global
+  de l’application. Le délai de correction devra être inclus dans le planning du développeur en fonction
+  du plan de développement émis par le chef de projet.
+
+\section{Procédures de test}
+voir document procedure\_tests.pdf en annexe
+
+
+\end{document}
