@@ -31,7 +31,7 @@
 % Set up the header and footer
 \pagestyle{fancy}
 \lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
-\rhead{\includegraphics[width=10em]{logo_univ.png}}
+\rhead{\includegraphics[width=10em]{../images/logo_univ.png}}
 \lfoot{\lastxmark} % Bottom left footer
 \cfoot{} % Bottom center footer
 \rfoot{Page\ \thepage\ / \pageref{LastPage}} % Bottom right footer
@@ -42,13 +42,13 @@
 
 \newcommand{\hmwkTitle}{Transchiffrement} % Assignment title
 \newcommand{\hmwkClass}{Master 2 SSI } % Course/class
-\newcommand{\hmwkAuthorName}{Jean-Baptiste Souchal} % Your name
+\newcommand{\hmwkAuthorName}{Jean-Baptiste SOUCHAL} % Your name
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Cahier de Recette} % Document name
 
-\newcommand{\version}{1.0} % Document version
-\newcommand{\docDate}{20 Janvier 2014} % Document date
-\newcommand{\checked}{} % Julien Bourdon
+\newcommand{\version}{1.1} % Document version
+\newcommand{\docDate}{22 Janvier 2014} % Document date
+\newcommand{\checked}{Julien BOURDON} % Julien Bourdon
 \newcommand{\approved}{} % Approver name
 
 \makeatletter
@@ -103,7 +103,7 @@
 %Tableau de mises à jour
 \vspace*{1cm}
 \begin{center}
-\textbf{\huge{MISES À JOUR}}\\
+\textbf{\huge{Versions}}\\
 \vspace*{3cm}
 	\begin{tabularx}{16cm}{|c|c|X|}
 	\hline
@@ -111,7 +111,7 @@
 	\hline
 	0.1 & 10/12/2013 & Création\\
 	\hline
-	1.0 & 20/01/2014 & Prise en compte des modifications\\
+	1.0 & 22/01/2014 & Prise en compte des modifications\\
 	\hline
 	\end{tabularx}
 \end{center}
@@ -145,13 +145,13 @@ Transchiffrement SSL ainsi qu’aux membres de l’équipe de développement.
 
 \section{Terminologie et sigles utilisés}
 
-\begin{itemize}
-  \item STB : Spécification Technique du Besoin
-  \item DAL : Document d’Architecture Logicielle
-  \item Proxy : Application jouant le rôle de proxy afin de réaliser du transchiffrement SSL
-  \item Client : Machine jouant le rôle d'utilisateur sur le réseau
-  \item Serveur : Serveur web que le client tente de joindre
-\end{itemize}
+\begin{description}
+  \item[STB] Spécification Technique du Besoin
+  \item[DAL] Document d’Architecture Logicielle
+  \item[Proxy] Application jouant le rôle de proxy afin de réaliser du transchiffrement SSL
+  \item[Client] Machine jouant le rôle d'utilisateur sur le réseau
+  \item[Serveur] Serveur web que le client tente de joindre
+\end{description}
 
 \section{Environnement de test}
 Les tests seront effectués dans un environnement de type Unix (Ubuntu, Mac OS 
@@ -174,11 +174,9 @@ l'outil Wireshark.
 \begin{itemize}
   \item Client : Magali Bardet
   \item Chef de projet : Emile Générat
-  \item Testeur/Recetteur : Jean-Baptiste Souchal
-  \item Relecture des cas de test par le chef de projet pour une validation avant 
-  chaque phase de tests sur l'application.
-  \item Relecture du cahier de recette après la réalisation des tests par le 
-  client pour la validation de chaque module de l'application
+  \item Responsable qualité : Jean-Baptiste Souchal
+  \item Relecture des cas de test par le chef de projet pour une validation avant chaque phase de tests sur l'application.
+  \item Relecture du cahier de recette par le client avant la réalisation des tests pour la validation de chaque module de l'application
 \end{itemize}
 
 \section{Stratégie de tests}
