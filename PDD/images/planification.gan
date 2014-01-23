@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="ProjetSSI" company="" webLink="http://" view-date="2014-01-19" view-index="0" gantt-divider-location="330" resource-divider-location="300" version="2.0" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="ProjetSSI" company="" webLink="http://" view-date="2014-01-17" view-index="0" gantt-divider-location="480" resource-divider-location="300" version="2.0" locale="en_US">
     <description/>
-    <view zooming-state="default:5" id="gantt-chart">
-        <field id="tpd4" name="Begin date" width="7" order="0"/>
-        <field id="tpd5" name="End date" width="5" order="1"/>
-        <field id="tpd3" name="Name" width="70" order="2"/>
-        <field id="tpd8" name="Coordinator" width="4" order="3"/>
-        <field id="tpc3" name="Charge (jH)" width="12" order="4"/>
+    <view zooming-state="default:3" id="gantt-chart">
+        <field id="tpd4" name="Begin date" width="9" order="0"/>
+        <field id="tpd5" name="End date" width="12" order="1"/>
+        <field id="tpd3" name="Name" width="40" order="2"/>
+        <field id="tpd8" name="Coordinator" width="28" order="3"/>
+        <field id="tpc3" name="Charge (jH)" width="8" order="4"/>
     </view>
     <view id="resource-table">
         <field id="0" name="Name" width="50" order="0"/>
@@ -253,11 +253,11 @@
         <displaycolumn property-id="tpd9" order="-1" width="75" visible="false"/>
         <displaycolumn property-id="tpd1" order="-1" width="75" visible="false"/>
         <displaycolumn property-id="tpd0" order="-1" width="75" visible="false"/>
-        <displaycolumn property-id="tpd4" order="0" width="24" visible="true"/>
-        <displaycolumn property-id="tpd5" order="1" width="18" visible="true"/>
-        <displaycolumn property-id="tpd3" order="2" width="229" visible="true"/>
-        <displaycolumn property-id="tpd8" order="3" width="15" visible="true"/>
-        <displaycolumn property-id="tpc3" order="4" width="40" visible="true"/>
+        <displaycolumn property-id="tpd4" order="0" width="44" visible="true"/>
+        <displaycolumn property-id="tpd5" order="1" width="60" visible="true"/>
+        <displaycolumn property-id="tpd3" order="2" width="193" visible="true"/>
+        <displaycolumn property-id="tpd8" order="3" width="137" visible="true"/>
+        <displaycolumn property-id="tpc3" order="4" width="42" visible="true"/>
     </taskdisplaycolumns>
     <previous/>
     <roles roleset-name="Default"/>
