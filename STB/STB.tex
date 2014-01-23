@@ -505,6 +505,8 @@ Nous allons donc livrer un rapport d'étude pour expliquer notre démarche pour 
 
 \section{Performances}
 Pour que notre proxy soit considéré comme "transparent", nous devons remplir des contraintes de temps d'exécution du transchiffrement.
+
 On s'autorise donc une seconde de marge pour toute page générée très rapidement et jusqu'à 200\% du temps pour une page contenant un volume conséquent de données.
 
+Ces valeurs sont valables une fois que la connexion est établie. Lors de la première connexion d'un client à un serveur, il faut d'abord générer dynamiquement un certificat, et une clé de session.
 \end{document}
