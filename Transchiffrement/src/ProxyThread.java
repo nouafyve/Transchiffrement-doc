@@ -113,17 +113,15 @@ public class ProxyThread extends Thread {
 	private PrintStream out;
 	private PrintStream err;
 
-	private static final String argsMessage = "Arguments: ( [source_address] source_port dest_address dest_port ) | config_file";
-	private static final String propertyPrefix = "proxy";
+	private static final String argsMessage = "Arguments: config_file";
 
-	public ProxyThread(InetAddress srcAddr, int srcPort, InetAddress dstAddr,
-			int dstPort, PrintStream out, PrintStream err) throws IOException {
+	public ProxyThread(int srcPort, InetAddress dstAddr, int dstPort, PrintStream out, PrintStream err) throws IOException {
 		this.out = out;
 		this.err = err;
-		this.srvSock = (srcAddr == null) ? new ServerSocket(srcPort, backLog) : new ServerSocket(srcPort, backLog, srcAddr);
+		this.srvSock = new ServerSocket(srcPort, backLog);
 		this.dstAddr = dstAddr;
 		this.dstPort = dstPort;
-		this.header = (srcAddr == null ? "" : srcAddr.toString()) + ":" + srcPort + " <-> " + dstAddr + ":" + dstPort;
+		this.header = ":" + srcPort + " <-> " + dstAddr + ":" + dstPort;
 		start();
 	}
 
@@ -167,42 +165,37 @@ public class ProxyThread extends Thread {
 		synchronized (lock) {
 			try {
 				while (connections.size() > 0) {
-					StreamCopyThread sct = (StreamCopyThread) connections.elementAt(0);
+					StreamCopyThread sct = (StreamCopyThread) connections
+							.elementAt(0);
 					sct.interrupt();
 					sct.join(threadTimeout);
 				}
-			}
+			} 
 			catch (InterruptedException xc) {}
 		}
 	}
 
-	private static ProxyThread addProxy(String src, String srcPort, String dst,
-			String dstPort, PrintStream out, PrintStream err)
-			throws UnknownHostException, IOException {
-		InetAddress srcAddr = (src == null) ? null : InetAddress.getByName(src);
-		return new ProxyThread(srcAddr, Integer.parseInt(srcPort),
-				InetAddress.getByName(dst), Integer.parseInt(dstPort), out, err);
-	}
-
-	private void parseConfigFile(String fileName, PrintStream out, PrintStream err) throws FileNotFoundException,
+	private static java.util.Vector parseConfigFile(String fileName,
+			PrintStream out, PrintStream err) throws FileNotFoundException,
 			IOException, UnknownHostException {
+		java.util.Vector result = new java.util.Vector();
 		FileInputStream in = new FileInputStream(fileName);
 		java.util.Properties props = new java.util.Properties();
 		props.load(in);
 		in.close();
-			String srcAddr = props.getProperty("proxy.0.sourceAddr");
-			String srcPort = props.getProperty("proxy.0.sourcePort");
-			String dstAddr = props.getProperty("proxy.0.destAddr");
-			String dstPort = props.getProperty("proxy.0.destPort");
-			if (dstPort == null) {
-				throw new IllegalArgumentException("Missing destination port for proxy ");
-			}
-			addProxy(srcAddr, srcPort, dstAddr, dstPort, out, err);
+		int srcPort = Integer.parseInt(props.getProperty("proxy.0.sourcePort"));
+		InetAddress dstAddr = InetAddress.getByName(props.getProperty("proxy.0.destAddr"));
+		int dstPort = Integer.parseInt(props.getProperty("proxy.0.destPort"));
+		if (dstPort == 0) {
+			throw new IllegalArgumentException("Missing configuration parameter for proxy ");
+		}
+		result.addElement(new ProxyThread(srcPort, dstAddr, dstPort, out, err));
+		return result;
 	}
 
-	public void startProxy(String[] argv) throws Exception{
+	public void start(String configFile) throws Exception{
 		try {
-			parseConfigFile(argv[0], System.out, System.err);
+			parseConfigFile(configFile, System.out, System.err);
 		} catch (IllegalArgumentException xc) {
 			System.err.println(xc.getMessage());
 			System.exit(1);
@@ -215,6 +208,6 @@ public class ProxyThread extends Thread {
 	
 	public static void main(String[] argv) throws Exception {
 		ProxyThread proxy = new ProxyThread();
-		proxy.startProxy(argv);
+		proxy.start(argv[0]);
 	}
 }
