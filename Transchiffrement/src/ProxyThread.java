@@ -28,20 +28,11 @@ public class ProxyThread extends Thread {
 				OutputStream out = outSock.getOutputStream();
 				try {
 					while (((count = in.read(buf)) > 0) && !isInterrupted()) {
+						System.out.println(new String(buf));
 						out.write(buf, 0, count);
 					}
 				} catch (Exception xc) {
 					if (debug) {
-						// FIXME
-						// It's very difficult to sort out between "normal"
-						// exceptions (occuring when one end closes the
-						// connection
-						// normally), and "exceptional" exceptions (when
-						// something
-						// really goes wrong)
-						// Therefore we only log exceptions occuring here if the
-						// debug flag
-						// is true, in order to avoid cluttering up the log.
 						err.println(header + ":" + xc);
 						xc.printStackTrace();
 					}
@@ -98,22 +89,15 @@ public class ProxyThread extends Thread {
 	protected static final int backLog = 100;
 	// Timeout waiting for a StreamCopyThread to finish
 	public static final int threadTimeout = 2000; // ms
-	// Linger time
 	public static final int lingerTime = 180; // seconds (?)
-	// Size of receive buffer
 	public static final int bufSize = 2048;
-	// Header to prepend to log messages
 	private String header;
-	// This proxy's server socket
 	private ServerSocket srvSock;
-	// Debug flag
 	private boolean debug = false;
 
 	// Log streams for output and error messages
 	private PrintStream out;
 	private PrintStream err;
-
-	private static final String argsMessage = "Arguments: config_file";
 
 	public ProxyThread(int srcPort, InetAddress dstAddr, int dstPort, PrintStream out, PrintStream err) throws IOException {
 		this.out = out;
@@ -175,10 +159,9 @@ public class ProxyThread extends Thread {
 		}
 	}
 
-	private static java.util.Vector parseConfigFile(String fileName,
+	private static void parseConfigFile(String fileName,
 			PrintStream out, PrintStream err) throws FileNotFoundException,
 			IOException, UnknownHostException {
-		java.util.Vector result = new java.util.Vector();
 		FileInputStream in = new FileInputStream(fileName);
 		java.util.Properties props = new java.util.Properties();
 		props.load(in);
@@ -189,8 +172,7 @@ public class ProxyThread extends Thread {
 		if (dstPort == 0) {
 			throw new IllegalArgumentException("Missing configuration parameter for proxy ");
 		}
-		result.addElement(new ProxyThread(srcPort, dstAddr, dstPort, out, err));
-		return result;
+		new ProxyThread(srcPort, dstAddr, dstPort, out, err);
 	}
 
 	public void start(String configFile) throws Exception{
@@ -202,9 +184,7 @@ public class ProxyThread extends Thread {
 		}
 	}
 	
-	public ProxyThread(){
-		
-	}
+	public ProxyThread(){}
 	
 	public static void main(String[] argv) throws Exception {
 		ProxyThread proxy = new ProxyThread();
