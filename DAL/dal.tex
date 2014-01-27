@@ -598,6 +598,20 @@ La particularité de cette fonction est que connaissant f(x), il est difficile d
 
 \subsection{Présentation de MD5}
 
+MD5 suit le schéma de construction de Merkle-Damgard qui consiste à ajouter au message un padding pour obtenir un message dont la longeur est multiple de 512. Le padding est effectué en ajoutant la suite "100...0000" suivi de la longueur de la taille originale du message.\\
+
+Le message est ensuite découpé en N blocs de 512 bits, B1...BN.\\
+
+La compression du message se fait à l'aide des tailles de blocs et de l'IHV. L'IHV est la valeur intermédiaire de hachage. Elle est calculée grâce à la formule de compréssion suivante: IHV(i) = MD5Compress(IHV(i-1),B(i)).\\
+
+Le valeur de hachage qui en resulte est le dernier IHV calculé. On a alors IHV(N) = IHV(0) || ... || IHV(N-1).\\
+
+\subsection{Aper\c u d'une collision à prefixe choisi}
+
+De nombreuses études ont été menées sur le fait de pouvoir trouver des collisions sur MD5.
+
+\subsubsection{\'Etude de cas: Wang,Yu}
+\'Etant donnée de messages choisi arbitrairement, if faut trouver une collision sous MD5. Comme les deux messages sont de tailles différentes, il faut appliquer un padding au plus court des deux.....
 %%==============================
 
 \end{document}
