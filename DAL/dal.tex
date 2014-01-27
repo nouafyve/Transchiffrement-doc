@@ -1,0 +1,612 @@
+\documentclass[a4paper,11pt,french]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel} 
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, includeheadfoot]{geometry} %pour les marges
+\usepackage{lmodern}
+\usepackage{pict2e}
+\usepackage{tikz}	
+\usepackage{tikz-uml}
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{tabularx, longtable}
+\usepackage{color, colortbl}
+\usepackage{lscape}
+%\usepackage[hidelinks]{hyperref}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{gensymb}
+\usepgflibrary{arrows} % for pgf-umlsd
+
+\usetikzlibrary{trees,shapes.geometric,arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains	}
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
+\rhead{\includegraphics[width=10em]{logo_univ.png}}
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ / \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength{\headheight}{40pt}
+
+\newcommand{\hmwkTitle}{Transchiffrement} % Assignment title
+\newcommand{\hmwkClass}{Master 2 SSI } % Course/class
+\newcommand{\hmwkAuthorName}{Yves Nouafo, Ouissem Hamdani} % Your name
+\newcommand{\hmwkSubject}{Conduite de projet} % Subject
+\newcommand{\hmwkDocName}{Architecture Logicielle} % Document name
+
+\newcommand{\version}{1.0} % Document version
+\newcommand{\docDate}{28 novembre 2013} % Document date
+\newcommand{\checked}{} % Checker name
+\newcommand{\approved}{Magali Bardet} % Approver name
+
+\makeatletter
+\newcommand{\resettranslate}{\let\translate\@firstofone}
+\makeatother
+
+\definecolor{gris}{rgb}{0.95, 0.95, 0.95}
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass :\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+\vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{} % Insert date here if you want it to appear below your name
+
+
+\usepackage{amsmath}
+\begin{document}
+\newcount\startdate
+\newcount\daynum
+%\pgfcalendardatetojulian{2013-01-021}{\startdate}
+\pagestyle{fancy}
+
+\vspace*{5cm}
+\begin{center}\textbf{\Huge{\hmwkDocName}}\end{center}
+\vspace*{4.5cm}
+	
+
+\fcolorbox{black}{gris}{
+\begin{minipage}{15cm}
+\begin{tabularx}{10cm}{lXl}
+	\bfseries{Version} & & \version\\
+	& & \\
+	\bfseries{Date} & & \docDate\\
+	& & \\
+	\bfseries{Rédigé par} & & \hmwkAuthorName \\
+	& & \\
+	\bfseries{Relu par} & & \checked \\
+	& & \\
+	\bfseries{Approuvé par} & & \approved \\
+	& & \\
+\end{tabularx}
+\end{minipage}
+}
+
+\newpage
+
+%Tableau de mises à jour
+\vspace*{1cm}
+\begin{center}
+\textbf{\huge{MISES À JOUR}}\\
+\vspace*{3cm}
+	\begin{tabularx}{16cm}{|c|c|X|}
+	\hline
+	\bfseries{Version} & \bfseries{Date} & \bfseries{Modifications réalisées}\\
+	\hline
+	1.0 & 28/11/2013 & Création\\
+	\hline
+	& & \\
+	\hline
+	& & \\
+	\hline
+	& & \\
+	\hline
+	& & \\
+	\hline
+	& & \\
+	\hline
+	& & \\
+	\hline
+	\end{tabularx}
+\end{center}
+
+%La table des matières
+\clearpage
+\tableofcontents
+\clearpage
+
+
+%=========================================================
+%Objet
+%=========================================================
+\section{Objet}
+
+Ce document met en évidence les éléments et les évènements qui interviendront dans la mise en place du transchiffrement. L'ensemble des composants formeront l'architecture du procédé que l'on va mettre en place. Cette étude sera décomposée en deux phases.  
+
+\subsection{\'Etude du proxy}
+Installer un proxy entre le navigateur et le client. Il aura comme objectif de réaliser l'opération de transchiffrement.  \\
+Le proxy devra avoir les caractéristiques suivantes:
+\begin{itemize}
+\item Les connexions client / proxy et proxy / serveur pouvant être  chiffrées ou non.
+\item L'exécution du transchiffrement doit être rapide.
+\end{itemize}
+
+\subsection{\'Etude de l'algorithme MD5}
+Mener une étude sur la possibilité de trouver une seconde pré-image sur l'algorithme MD5 et forger si possible un faux certificat.  \\ 
+\begin{itemize}
+\item Notre autorité doit être reconnue comme valide par les navigateurs des utilisateurs.
+\end{itemize}
+
+
+
+%=========================================================
+%Documents applicables et de références
+%=========================================================
+\section{Documents applicables et de références}
+\begin{itemize}
+\item STB (Spécification Techniques des besoins)
+\item MD5 considered harmful today [Alexander Sotirov, Marc Stevens, 2008]
+\end{itemize}
+
+
+
+%=========================================================
+%Terminologie et sigles utilisés
+%=========================================================
+\section{Terminologie et sigles utilisés}
+
+\begin{itemize}
+\item SSL/TLS: Secure Sockets Layer, Transport Layer Security 
+\item MD5: Message Digest 5
+\item Client: utilisateur d'une machine privée
+\item Proxy: machine intermédiaire écoutant sur le réseau qui sera en charge de réaliser le transchiffrement en utilisant le protocole SSL/TLS
+\item Serveur: serveur Web accessible à partir d'une URL
+\item BDD: base de données où seront stockées les clés publiques
+%\item Autorité de certification: certificat intermédiaire servant au chiffrement SSL/TLS depuis le proxy.
+\end{itemize}
+
+
+%=========================================================
+%Configuration requises
+%=========================================================
+\section{Configuration requise}
+Afin de répondre aux besoins de performances et de rapidité nous devons nous doter de systèmes performants. Le temps d'exécution est un facteur important.
+
+
+
+\subsection{Performances du calculateur}
+\begin{itemize}
+\item Machines de la salle M2 SSI
+\begin{itemize}
+\item 4Go Ram
+\item Intel Core 2 Duo
+\end{itemize}
+\item \'Eventuellement le calculateur du LITIS
+\end{itemize}
+
+
+
+\subsection{Système d'exploitation}
+Pour pouvoir faire marcher le projet, celui-ci devra être supporté par un système stable. Nous avons donc opté pour le système suivant car c'est un LTS qui correspond à nôtre condition.
+\begin{itemize}
+\item Ubuntu serveur 12.04. 
+\end{itemize}
+
+
+%\subsection{Produits logiciels nécessaires}
+
+
+
+
+%=========================================================
+%Architecture statique
+%=========================================================
+\section{Architecture statique}
+Le projet sera réalisé en différents points. 
+\subsection{Structure}
+\begin{itemize}
+\item Le proxy: L'application client-serveur
+\item Le serveur: Site auquel le client veut avoir accès
+\item Les données: Base de données contenant les clés publiques des entités
+\end{itemize}
+
+
+
+
+%=========================================================
+%Description des constituants
+%=========================================================
+\subsection{Description des constituants}
+
+
+
+%% ===  creation et configuration proxy ===
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|r|}{\textbf{Configuration du proxy}}\\
+        \hline
+        R\^ole &  \begin{itemize}\item Déchiffrement et rechiffrement des messages
+        \item Utilisation de protocole SSL/TLS pour la connexion \end{itemize}\\
+        \hline
+        Propriétés et attributs de caractérisation & \begin{itemize} \item Génération et distribution de faux certificats \end{itemize}\\
+        \hline
+        Dépendances avec d'autres constituants & \begin{itemize}\item Client \end{itemize}\\
+        \hline
+        Langages de programmation & \begin{itemize} \item Java \end{itemize}\\
+        \hline
+        Procédé de développement & \begin{itemize}\item Lancement d'un exécutable d'installation \item Configuration des machines (IP, ...) \end{itemize}\\
+        \hline
+        Taille complexité & \begin{itemize}\item 1\% du projet\end{itemize}\\
+        \hline
+        \end{tabularx}
+\end{center}
+
+\subsubsection{Modelisation de la configuration du Proxy}
+
+\begin{tikzpicture}[remember picture,transform shape,scale=0.9]
+\begin{umlseqdiag} 
+\umlactor[class=]{Admin} 
+\umlobject[class=]{Proxy} 
+\umlobject[class=]{Client}
+\umlobject[class=]{Serveur}
+\begin{umlcall}[op={Config()}]{Admin}{Proxy} \end{umlcall}
+\begin{umlcall}[op={RunInstallExec()}]{Admin}{Proxy} 
+\begin{umlcallself}[op={Run()}]{Proxy} \end{umlcallself}
+\end{umlcall}
+\begin{umlcall}[op={ListenTo()}]{Proxy}{Client} \end{umlcall}
+\begin{umlcall}[op={ListenTo()}]{Proxy}{Serveur} \end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+
+
+
+%% === 	installation de l'autorite ===
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|r|}{\textbf{Installation de l'autorité}}\\
+        \hline
+        R\^ole &  \begin{itemize}\item Rendre les faux certificats acceptables par le navigateur web Client\end{itemize}\\
+        \hline
+        Propriétés et attributs de caractérisation & \begin{itemize} \item  Doit \^etre installée dans le navigateur Client \end{itemize}\\
+        \hline
+        Dépendances avec d'autres constituants & \begin{itemize}\item Client\end{itemize}\\
+        \hline
+        Langages de programmation & \begin{itemize} \item  \end{itemize}\\
+        \hline
+        Procédé de développement & \begin{itemize}\item L'administrateur installe directement l'autorité sur le navigateur web du client\end{itemize}\\
+        \hline
+        Taille complexité & \begin{itemize}\item 1\% du projet\end{itemize}\\
+        \hline
+        \end{tabularx}
+\end{center}
+
+\subsubsection{Modelisation de l'installation de l'autorité}
+
+\begin{tikzpicture}[remember picture,transform shape,scale=0.9]
+\begin{umlseqdiag} 
+\umlactor[class=]{Admin} 
+\umlobject[class=]{Client}
+\umlobject[class=]{Proxy} 
+\begin{umlcall}[op={InstallAutority()}]{Admin}{Client} 
+\begin{umlcall}[op={AcceptAutority()}]{Client}{Proxy} \end{umlcall}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+
+
+
+
+%% === 	installation de l'autorite ===
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|r|}{\textbf{Acceptation de l'autorité}}\\
+        \hline
+        R\^ole &  \begin{itemize}\item Rendre les faux certificats acceptables par le navigateur web Client\end{itemize}\\
+        \hline
+        Propriétés et attributs de caractérisation & \begin{itemize} \item Forcer le client à accepter l'autorité \end{itemize}\\
+        \hline
+        Dépendances avec d'autres constituants & \begin{itemize}\item Client\end{itemize}\\
+        \hline
+        Langages de programmation & \begin{itemize} \item  \end{itemize}\\
+        \hline
+        Procédé de développement & \begin{itemize}\item Le client se connecte au Proxy \item Proposition de l'autorité au client \item Le client accepte et installe l'autorité\end{itemize}\\
+        \hline
+        Taille complexité & \begin{itemize}\item 1\% du projet \item Complexité due au fait de faire accepter l'autorité par le Client \end{itemize}\\
+        \hline
+        \end{tabularx}
+\end{center}
+
+
+\subsubsection{Modelisation de l'acceptation de l'autorité}
+
+\begin{tikzpicture}[remember picture,transform shape,scale=0.9]
+\begin{umlseqdiag} 
+\umlactor[class=]{User}
+\umlobject[class=]{Client} 
+\umlobject[class=]{Proxy}
+\begin{umlcall}[op={Click()}]{User}{Client} 
+\begin{umlcall}[op={Connect()}]{Client}{Proxy} 
+\begin{umlcall}[op={ProposeAutority()}]{Proxy}{Client}\end{umlcall}
+\end{umlcall}
+\begin{umlcall}[op={AcceptAutority()}]{Client}{Proxy}\end{umlcall}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+
+
+
+
+
+
+
+
+
+%% ===création de l'autorité ===
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|r|}{\textbf{Utilisation d'une fausse autorité}}\\
+        \hline
+        R\^ole &  \begin{itemize}\item Signer les faux certificats qui seront délivrés au navigateur web du client\end{itemize}\\
+        \hline
+        Propriétés et attributs de caractérisation & \begin{itemize} \item Doit \^etre acceptée par le client \end{itemize}\\
+        \hline
+        Dépendances avec d'autres constituants & \begin{itemize}\item Proxy \item Client (Navigateur web) \end{itemize}\\
+        \hline
+        Langages de programmation & \begin{itemize} \item  \end{itemize}\\
+        \hline
+        Procédé de développement & \begin{itemize}\item Le client se connecte au proxy \item Proposition de l’autorité au client \item Le client compare les hachés MD5 des deux autorités et l’accepte car ils sont égaux \item Le client installe l’autorité
+\end{itemize}\\
+        \hline
+        Taille complexité & \begin{itemize}\item 5\% du projet \item Complexité due à la mise en place de l'autorité\end{itemize}\\
+        \hline
+        \end{tabularx}
+\end{center}
+
+
+
+\subsubsection{Modelisation de l'utilisation d'une fausse autorité}
+
+\begin{tikzpicture}[remember picture,transform shape,scale=0.9]
+\begin{umlseqdiag} 
+\umlactor[class=]{User}
+\umlobject[class=]{Client} 
+\umlobject[class=]{Proxy}
+\begin{umlcall}[op={Click()}]{User}{Client} 
+\begin{umlcall}[op={Connect()}]{Client}{Proxy} 
+\begin{umlcall}[op={ProposeAutority()}]{Proxy}{Client}
+\end{umlcall}
+\end{umlcall}
+\end{umlcall}
+\begin{umlcallself}[op={VerifyHashMD5()}]{Client}\end{umlcallself}
+\begin{umlcallself}[op={AcceptIfVerifyHashMD5OK()}]{Client}\end{umlcallself}
+\begin{umlcallself}[op={InstallAutority()}]{Client}\end{umlcallself}
+\end{umlseqdiag} 
+\end{tikzpicture}
+
+
+
+
+%% === generation des certificats ===
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|r|}{\textbf{Génération des certificats}}\\
+        \hline
+        R\^ole &  \begin{itemize}\item Délivrer au navigateur web Client des faux certificats\end{itemize}\\
+        \hline
+        Propriétés et attributs de caractérisation & \begin{itemize} \item Doit être reconnu comme valide \end{itemize}\\
+        \hline
+        Dépendances avec d'autres constituants & \begin{itemize}\item navigateur web Client\end{itemize}\\
+        \hline
+        Langages de programmation & \begin{itemize} \item  \end{itemize}\\
+        \hline
+        Procédé de développement & \begin{itemize}\item Interception du certificat lors de la tentative de connexion d'un client sur un serveur \item Forge d'un nouveau certificat semblable en tout point à celui émit par le client. Seule la clé publique du serveur est remplacée par celle du proxy
+\end{itemize}\\
+        \hline
+        Taille complexité & \begin{itemize}\item 22\% du projet \item Complexité due à la rapidité d'exécution d'une génération de certificats à la volée\end{itemize}\\
+        \hline
+        \end{tabularx}
+\end{center}
+
+
+
+\subsubsection{Modelisation de la génération des certificats}
+
+\begin{tikzpicture}[remember picture,transform shape,scale=0.85]
+\begin{umlseqdiag} 
+\umlactor[class=]{User}
+\umlobject[class=]{Client} 
+\umlobject[class=]{Proxy}
+\umlobject[class=]{Serveur}
+\begin{umlcall}[op={Click()}]{User}{Client} \end{umlcall}
+\begin{umlcall}[op={InterceptConnectSrv()}]{Client}{Proxy}
+\begin{umlcall}[op={SendConnectSrv()}]{Proxy}{Serveur}
+\begin{umlcall}[op={InterceptSendCertificateSrv()}]{Serveur}{Proxy}
+\end{umlcall}
+\end{umlcall}
+\end{umlcall}
+\begin{umlcallself}[op={CreateNewCertificate()}]{Proxy}\end{umlcallself}
+\begin{umlcallself}[op={SignNewCertificate()}]{Proxy}\end{umlcallself}
+\begin{umlcall}[op={SendCertificateProx()}]{Proxy}{Client}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+
+
+%% === transchiffrement ===
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|r|}{\textbf{Transchiffrement HTTPS}}\\
+        \hline
+        R\^ole &  \begin{itemize}\item Déchiffrer et rechiffrer les paquets lors d'une tentative de connexion sécurisée entre le Client et le Serveur\end{itemize}\\
+        \hline
+        Propriétés et attributs de caractérisation & \begin{itemize} \item Rapide \item Non détectable\end{itemize}\\
+        \hline
+        Dépendances avec d'autres constituants & \begin{itemize}\item Serveur \item Client\end{itemize}\\
+        \hline
+        Langages de programmation & \begin{itemize} \item Java \end{itemize}\\
+        \hline
+        Procédé de développement & \begin{itemize}\item Détection d'une demande de connexion chiffrée du client vers le serveur \item Interception de la requête et déchiffrement de celle-ci \item Log de la requête (éventuellement)\item Rechiffrement de la requête pour le serveur
+\item Envoi de cette requête au serveur \item Réception de la réponse chiffrée \item Déchiffrement de la réponse \item Log de la réponse (éventuellement)\item Rechiffrement de la réponse \item Envoi de la réponse au client 
+        \end{itemize}\\
+        \hline
+        Taille complexité & \begin{itemize}\item 25\% du projet \item Complexité due à la rapidité d'exécution du transchiffrement \end{itemize}\\
+        \hline
+        \end{tabularx}
+\end{center}
+
+
+
+\subsubsection{Modelisation du transchiffrement HTTPS}
+
+\begin{tikzpicture}[remember picture,transform shape,scale=0.9]
+\begin{umlseqdiag} 
+\umlactor[class=]{User}
+\umlobject[class=]{Client} 
+\umlobject[class=]{Proxy}
+\umlobject[class=]{Serveur}
+\begin{umlcall}[op={Click()}]{User}{Client} \end{umlcall}
+\begin{umlcall}[op={InterceptConnectSrvSec()}]{Client}{Proxy} 
+\begin{umlcallself}[op={LogConnection()}]{Proxy}\end{umlcallself}
+\begin{umlcallself}[op={DecryptRequestKeyPubCli()}]{Proxy}\end{umlcallself}
+\begin{umlcallself}[op={EncryptRequestKeyPrivProx()}]{Proxy}\end{umlcallself}
+\begin{umlcall}[op={SendRequest()}]{Proxy}{Serveur} \end{umlcall}
+\begin{umlcall}[op={InterceptAnswer()}]{Serveur}{Proxy} \end{umlcall}
+\begin{umlcallself}[op={LogAnswer()}]{Proxy}\end{umlcallself}
+\begin{umlcallself}[op={DecryptRequestKeyPubSrv()}]{Proxy}\end{umlcallself}
+\begin{umlcallself}[op={EncryptRequestKeyPrivProx()}]{Proxy}\end{umlcallself}
+\begin{umlcall}[op={SendAnswer()}]{Proxy}{Client} \end{umlcall}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+
+
+%% === transchiffrement HTTP ===
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|r|}{\textbf{Transchiffrement HTTP}}\\
+        \hline
+        R\^ole &  \begin{itemize}\item Transferts des paquets lors d'une tentative de connexion entre le Client et le Serveur \end{itemize}\\
+        \hline
+        Propriétés et attributs de caractérisation & \begin{itemize} \item Rapide \item Non détectable\end{itemize}\\
+        \hline
+        Dépendances avec d'autres constituants & \begin{itemize}\item Serveur \item Client\end{itemize}\\
+        \hline
+        Langages de programmation & \begin{itemize} \item Java \end{itemize}\\
+        \hline
+        Procédé de développement & \begin{itemize}\item Détection d'une demande de connexion du client vers le serveur \item Interception et transfert de la requête au serveur \item Récepion de la reponse du Serveur \item Envoi de la réponse au Client
+        \end{itemize}\\
+        \hline
+        Taille complexité & \begin{itemize}\item 5\% du projet  \end{itemize}\\
+        \hline
+        \end{tabularx}
+\end{center}
+
+
+
+
+\subsubsection{Modelisation du transchiffrment HTTP}
+
+\begin{tikzpicture}[remember picture,transform shape,scale=0.9]
+\begin{umlseqdiag} 
+\umlactor[class=]{User}
+\umlobject[class=]{Client} 
+\umlobject[class=]{Proxy}
+\umlobject[class=]{Serveur}
+\begin{umlcall}[op={Click()}]{User}{Client} \end{umlcall}
+\begin{umlcall}[op={InterceptConnectServeur()}]{Client}{Proxy}
+\begin{umlcall}[op={TransfertRequestToSrv()}]{Proxy}{Serveur} \end
+{umlcall}
+\begin{umlcall}[op={InterceptAnswerSrv()}]{Serveur}{Proxy} \end
+{umlcall}
+\begin{umlcall}[op={Send()}]{Proxy}{Client} \end{umlcall}
+\end{umlcall}
+\end{umlseqdiag} 
+\end{tikzpicture}
+
+
+
+
+
+%% === forge d'une fausse autorité ===
+\begin{center}
+        \vspace*{0.7cm}
+        \begin{tabularx}{16cm}{|l|X|}
+        \hline
+        \multicolumn{2}{|r|}{\textbf{\'Etude de la forge d'une fausse autorité}}\\
+        \hline
+        R\^ole &  \begin{itemize}\item Forger un certificat d'autorité ayant le même haché qu'un certificat existant  \end{itemize}\\
+        \hline
+        Propriétés et attributs de caractérisation & \begin{itemize} \item Non détectable \item La signature rendant valide le certificat choisi sera également valide sur notre faux certificat. \end{itemize}\\
+        \hline
+        Dépendances avec d'autres constituants & \begin{itemize}\item  \end{itemize}\\
+        \hline
+        Langages de programmation & \begin{itemize} \item Java / Langages de scripts \end{itemize}\\
+        \hline
+        Procédé de développement & \begin{itemize}\item Étude du protocole MD5 et des attaques \item Recherche comment modifier un certificat(champs, signature...) de façon à garder le même haché \end{itemize}\\
+        \hline
+        Taille complexité & \begin{itemize}\item 40\% du projet \item Complexité du à l'étude de l'algorithme MD5 et de la recherche de collisions\end{itemize}\\
+        \hline
+        \end{tabularx}
+\end{center}
+
+
+\newpage
+\section{\'Etude de collision MD5}
+
+Avec le développement de l'informatique, nous nous retrouvons avec une grande quantité de données à gérées. Ces données peuvent \^etre sensible. Il faut donc s'assurer que lors des communications, elle ne puissent pas tomber entre les mains de personnes non concernées.\\
+
+Pour cela, les systèmes de sécurité ont été développé. Tout d'abord \begin{itemize}
+\item Le système symétrique: qui permet le chiffrement et le déchiffrement d'un message gr\^ace à une m\^eme clé  entre communiquants.
+\item Le système asymétrique: qui permet une communication entre deux communiquants en utilisant une paire de clé: la première permettant le chiffrement, la seconde le déchiffrement. La connaissance de l'une ne permettant pas de retrouver la seconde.
+\end{itemize}
+\vspace{.5cm}
+Malgré cela, il est toujours possible pour un intrus de modifier un message circulant entre deux communicants. Pour ce garantir de l'intégrité des messages on utilise les fonctions de hachages.
+
+\subsection{Les fonctions de hachages}
+Une fonction de hachage est une fonction à sens unique.
+
+\begin{displaymath}
+f:
+\left|
+  \begin{array}{rcl}
+    \mathbf{E} & \longrightarrow &\mathbf{F} \\
+    x & \longmapsto & f(x) \\
+  \end{array}
+\right.
+\end{displaymath}
+
+La particularité de cette fonction est que connaissant f(x), il est difficile de retrouvé x mais connaissant x il est facile de calculer f(x).
+
+\subsection{Présentation de MD5}
+
+%%==============================
+
+\end{document}
