@@ -1,0 +1,164 @@
+\documentclass[a4paper,11pt,french]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel} 
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, includeheadfoot]{geometry} %pour les marges
+\usepackage{lmodern}
+\usepackage{pict2e}
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{tabularx, longtable}
+\usepackage{color, colortbl}
+\usepackage{lscape}
+%\usepackage[hidelinks]{hyperref}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{rotating}
+%\usepackage{pgfgantt}
+%\usepackage{pgfcalendar}
+%\usepackage{ifthen}
+\usepackage{gensymb}
+
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
+\rhead{\includegraphics[width=10em]{../../images/logo_univ.png}}
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ / \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength{\headheight}{40pt}
+
+\newcommand{\hmwkTitle}{Transchiffrement} % Assignment title
+\newcommand{\hmwkClass}{Master 2 SSI } % Course/class
+\newcommand{\hmwkAuthorName}{Émile GÉNÉRAT} % Your name
+\newcommand{\hmwkSubject}{Conduite de projet} % Subject
+\newcommand{\hmwkDocName}{Compte-rendu Audit 23 janvier 2014} % Document name
+
+\newcommand{\version}{1.0} % Document version
+\newcommand{\docDate}{25 janvier 2014} % Document date
+\newcommand{\checked}{Yves NOUAFO} % Checker name
+
+\makeatletter
+\newcommand{\resettranslate}{\let\translate\@firstofone}
+\makeatother
+
+\definecolor{gris}{rgb}{0.95, 0.95, 0.95}
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass :\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+\vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{} % Insert date here if you want it to appear below your name
+
+
+\usepackage{amsmath}
+\begin{document}
+\newcount\startdate
+\newcount\daynum
+%\pgfcalendardatetojulian{2013-01-021}{\startdate}
+\pagestyle{fancy}
+
+\vspace*{5cm}
+\begin{center}\textbf{\Huge{\hmwkDocName}}\end{center}
+\vspace*{4.5cm}
+	
+
+\fcolorbox{black}{gris}{
+\begin{minipage}{15cm}
+\begin{tabularx}{10cm}{lXl}
+	\bfseries{Version} & & \version\\
+	& & \\
+	\bfseries{Date} & & \docDate\\
+	& & \\
+	\bfseries{Rédigé par} & & \hmwkAuthorName \\
+	& & \\
+	\bfseries{Relu par} & & \checked \\
+	& & \\
+\end{tabularx}
+\end{minipage}
+}
+
+\newpage
+
+%Tableau de mises à jour
+
+
+%La table des matières
+%\clearpage
+%\tableofcontents
+%\clearpage
+
+\section{Gestion de projet}
+
+\begin{itemize}
+\item Pour faire une présentation générale du projet, il faut présenter :
+\begin{itemize}
+\item la charge consommée;
+\item les ressources disponibles (par exemple un étudiant est absent sur une longue durée);
+\item les délais à tenir (et la disponibilité du client à ces échéances).
+\end{itemize}
+\item Dans l'état actuel, le Gantt ne permet pas de mesurer l'avancement réel (pourcentage d'avancement et consommation de ressources).
+\item Il faut mettre en valeur les dates de livraisons sous forme de jalon.
+\item Si l'outil pour générer les Gantt n'est pas satisfaisant, il faut en utiliser un autre (par exemple Gantter project).
+\item L'équipe propose d'organiser le projet sur un cycle en V. Un des avantages est de permettre de concentrer les tâches de tests en une seule période, et éviter une phase de tests et livraison chaque 2/3 semaines.
+Un problème de traçabilité est soulevé, il n'y a pas de trace des discussions qui ont eu lieu avec le client dans le compte-rendu du 23 janvier.
+Pour remédier à la situation, il faut envoyer un mail explicatif au client, pour présenter le lotissement proposé, ainsi qu'une planification des démonstrations (\textit{roadmap}).
+Le but est de rassurer le client, et de minimiser le risque de demande de modification.
+
+Il faudra probablement justifier ce choix lors de la présentation du projet.
+\item La charge pour les tests doit se situer entre 20 et 30\% de la charge de développement, ce qui est le cas.
+\item  Le document interne pour suivre les actions à faire (hors Gantt) pourrait être au format tableur, pour pouvoir filtrer les tâches par nom.
+\item Actuellement les deux livraisons partielles ont lieu le même jour, il ne faut faire apparaître qu'une tâche dans le Gantt
+\end{itemize}
+
+\section{Remarques sur les documents}
+\subsection{STB}
+La STB sert de lien entre tous les documents, jusqu'au PDD.
+Il faut rédiger une annexe pour présenter tous les concepts utiles que nous avons pour commencer le projet.
+
+\subsection{ADR}
+\begin{itemize}
+\item Il faut présenter avec des phrases l'évaluation de la gravité et de la criticité des risques.
+\item Il faut numéroter les fiches de risque.
+\item L'état d'un risque non avéré doit être à inactif. Si il est actif, c'est que l'on a commencé les actions correctives.
+\item Il faut ré-évaluer la criticité des modifications demandées par le client.
+\item Il faut préciser le rôle du pilote de risque : il doit suivre les actions mises en place, et s'assurer qu'elles sont suffisantes. Si ce n'est pas le cas, il doit en mettre en place de nouvelles.
+
+Le déroulement des actions en cours doit se faire en communiquant avec le client.
+\end{itemize}
+
+\paragraph{Risque \no 8 : Modification du Cahier des Charges}
+\begin{itemize}
+\item Il faut envoyer un mail au client pour lui confirmer que nous avons pris en compte ses remarques, la charge estimée de la correction (et si nécessaire renégocier le planning si les modifications demandées sont importantes).
+\item Les actions correctives doivent être améliorées.
+\end{itemize}
+
+\paragraph{Risque \no 2 : Insatisfaction du client}
+\begin{itemize}
+\item Il faut davantage d'actions correctives.
+\item Il faut préciser la communication avec le client dans les étapes, pour lui montrer que la situation est sous contrôle, et pouvoir prendre en compte ses remarques chaque jour, si la situation le requiert.
+\end{itemize}
+
+\section{Actions}
+\begin{itemize}
+\item Il faut envoyer les différents comptes-rendus à l'auditeur en surlignant les mises à jour par rapport à la version précédente.
+\end{itemize}
+
+Le prochain audit aura lieu autour du 21 février.
+
+
+\end{document}

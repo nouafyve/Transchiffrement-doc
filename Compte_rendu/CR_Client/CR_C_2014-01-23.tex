@@ -28,7 +28,7 @@
 % Set up the header and footer
 \pagestyle{fancy}
 \lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
-\rhead{\includegraphics[width=10em]{logo_univ.png}}
+\rhead{\includegraphics[width=10em]{../../images/logo_univ.png}}
 \lfoot{\lastxmark} % Bottom left footer
 \cfoot{} % Bottom center footer
 \rfoot{Page\ \thepage\ / \pageref{LastPage}} % Bottom right footer
@@ -41,11 +41,7 @@
 \newcommand{\hmwkClass}{Master 2 SSI } % Course/class
 \newcommand{\hmwkAuthorName}{Jean-Baptiste Souchal} % Your name
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
-\newcommand{\hmwkDocName}{Compte rendu audit 20/12/13} % Document name
-
-\newcommand{\version}{1.0} % Document version
-\newcommand{\docDate}{20 Décembre 2013} % Document date
-\newcommand{\checked}{Julien Bourdon} % Checker name
+\newcommand{\hmwkDocName}{Compte rendu réunion 23/01/14} % Document name
 
 \makeatletter
 \newcommand{\resettranslate}{\let\translate\@firstofone}
@@ -64,7 +60,6 @@
 \author{\hmwkAuthorName}
 \date{} % Insert date here if you want it to appear below your name
 
-
 \usepackage{amsmath}
 \begin{document}
 \newcount\startdate
@@ -75,22 +70,6 @@
 \vspace*{5cm}
 \begin{center}\textbf{\Huge{\hmwkDocName}}\end{center}
 \vspace*{4.5cm}
-	
-
-\fcolorbox{black}{gris}{
-\begin{minipage}{15cm}
-\begin{tabularx}{10cm}{lXl}
-	\bfseries{Version} & & \version\\
-	& & \\
-	\bfseries{Date} & & \docDate\\
-	& & \\
-	\bfseries{Rédigé par} & & \hmwkAuthorName \\
-	& & \\
-	\bfseries{Relu par} & & \checked \\
-	& & \\
-\end{tabularx}
-\end{minipage}
-}
 
 \newpage
 
@@ -102,47 +81,39 @@
 %\tableofcontents
 %\clearpage
 
-Liste des remarques à prendre en compte:
+\section{Personnes présentes :}
 \begin{itemize}
-  \item lister les tâches à suivre suite à chaque réunion
-  \item avancer sur les documents pour le prochain audit de projet
-  \item mettre dans la STB une liste des exigences du client
-  \item mettre les études sur la partie MD5 dans la STB
-  \item mettre un code sur chaque livrable pour le reporter sur les autres 
-  documents (mettre en place une convention)
-  \item faire valider les études par le client
-  \item détailler chaque donnée utilisée (surtout pour la partie recherche MD5)
-  \item exigence de qualité
+  \item Magali Bardet
+  \item Emile Générat
+  \item Julien Bourdon
+  \item Yves Nouafo
+  \item Ouissem Hamdani
+  \item Jean-Baptiste Souchal
 \end{itemize}
-~~\\
-CDR:
-~~\\
+
+\section{Sujets abordés :}
 \begin{itemize}
-  \item modification des responsabilités
-  \item détailler le testeur, qui vérifie les tests ...
-  \item définir l'environnement de test (Linux, Windows ...), navigateur ...
+  \item Etude sur l'acceptation d'une autorité par une personne.
+  \item Les différentes méthodes envisagées pour faire accepter une autorité à 
+  une personne (création d'un rapport d'analyse).
+  \item S'inspirer du site igc.services.cnrs.fr pour faire accepter une 
+  autorité.
+  \item Justifier les choix techniques dans tous les documents de projet.
+  \item STB : ajouter le détail du temps de réponse de la connexion causé par le proxy.
+  \item PDD : lotissement - ajouter la mise en oeuvre de la forge de certificats MD5.
+  \item Prévoir une présentation de l'ancement technique du projet toutes les semaines lors de la réunion avec le client.
+  \item Documenter la génération de l'autorité ainsi que du certificat généré à la volée lors du transchiffrement.
+  \item Réaliser une copie du flux arrivant sur le proxy, utilisation d'un fichier de log (avec effacement des logs selon une politique à définir), éventuellement transmis à un IDS (facultatif).
+  \item Commencer à faire une recherche de collision MD5 simple dans un premier temps.
 \end{itemize}
-~~\\
-DAL:
-~~\\
+
+\section{Actions à prévoir pour la réunion de la semaine prochaine :}
 \begin{itemize}
-  \item détailler les cas d'utilisation
-  \item finir les diagrammes de séquence
-  \item utiliser des classes dans les diagrammes (puisque c'est un projet Java)
+  \item Avancement sur la recherche de collision MD5.
+  \item Collision MD5 simple.
+  \item Présentation de l'avancement technique de l'application proxy.
 \end{itemize}
-~~\\
-PDD:
-~~\\
-\begin{itemize}
-  \item faire un schéma sur l'interaction entre les acteurs principaux du projet
-  \item développer l'introduction
-  \item expliquer les besoins du cassage SSL, dans quel contexte (attaque par https...)
-\end{itemize}
-~~\\
-STB:
-~~\\
-\begin{itemize}
-  \item projet en 2 parties, faire la séparation dans la STB
-  \item mettre à jour les terminologies et les règles utilisées
-\end{itemize}
+~\\
+La prochaine réunion est prévue le jeudi 30 à 15h30.
+
 \end{document}

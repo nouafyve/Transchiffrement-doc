@@ -27,7 +27,7 @@
 % Set up the header and footer
 \pagestyle{fancy}
 \lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
-\rhead{\includegraphics[width=10em]{logo_univ.png}}
+\rhead{\includegraphics[width=10em]{../images/logo_univ.png}}
 \lfoot{\lastxmark} % Bottom left footer
 \cfoot{} % Bottom center footer
 \rfoot{Page\ \thepage\ / \pageref{LastPage}} % Bottom right footer
@@ -38,13 +38,13 @@
 
 \newcommand{\hmwkTitle}{Transchiffrement} % Assignment title
 \newcommand{\hmwkClass}{Master 2 SSI } % Course/class
-\newcommand{\hmwkAuthorName}{Julien Bourdon} % Your name
+\newcommand{\hmwkAuthorName}{Julien BOURDON} % Your name
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Spécification Technique du Besoin} % Document name
 
-\newcommand{\version}{1.0} % Document version
-\newcommand{\docDate}{27 novembre 2011} % Document date
-\newcommand{\checked}{} % Checker name
+\newcommand{\version}{1.1} % Document version
+\newcommand{\docDate}{22 janvier 2014} % Document date
+\newcommand{\checked}{Émile GÉNÉRAT} % Checker name
 \newcommand{\approved}{} % Approver name
 
 \makeatletter
@@ -107,7 +107,7 @@
 	\hline
 	1.0 & 27/11/2013 & Création\\
 	\hline
-	1.1 & 20/01/2014 & Prise en compte des remarques suite aux réunions client et à l'audit.\\
+	1.1 & 22/01/2014 & Prise en compte des remarques suite aux réunions client et à l'audit.\\
 	\hline
 	\end{tabularx}
 \end{center}
@@ -447,7 +447,8 @@ Description du flot d'évènements principal :
 
 9. Déchiffrement de la réponse
 
-10. Log de la réponse
+10. Log de la réponse\\
+\hline
 \end{tabular}
 
 
@@ -504,6 +505,8 @@ Nous allons donc livrer un rapport d'étude pour expliquer notre démarche pour 
 
 \section{Performances}
 Pour que notre proxy soit considéré comme "transparent", nous devons remplir des contraintes de temps d'exécution du transchiffrement.
+
 On s'autorise donc une seconde de marge pour toute page générée très rapidement et jusqu'à 200\% du temps pour une page contenant un volume conséquent de données.
 
+Ces valeurs sont valables une fois que la connexion est établie. Lors de la première connexion d'un client à un serveur, il faut d'abord générer dynamiquement un certificat, et une clé de session.
 \end{document}

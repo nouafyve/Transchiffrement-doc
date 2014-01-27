@@ -1,0 +1,4 @@
+proxy.0.sourceAddr=localhost
+proxy.0.sourcePort=3129
+proxy.0.destAddr=192.168.34.62
+proxy.0.destPort=3128

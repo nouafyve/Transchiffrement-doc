@@ -6,8 +6,7 @@
 \usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, includeheadfoot]{geometry} %pour les marges
 \usepackage{lmodern}
 \usepackage{pict2e}
-\usepackage{tikz}	
-\usepackage{tikz-uml}
+
 \usepackage{fancyhdr} % Required for custom headers
 \usepackage{lastpage} % Required to determine the last page for the footer
 \usepackage{extramarks} % Required for headers and footers
@@ -23,16 +22,14 @@
 %\usepackage{pgfcalendar}
 %\usepackage{ifthen}
 \usepackage{gensymb}
-\usepgflibrary{arrows} % for pgf-umlsd
 
-\usetikzlibrary{trees,shapes.geometric,arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains	}
 
 \linespread{1.1} % Line spacing
 
 % Set up the header and footer
 \pagestyle{fancy}
 \lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
-\rhead{\includegraphics[width=10em]{logo_univ.png}}
+\rhead{\includegraphics[width=10em]{../images/logo_univ.png}}
 \lfoot{\lastxmark} % Bottom left footer
 \cfoot{} % Bottom center footer
 \rfoot{Page\ \thepage\ / \pageref{LastPage}} % Bottom right footer
@@ -43,13 +40,13 @@
 
 \newcommand{\hmwkTitle}{Transchiffrement} % Assignment title
 \newcommand{\hmwkClass}{Master 2 SSI } % Course/class
-\newcommand{\hmwkAuthorName}{Emile Générat} % Your name
+\newcommand{\hmwkAuthorName}{Emile GÉNÉRAT} % Your name
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Analyse des Risques} % Document name
 
-\newcommand{\version}{1.0} % Document version
-\newcommand{\docDate}{13 Décembre 2013} % Document date
-\newcommand{\checked}{} % Checker name
+\newcommand{\version}{1.1} % Document version
+\newcommand{\docDate}{22 Janvier 2014} % Document date
+\newcommand{\checked}{Julien BOURDON} % Checker name
 \newcommand{\approved}{} % Approver name
 
 \makeatletter
@@ -112,6 +109,8 @@
 	\hline
 	1.0 & 13/12/2013 & Création\\
 	\hline
+	1.1 & 22/01/2014 & Modification pour prise en compte des remarques du Client et de l'audit \\
+	\hline
 	\end{tabularx}
 \end{center}
 
@@ -124,12 +123,46 @@
 \newpage
 \section{Documents de référence}
 \begin{itemize}
-\item Plan de Développement v1.0
+\item Plan de Développement v1.1
 \end{itemize}
 
 
 \newpage
 \section{Portefeuille de risques}
+
+\subsection*{Évaluation des risques}
+
+\begin{table}[!h]
+\begin{tabular}{|>{\centering\arraybackslash}m{4.5cm}|l|}
+\hline
+\multirow{4}*{Indice de gravité} & 1 : faible conséquence sur l'appréciation du client \\
+ & 2 : conséquence significative sur l'appréciation du client \\
+ & 3 : conséquence importante sur l'appréciation du client \\
+ & 4 : mécontentement assuré du client \\
+\hline
+\multirow{4}*{Indice de probabilité} & 1 : très peu probable (P < 5\%) \\
+ & 2 : peu probable  (5\% < P < 20\%) \\
+ & 3 : probable  (20\% < P < 50\%) \\
+ & 4 : très probable  (P > 50\%)\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!h]
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Probabilité/Gravité & 1 & 2 & 3 & 4 \\
+\hline
+1 & \cellcolor{green} acceptable & \cellcolor{green} acceptable & \cellcolor{green} acceptable & \cellcolor{yellow} à surveiller \\
+\hline
+2 & \cellcolor{green} acceptable & \cellcolor{green} acceptable & \cellcolor{yellow} à surveiller & \cellcolor{red} critique \\
+\hline
+3 & \cellcolor{green} acceptable & \cellcolor{yellow} à surveiller & \cellcolor{red} critique & \cellcolor{red} critique \\
+\hline
+4 & \cellcolor{green} acceptable & \cellcolor{red} critique & \cellcolor{red} critique & \cellcolor{red} critique\\
+\hline
+\end{tabular}
+\end{table}
 
 \begin{landscape}
 
@@ -145,21 +178,21 @@ Numéro & Risque & Date de création & Pilote & Catégorie \footnotemark[1] & In
 \hline
 
 \endhead
-n01 & Ne pas livrer le client à temps & 13/12/2013 &  & Planning & 1 & 3 & A surveiller \\
+n01 & Ne pas livrer le client à temps & 13/12/2013 & Émile GÉNÉRAT & Planning & 1 & 3 & Acceptable \\
 \hline
-n02 & Insatisfaction du client & 13/12/2013 & & Planning & 1 & 4 &  Critique \\
+n02 & Insatisfaction du client & 13/12/2013 & Émile GÉNÉRAT & Planning & 1 & 4 &  À surveiller \\
 \hline
-n03 & Retard, algorithme prêt trop tard & 13/12/2013 & & Planning & 1 & 3 & A surveiller \\
+n03 & Retard, algorithme prêt trop tard & 13/12/2013 & Émile GÉNÉRAT & Planning & 3 & 2 & À surveiller \\
 \hline
-n04 & Niveau technique insuffisant & 13/12/2013 &  &  Compétence & 1 & 2 & Acceptable \\
+n04 & Niveau technique insuffisant & 13/12/2013 & Jean-Baptiste SOUCHAL &  Compétence & 1 & 2 & Acceptable \\
 \hline
-n05 & Implication insuffisante, ou absences & 13/12/2013 &  & Planning & 1 & 3 & A surveiller \\
+n05 & Implication insuffisante, ou absences & 13/12/2013 & Julien BOURDON & Planning & 1 & 3 & Acceptable \\
 \hline
-n06 & Perte des données du projet & 13/12/2013 &  & Technique & 1 & 4 & Critique \\
+n06 & Perte des données du projet & 13/12/2013 & Yves NOUAFO & Technique & 1 & 4 & À surveiller \\
 \hline
-n07 & Performances insuffisantes (transchiffrement trop long) & 13/12/2013 &  & Technique & 1 & 3 & A surveiller \\
+n07 & Performances insuffisantes (transchiffrement trop long) & 13/12/2013 & Ouissem HAMDANI & Technique & 1 & 3 & Acceptable \\
 \hline
-n08 & Modification du Cahier des Charges & 13/12/2013 &  & Technique & 2 & 2 & Acceptable \\
+n08 & Modification du Cahier des Charges & 13/12/2013 & Julien BOURDON & Technique & 2 & 2 & Acceptable \\
 \hline
 
 \end{longtable}
@@ -178,9 +211,9 @@ n08 & Modification du Cahier des Charges & 13/12/2013 &  & Technique & 2 & 2 & A
 \hline
  Intitulé du risque & Ne pas livrer le client à temps \\
 \hline
- Description du risque & Un dérapage sur le planning ne nous permet pas de rendre tous les livrables au moment voulu  \\
+ Description du risque & Des retards sur le projet empêchent de livrer les lots selon le planning prévu. \\
 \hline
-Pilote du risque &  \\
+Pilote du risque & Émile GÉNÉRAT \\
 \hline
 \end{tabular}
 \end{center}
@@ -192,7 +225,7 @@ Indice de gravité & 3 &Date de début d'effet& Début de la conception \\
 \hline
 Indice de probabilité & 1 & Date de fin d'effet & Fin du projet\\
 \hline
-Criticité \footnotemark[1] & À surveiller & Découvreur & \\
+Criticité \footnotemark[1] & Acceptable &  & \\
 \hline
 État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Planning\\
 \hline
@@ -204,7 +237,7 @@ Criticité \footnotemark[1] & À surveiller & Découvreur & \\
 \hline
 \rowcolor[gray]{.8} Actions préventives & Description\\
 \hline
- Réunions quotidiennes & Pour ne pas déborder du planning, cette réunion nous permettra de ne pas nous éparpiller \\
+ Réunions quotidiennes & Pour ne pas déborder du planning, cette réunion nous permettra de présenter l'avancement de la journée, et ce qui a été réalisé. \\
 \hline
 \end{tabular}
 \end{center}
@@ -214,24 +247,12 @@ Criticité \footnotemark[1] & À surveiller & Découvreur & \\
 \hline
 \rowcolor[gray]{.8} Actions correctives & Description\\
 \hline
-%\aRemplir{Nom de l'action} & \aRemplir{Lister les actions corrective en étant le plus précis possible} \\
-Abandonner une fonctionnalité optionnelle & Pour ne pas dépasser le temps imparti, une fonctionnalité optionnelle non-finalisée nous permettra de nous focaliser sur le sujet principal \\
+Redéfinir le pérmètre du projet & Si le temps n'est pas suffisant pour terminer le projet, nous devrons nous concerter avec le client pour redéfinir les fonctionnalités minimales attendues.\\
 \hline
 \end{tabular}
 \end{center}
 
-\begin{center}
-\begin{tabular}{|m{2.6cm}|m{5cm}|m{3.8cm}|m{3.8cm}|}
-\hline
-\multicolumn{4}{|>{\columncolor[gray]{.8}}c|}{Suivi du risque} \\
-\hline
-\hline
-\rowcolor[gray]{.8} Date & Description & Signature du pilote de risque & Signature du Chef de Projet \\
-\hline
- &  &  & \\
-\hline
-\end{tabular}
-\end{center}
+
 
 \footnotetext[1]{Acceptable / À surveiller / Critique}
 \footnotetext[2]{Actif / Inactif}
@@ -246,9 +267,9 @@ Abandonner une fonctionnalité optionnelle & Pour ne pas dépasser le temps impa
 \hline
  Intitulé du risque &  Insatisfaction du client\\
 \hline
- Description du risque & Malgré la finition du projet, le rendu n'est pas ce à quoi s'attendait le client  \\
+ Description du risque & Malgré la finition du projet, le rendu n'est pas conforme aux attentes du client. \\
 \hline
-Pilote du risque &  \\
+Pilote du risque &  Émile GÉNÉRAT \\
 \hline
 \end{tabular}
 \end{center}
@@ -256,11 +277,11 @@ Pilote du risque &  \\
 \begin{center}
 \begin{tabular}{|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|}
 \hline
-Indice de gravité & 1 &Date de début d'effet& Début de la conception \\
+Indice de gravité & 4 &Date de début d'effet& Début de la conception \\
 \hline
-Indice de probabilité & 4 & Date de fin d'effet & Fin du projet\\
+Indice de probabilité & 1 & Date de fin d'effet & Fin du projet\\
 \hline
-Criticité \footnotemark[1] & Critique & Découvreur & \\
+Criticité \footnotemark[1] & À surveiller &  & \\
 \hline
 État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Planning\\
 \hline
@@ -272,7 +293,7 @@ Criticité \footnotemark[1] & Critique & Découvreur & \\
 \hline
 \rowcolor[gray]{.8} Actions préventives & Description\\
 \hline
-Réunions hebdomadaires avec le client & Pour éviter de partir dans la mauvaise direction, ces réunions avec le client nous aideront à respecter ses attentes \\
+Réunions hebdomadaires avec le client & Pour éviter de partir dans une mauvaise direction, ces réunions avec le client nous aideront à respecter ses attentes \\
 \hline
 \end{tabular}
 \end{center}
@@ -282,24 +303,12 @@ Réunions hebdomadaires avec le client & Pour éviter de partir dans la mauvaise
 \hline
 \rowcolor[gray]{.8} Actions correctives & Description\\
 \hline
-%\aRemplir{Nom de l'action} & \aRemplir{Lister les actions corrective en étant le plus précis possible} \\
-&\\
+Correction de la livraison & Prendre en compte les remarques du client pendant la période de correction. \\
 \hline
 \end{tabular}
 \end{center}
 
-\begin{center}
-\begin{tabular}{|m{2.6cm}|m{5cm}|m{3.8cm}|m{3.8cm}|}
-\hline
-\multicolumn{4}{|>{\columncolor[gray]{.8}}c|}{Suivi du risque} \\
-\hline
-\hline
-\rowcolor[gray]{.8} Date & Description & Signature du pilote de risque & Signature du Chef de Projet \\
-\hline
- &  &  & \\
-\hline
-\end{tabular}
-\end{center}
+
 
 \footnotetext[1]{Acceptable / À surveiller / Critique}
 \footnotetext[2]{Actif / Inactif}
@@ -312,9 +321,9 @@ Réunions hebdomadaires avec le client & Pour éviter de partir dans la mauvaise
 \hline
  Intitulé du risque &  Retard, algorithme prêt trop tard\\
 \hline
- Description du risque & L'algorithme de recherche n'a pas été fini assez tôt à cause de sa complexité, ce qui n'a pas pu donner lieu à un résultat que nous aurions voulu utiliser.  \\
+ Description du risque & L'algorithme de recherche est prêt trop tard, et le temps d'exécution est trop court pour produire des résultats.  \\
 \hline
-Pilote du risque &  \\
+Pilote du risque & Émile GÉNÉRAT \\
 \hline
 \end{tabular}
 \end{center}
@@ -322,11 +331,11 @@ Pilote du risque &  \\
 \begin{center}
 \begin{tabular}{|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|}
 \hline
-Indice de gravité & 1 &Date de début d'effet& Début de la conception \\
+Indice de gravité & 2 &Date de début d'effet& Début de la conception \\
 \hline
 Indice de probabilité & 3 & Date de fin d'effet & Fin du projet\\
 \hline
-Criticité \footnotemark[1] & A surveiller & Découvreur & \\
+Criticité \footnotemark[1] & À surveiller & & \\
 \hline
 État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Planning\\
 \hline
@@ -338,7 +347,7 @@ Criticité \footnotemark[1] & A surveiller & Découvreur & \\
 \hline
 \rowcolor[gray]{.8} Actions préventives & Description\\
 \hline
-Réunions hebdomadaires avec le client & Pour éviter de partir dans la mauvaise direction, ces réunions avec le client nous aideront à respecter ses attentes \\
+Réunions hebdomadaires avec le client & Demander des indications à notre Client. \\
 \hline
 Recherche & Travail de compréhension de l'attaque sur MD5 à partir d'articles publiés et récupération d'aide sur l'algorithme utilisé dans cette recherche. \\
 \hline
@@ -350,24 +359,12 @@ Recherche & Travail de compréhension de l'attaque sur MD5 à partir d'articles 
 \hline
 \rowcolor[gray]{.8} Actions correctives & Description\\
 \hline
-%\aRemplir{Nom de l'action} & \aRemplir{Lister les actions corrective en étant le plus précis possible} \\
-& \\
+Étude rédigée & L'étude rédigée permet de garder une trace des différentes recherches qui ont été faites pour mettre au point l'algorithme. \\
 \hline
 \end{tabular}
 \end{center}
 
-\begin{center}
-\begin{tabular}{|m{2.6cm}|m{5cm}|m{3.8cm}|m{3.8cm}|}
-\hline
-\multicolumn{4}{|>{\columncolor[gray]{.8}}c|}{Suivi du risque} \\
-\hline
-\hline
-\rowcolor[gray]{.8} Date & Description & Signature du pilote de risque & Signature du Chef de Projet \\
-\hline
- &  &  & \\
-\hline
-\end{tabular}
-\end{center}
+
 
 
 \footnotetext[1]{Acceptable / À surveiller / Critique}
@@ -383,7 +380,7 @@ Recherche & Travail de compréhension de l'attaque sur MD5 à partir d'articles 
 \hline
  Description du risque & Un manque de technique d'un ou plusieurs des étudiants nous handicape et ne nous permet pas de réaliser le projet en totalité  \\
 \hline
-Pilote du risque &  \\
+Pilote du risque & Jean-Baptiste SOUCHAL \\
 \hline
 \end{tabular}
 \end{center}
@@ -391,11 +388,11 @@ Pilote du risque &  \\
 \begin{center}
 \begin{tabular}{|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|}
 \hline
-Indice de gravité & 1 &Date de début d'effet& Début de la conception \\
+Indice de gravité & 2 &Date de début d'effet& Début de la conception \\
 \hline
-Indice de probabilité & 2 & Date de fin d'effet & Fin du projet\\
+Indice de probabilité & 1 & Date de fin d'effet & Fin du projet\\
 \hline
-Criticité \footnotemark[1] & Acceptable & Découvreur & \\
+Criticité \footnotemark[1] & Acceptable &  & \\
 \hline
 État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Compétence\\
 \hline
@@ -407,7 +404,7 @@ Criticité \footnotemark[1] & Acceptable & Découvreur & \\
 \hline
 \rowcolor[gray]{.8} Actions préventives & Description\\
 \hline
-Apprentissage & Que ce soit par le biais de tutoriels ou tout simplement d'une explication d'un autre étudiant, l'apprentissage et l'approfondissement des connaissances devra être fait en amont.\\
+Formation & Que ce soit par le biais de tutoriels ou d'une explication d'un autre étudiant, l'apprentissage et l'approfondissement des connaissances devra être fait en amont des tâches.\\
 \hline
 \end{tabular}
 \end{center}
@@ -423,18 +420,7 @@ Entre-aide & Si un étudiant n'est pas capable de développer sa partie à cause
 \end{tabular}
 \end{center}
 
-\begin{center}
-\begin{tabular}{|m{2.6cm}|m{5cm}|m{3.8cm}|m{3.8cm}|}
-\hline
-\multicolumn{4}{|>{\columncolor[gray]{.8}}c|}{Suivi du risque} \\
-\hline
-\hline
-\rowcolor[gray]{.8} Date & Description & Signature du pilote de risque & Signature du Chef de Projet \\
-\hline
- &  &  & \\
-\hline
-\end{tabular}
-\end{center}
+
 
 
 \footnotetext[1]{Acceptable / À surveiller / Critique}
@@ -451,7 +437,7 @@ Entre-aide & Si un étudiant n'est pas capable de développer sa partie à cause
 \hline
  Description du risque & Un ou plusieurs étudiants n'accomplissent pas les tâches qui leur ont été données ou sont absents trop longtemps pour ne pas avoir le temps de les faire. \\
 \hline
-Pilote du risque &  \\
+Pilote du risque & Julien BOURDON \\
 \hline
 \end{tabular}
 \end{center}
@@ -459,11 +445,11 @@ Pilote du risque &  \\
 \begin{center}
 \begin{tabular}{|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|}
 \hline
-Indice de gravité & 1 &Date de début d'effet& Début de la conception \\
+Indice de gravité & 3 &Date de début d'effet& Début de la conception \\
 \hline
-Indice de probabilité & 3 & Date de fin d'effet & Fin du projet\\
+Indice de probabilité & 1 & Date de fin d'effet & Fin du projet\\
 \hline
-Criticité \footnotemark[1] & A surveiller & Découvreur & \\
+Criticité \footnotemark[1] & Acceptable &  & \\
 \hline
 État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Planning\\
 \hline
@@ -475,9 +461,9 @@ Criticité \footnotemark[1] & A surveiller & Découvreur & \\
 \hline
 \rowcolor[gray]{.8} Actions préventives & Description\\
 \hline
-Réunions quotidiennes & Pour surveiller que tout le monde accomplit bien les tâches qu'on leur donne, une réunion quotidienne permettra de sentir la motivation des étudiants.\\
+Réunions quotidiennes & Pour surveiller que chacun accomplit bien les tâches qui lui sont affectées, une réunion quotidienne permettra de sentir la motivation des étudiants.\\
 \hline
-Prévoir les absences certaines & Pour que les absences ne soient pas dérangeantes pour le projet (absences des deux personnes qui travaillent sur le même point), les absences seront prévues et annoncées à l'avance\\
+Prévoir les absences & Pour que les absences ne soient pas dérangeantes pour le projet (absences des deux personnes qui travaillent sur le même point), les absences prévues sont publiées à l'avance. \\
 \hline
 \end{tabular}
 \end{center}
@@ -488,25 +474,14 @@ Prévoir les absences certaines & Pour que les absences ne soient pas dérangean
 \rowcolor[gray]{.8} Actions correctives & Description\\
 \hline
 %\aRemplir{Nom de l'action} & \aRemplir{Lister les actions corrective en étant le plus précis possible} \\
-Réaffectation des tâches & Un étudiant qui peine à travailler sur une tâche car elle ne l'intéresse pas pourra se voir affecter à une autre tâche pour tenter de le remotiver.\\
+Réaffectation des tâches & Un étudiant qui peine à travailler sur une tâche car elle ne l'intéresse pas pourra se voir affecter à une autre tâche pour tenter de le remotiver (cas exceptionnel).\\
 \hline
-Sanction & Un étudiant qui est trop absent sera amené à s'expliquer avec le professeur encadrant et sera bien sûr réprimandé.\\
+Sanction & Un étudiant qui est trop absent sera amené à s'expliquer avec le professeur encadrant.\\
 \hline
 \end{tabular}
 \end{center}
 
-\begin{center}
-\begin{tabular}{|m{2.6cm}|m{5cm}|m{3.8cm}|m{3.8cm}|}
-\hline
-\multicolumn{4}{|>{\columncolor[gray]{.8}}c|}{Suivi du risque} \\
-\hline
-\hline
-\rowcolor[gray]{.8} Date & Description & Signature du pilote de risque & Signature du Chef de Projet \\
-\hline
- &  &  & \\
-\hline
-\end{tabular}
-\end{center}
+
 
 
 \footnotetext[1]{Acceptable / À surveiller / Critique}
@@ -523,7 +498,7 @@ Sanction & Un étudiant qui est trop absent sera amené à s'expliquer avec le p
 \hline
  Description du risque & Une mauvaise manipulation ou un crash du serveur où sont stockées les données résultent en une perte de toute les données. \\
 \hline
-Pilote du risque &  \\
+Pilote du risque & Yves NOUAFO \\
 \hline
 \end{tabular}
 \end{center}
@@ -531,11 +506,11 @@ Pilote du risque &  \\
 \begin{center}
 \begin{tabular}{|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|}
 \hline
-Indice de gravité & 1 &Date de début d'effet& Début de la conception \\
+Indice de gravité & 4 &Date de début d'effet& Début de la conception \\
 \hline
-Indice de probabilité & 4 & Date de fin d'effet & Fin du projet\\
+Indice de probabilité & 1 & Date de fin d'effet & Fin du projet\\
 \hline
-Criticité \footnotemark[1] & Critique & Découvreur & \\
+Criticité \footnotemark[1] & À surveiller &  & \\
 \hline
 État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Technique\\
 \hline
@@ -563,18 +538,7 @@ Récupération des données & Utilisation de la sauvegarde locale sur un des ord
 \end{tabular}
 \end{center}
 
-\begin{center}
-\begin{tabular}{|m{2.6cm}|m{5cm}|m{3.8cm}|m{3.8cm}|}
-\hline
-\multicolumn{4}{|>{\columncolor[gray]{.8}}c|}{Suivi du risque} \\
-\hline
-\hline
-\rowcolor[gray]{.8} Date & Description & Signature du pilote de risque & Signature du Chef de Projet \\
-\hline
- &  &  & \\
-\hline
-\end{tabular}
-\end{center}
+
 
 
 \footnotetext[1]{Acceptable / À surveiller / Critique}
@@ -591,7 +555,7 @@ Récupération des données & Utilisation de la sauvegarde locale sur un des ord
 \hline
  Description du risque & Une mauvaise implémentation du code ne satisfait pas les contraintes de rapidité pour rendre le transchiffrement du proxy transparent. \\
 \hline
-Pilote du risque &  \\
+Pilote du risque & Ouissem HAMDANI \\
 \hline
 \end{tabular}
 \end{center}
@@ -599,11 +563,11 @@ Pilote du risque &  \\
 \begin{center}
 \begin{tabular}{|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|}
 \hline
-Indice de gravité & 1 &Date de début d'effet& Début de la conception \\
+Indice de gravité & 3 &Date de début d'effet& Début de la conception \\
 \hline
-Indice de probabilité & 3 & Date de fin d'effet & Fin du projet\\
+Indice de probabilité & 1 & Date de fin d'effet & Fin du projet\\
 \hline
-Criticité \footnotemark[1] & A surveiller & Découvreur & \\
+Criticité \footnotemark[1] & Acceptable &  & \\
 \hline
 État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Technique\\
 \hline
@@ -615,7 +579,7 @@ Criticité \footnotemark[1] & A surveiller & Découvreur & \\
 \hline
 \rowcolor[gray]{.8} Actions préventives & Description\\
 \hline
-Tests d'efficacité & Plusieurs tests seront faits pour que les temps ne dépassent pas ceux voulus. \\
+Tests d'efficacité & Plusieurs tests seront faits pour que les temps ne dépassent pas ceux spécifiés dans la STB. \\
 \hline
 \end{tabular}
 \end{center}
@@ -626,23 +590,12 @@ Tests d'efficacité & Plusieurs tests seront faits pour que les temps ne dépass
 \rowcolor[gray]{.8} Actions correctives & Description\\
 \hline
 %\aRemplir{Nom de l'action} & \aRemplir{Lister les actions corrective en étant le plus précis possible} \\
-Optimisation des algorithmes & Puisqu'un gain de temps est nécessaire, la révision des algorithmes développés et une optimisation de ces codes seront faites.  \\
+Optimisation des algorithmes & Nous profilerons l'application, pour chercher les tâches qui consomment le plus de temps. Nous pourrons modifier nos algorithmes, et/ou utiliser de nouveaux algorithmes pour le chiffrement.  \\
 \hline
 \end{tabular}
 \end{center}
 
-\begin{center}
-\begin{tabular}{|m{2.6cm}|m{5cm}|m{3.8cm}|m{3.8cm}|}
-\hline
-\multicolumn{4}{|>{\columncolor[gray]{.8}}c|}{Suivi du risque} \\
-\hline
-\hline
-\rowcolor[gray]{.8} Date & Description & Signature du pilote de risque & Signature du Chef de Projet \\
-\hline
- &  &  & \\
-\hline
-\end{tabular}
-\end{center}
+
 
 
 \footnotetext[1]{Acceptable / À surveiller / Critique}
@@ -658,7 +611,7 @@ Optimisation des algorithmes & Puisqu'un gain de temps est nécessaire, la révi
 \hline
  Description du risque & Le client souhaite modifier ou ajouter des fonctionnalités au cahier des charges  \\
 \hline
-Pilote du risque &  \\
+Pilote du risque & Julien BOURDON \\
 \hline
 \end{tabular}
 \end{center}
@@ -670,7 +623,7 @@ Indice de gravité & 2 &Date de début d'effet& Début de la conception \\
 \hline
 Indice de probabilité & 2 & Date de fin d'effet & Fin du projet\\
 \hline
-Criticité \footnotemark[1] & Acceptable & Découvreur & \\
+Criticité \footnotemark[1] & Acceptable &  & \\
 \hline
 État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Technique\\
 \hline
@@ -693,20 +646,7 @@ Criticité \footnotemark[1] & Acceptable & Découvreur & \\
 \rowcolor[gray]{.8} Actions correctives & Description\\
 \hline
 %\aRemplir{Nom de l'action} & \aRemplir{Lister les actions corrective en étant le plus précis possible} \\
-Prise en compte des modifications & Une réorganisation du planning sera faite si nous avons le temps et les moyens de réaliser cette modification, sinon cette modification sera considérée d'un commun accord avec le client, comme optionnelle\\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{2.6cm}|m{5cm}|m{3.8cm}|m{3.8cm}|}
-\hline
-\multicolumn{4}{|>{\columncolor[gray]{.8}}c|}{Suivi du risque} \\
-\hline
-\hline
-\rowcolor[gray]{.8} Date & Description & Signature du pilote de risque & Signature du Chef de Projet \\
-\hline
- &  &  & \\
+Prise en compte des modifications & Une réorganisation du planning sera faite si nous avons le temps et les moyens de réaliser cette modification, sinon cette modification sera considérée comme optionnelle en accord avec le client. \\
 \hline
 \end{tabular}
 \end{center}

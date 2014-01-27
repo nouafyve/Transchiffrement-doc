@@ -1,0 +1,391 @@
+\documentclass[a4paper,11pt,french]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel} 
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, includeheadfoot]{geometry} %pour les marges
+\usepackage{lmodern}
+\usepackage{pict2e}
+\usepackage{tikz}	
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{tabularx, longtable}
+\usepackage{color, colortbl}
+\usepackage{lscape}
+%\usepackage[hidelinks]{hyperref}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{rotating}
+%\usepackage{pgfgantt}
+%\usepackage{pgfcalendar}
+%\usepackage{ifthen}
+\usepackage{gensymb}
+\definecolor{Blue}{HTML}{6495ED}
+\definecolor{Orange}{HTML}{FBCEB1}
+
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
+\rhead{\includegraphics[width=10em]{../images/logo_univ.png}}
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ / \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength{\headheight}{40pt}
+
+\newcommand{\hmwkTitle}{Transchiffrement} % Assignment title
+\newcommand{\hmwkClass}{Master 2 SSI } % Course/class
+\newcommand{\hmwkAuthorName}{Jean-Baptiste SOUCHAL} % Your name
+\newcommand{\hmwkSubject}{Conduite de projet} % Subject
+\newcommand{\hmwkDocName}{Cahier de Recette} % Document name
+
+\newcommand{\version}{1.1} % Document version
+\newcommand{\docDate}{22 Janvier 2014} % Document date
+\newcommand{\checked}{Julien BOURDON} % Julien Bourdon
+\newcommand{\approved}{} % Approver name
+
+\makeatletter
+\newcommand{\resettranslate}{\let\translate\@firstofone}
+\makeatother
+
+\definecolor{gris}{rgb}{0.95, 0.95, 0.95}
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass :\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+\vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{} % Insert date here if you want it to appear below your name
+
+
+\usepackage{amsmath}
+\begin{document}
+\newcount\startdate
+\newcount\daynum
+%\pgfcalendardatetojulian{2013-01-021}{\startdate}
+\pagestyle{fancy}
+
+\vspace*{5cm}
+\begin{center}\textbf{\Huge{\hmwkDocName}}\end{center}
+\vspace*{4.5cm}
+	
+
+\fcolorbox{black}{gris}{
+\begin{minipage}{15cm}
+\begin{tabularx}{10cm}{lXl}
+	\bfseries{Version} & & \version\\
+	& & \\
+	\bfseries{Date} & & \docDate\\
+	& & \\
+	\bfseries{Rédigé par} & & \hmwkAuthorName \\
+	& & \\
+	\bfseries{Relu par} & & \checked \\
+	& & \\
+	\bfseries{Approuvé par} & & \approved \\
+	& & \\
+\end{tabularx}
+\end{minipage}
+}
+
+\newpage
+
+%Tableau de mises à jour
+\vspace*{1cm}
+\begin{center}
+\textbf{\huge{Versions}}\\
+\vspace*{3cm}
+	\begin{tabularx}{16cm}{|c|c|X|}
+	\hline
+	\bfseries{Version} & \bfseries{Date} & \bfseries{Modifications réalisées}\\
+	\hline
+	1.0 & 10/12/2013 & Création\\
+	\hline
+	1.1 & 22/01/2014 & Prise en compte des modifications\\
+	\hline
+	\end{tabularx}
+\end{center}
+
+%La table des matières
+\clearpage
+\tableofcontents
+\clearpage
+\newpage
+\section{Objet}
+
+Ce document a pour but de présenter une série de scénarios décrivant avec précision les
+démarches et procédures à suivre dans le cadre du fonctionnement du « proxy » réalisant
+du transchiffrement SSL. Les différents tests s’exécuteront dans un environnement physique,
+c’est à dire sur une machine. Les tests auront pour but de mettre en œuvre tous les scénarios
+possibles du fonctionnement de l’application « proxy » et de déterminer si chacun d’eux est fonctionnel.
+Ce document sert de support aux développeurs pour évaluer si le produit répond à leurs attentes, il permet
+également de montrer au client l’état, en terme de fonctionnalité, de l’avancement du projet.
+
+\section{Portée}
+Le cahier de recette est destiné au chef de projet et au client du projet de
+Transchiffrement SSL ainsi qu’aux membres de l’équipe de développement.
+
+
+\section{Documents applicables et de référence}
+
+\begin{itemize}
+  \item Spécification Technique du Besoin v1.1
+  \item Document d'Architecture Logiciel v1.1
+\end{itemize}
+
+\section{Terminologie et sigles utilisés}
+
+\begin{description}
+  \item[STB] Spécification Technique du Besoin
+  \item[DAL] Document d’Architecture Logicielle
+  \item[Proxy] Application jouant le rôle de proxy afin de réaliser du transchiffrement SSL
+  \item[Client] Machine jouant le rôle d'utilisateur sur le réseau
+  \item[Serveur] Serveur web que le client tente de joindre
+\end{description}
+
+\section{Environnement de test}
+Les tests seront effectués dans un environnement de type Unix (Ubuntu, Mac OS 
+X) pour la partie utilisateur. Utilisation d'une machine virtuelle (Ubuntu) pour l'hébergement du 
+proxy, des tests sont à prévoir directement sur cette machine virtuelle. Les 
+machine utilisées pour les tests requièrent une connexion internet ainsi qu'un
+navigateur web supportant l'usage de certificats de type MD5. Aucune restriction 
+sur la configuration matérielle des machines.
+L'analyse des échanges entre les différentes entités se fera à l'aide de 
+l'outil Wireshark.
+\begin{itemize}
+\item une machine virtuelle « proxy » où sera installé le proxy 
+\item une machine « client » qui jouera le rôle d'utilisateur lambda sur le réseau
+\end{itemize}
+
+
+
+\section{Responsabilité}
+
+\begin{itemize}
+  \item Client : Magali BARDET
+  \item Chef de projet : Emile GÉNÉRAT
+  \item Responsable qualité : Jean-Baptiste SOUCHAL
+  \item Relecture des cas de test par le chef de projet pour une validation avant chaque phase de tests sur l'application.
+  \item Relecture du cahier de recette par le client avant la réalisation des tests pour la validation de chaque module de l'application
+\end{itemize}
+
+\section{Stratégie de tests}
+Un test est validé lorsqu’il répond à l’exigence fonctionnelle à laquelle il est lié.
+Un test non validé fera l’objet d’un retour vers le(s) développeur(s) du module concerné.
+Chaque test non validé implique la correction, par le(s) développeur(s), du module concerné dans
+un délai raisonnable en fonction du planning et du plan de développement mis en place par le chef de
+projet. Après correction, le module sera de nouveau testé. Après avoir effectué tous les tests, les
+résultats seront envoyés au chef de projet et au client pour leurs validation.
+
+\section{Gestion des anomalies}
+Lors des tests, les anomalies seront rédigées dans un tableur. Il contiendra :
+
+\begin{itemize}
+  \item le numéro du test
+  \item le module concerné
+  \item une description de l'erreur
+  \item les développeurs impliqués
+  \item l’état d’avancement de la correction
+\end{itemize}
+
+Le responsable du module concerné par l’anomalie sera chargé de la résoudre dans un
+  délai raisonnable en fonction de la gravité de cette anomalie pour le fonctionnement global
+  de l’application. Le délai de correction devra être inclus dans le planning du développeur en fonction
+  du plan de développement émis par le chef de projet.
+\newpage
+\section{Procédures de test}
+\subsection{Installation de l'application proxy}
+
+\begin{tabular}{|m{2.5cm}|m{4cm}|m{3cm}|m{3.5cm}|m{2cm}|}
+\hline 
+\rowcolor{Blue} Objet & \multicolumn{4}{|l|}{Installation de l'application Proxy} \\ 
+\hline 
+\rowcolor{Blue} Objectif & \multicolumn{4}{|l|}{Vérifier l'installation de l'application Proxy} \\ 
+\hline 
+\rowcolor{Blue} Pré-requis & \multicolumn{4}{|l|}{Java Runtime Environnement installé sur la machine} \\ 
+\hline 
+\rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
+\hline 
+1 & On clique sur l'exécutable de l'application & Exécutable proxy & L'application s'installe sur le client &  \\ 
+\hline
+2 & On vérifie que le processus associé au proxy est actif sur la machine & & Un processus associé au proxy est actif sur le client & \\
+\hline
+Commentaires & \multicolumn{4}{|l|}{} \\ 
+\hline
+\end{tabular}
+
+\newpage
+
+\subsection{Installation de l'autorité}
+
+\begin{tabular}{|m{2.5cm}|m{4cm}|m{3cm}|m{3.5cm}|m{2cm}|}
+\hline 
+\rowcolor{Blue} Objet & \multicolumn{4}{|l|}{Installation de l'autorité} \\ 
+\hline 
+\rowcolor{Blue} Objectif & \multicolumn{4}{|l|}{Vérifier l'installation de l'autorité sur la machine utilisateur} \\ 
+\hline 
+\rowcolor{Blue} Pré-requis & \multicolumn{4}{|l|}{Autorité par défaut présente sur la machine, navigateur qui accepte les certificats MD5} \\ 
+\hline 
+\rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
+\hline 
+1 & Installer l'autorité directement sur le navigateur du client & Certificat de l'autorité & Le navigateur accepte le certificat &  \\ 
+\hline 
+Commentaires & \multicolumn{4}{|l|}{} \\ 
+\hline
+\end{tabular}
+
+\newpage
+
+\subsection{Acceptation de l'autorité}
+
+\begin{tabular}{|m{2.5cm}|m{4cm}|m{3cm}|m{3.5cm}|m{2cm}|}
+\hline 
+\rowcolor{Blue} Objet & \multicolumn{4}{|l|}{Acceptation de l'autorité} \\ 
+\hline 
+\rowcolor{Blue} Objectif & \multicolumn{4}{|l|}{Vérifier l'installation de l'autorité sur la machine utilisateur} \\ 
+\hline 
+\rowcolor{Blue} Pré-requis & \multicolumn{4}{|l|}{Pas d'autorité présente sur la machine} \\ 
+\hline 
+\rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
+\hline 
+1 & Inclure le certificat dans l'acceptation des termes et conditions du proxy & Certificat de l'autorité & Le certificat de l'autorité est inclus dans l'acceptation du proxy &  \\ 
+\hline
+2 & Le client accepte les termes et conditions du proxy & & Le certificat de 
+l'autorité va automatiquement s'installer sur le navigateur du client & 
+\\
+\hline 
+Commentaires & \multicolumn{4}{|l|}{} \\ 
+\hline
+\end{tabular}
+
+\newpage
+
+\subsection{Transfert des paquets HTTP}
+
+\begin{tabular}{|m{2.5cm}|m{4cm}|m{3cm}|m{3.5cm}|m{2cm}|}
+\hline 
+\rowcolor{Blue} Objet & \multicolumn{4}{|l|}{Transfert des paquets HTTP en clair} \\ 
+\hline 
+\rowcolor{Blue} Objectif & \multicolumn{4}{|l|}{Assurer le transfert des paquets HTTP du client vers le serveur} \\ 
+\hline 
+\rowcolor{Blue} Pré-requis & \multicolumn{4}{|l|}{Proxy configuré pour le mode HTTP} \\ 
+\hline 
+\rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
+\hline 
+1 & Le client envoie une requête HTTP sur un serveur &  & Le proxy reçoit la requête HTTP &  \\ 
+\hline
+2 & Le proxy envoie la requête HTTP vers le serveur & & Le serveur reçoit la requête HTTP & \\
+\hline
+3 & Le serveur envoie la réponse au proxy & & Le proxy 
+reçoit la réponse du serveur & \\
+\hline 
+4 & Le proxy envoie la réponse vers le client & & Le client reçoit la réponse & 
+\\
+\hline
+Commentaires & \multicolumn{4}{|l|}{} \\ 
+\hline
+\end{tabular}
+
+\newpage
+
+\subsection{Etablissement d'une session privée}
+
+\begin{tabular}{|m{2.5cm}|m{4cm}|m{3cm}|m{3.5cm}|m{2cm}|}
+\hline 
+\rowcolor{Blue} Objet & \multicolumn{4}{|l|}{Création des sessions privées entre client-proxy-serveur} \\ 
+\hline 
+\rowcolor{Blue} Objectif & \multicolumn{4}{|l|}{Détailler les étapes d'ouverture des sessions privées} \\ 
+\hline 
+\rowcolor{Blue} Pré-requis & \multicolumn{4}{|l|}{Deux connexions SSL/TLS ouvertes, certificat de l'autorité installé sur le client} \\ 
+\rowcolor{Blue} & \multicolumn{4}{|l|}{et proxy fonctionnel} \\
+\hline
+\rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
+\hline 
+1 & Le client envoie une requête HTTPS & URL du serveur & Le proxy reçoit la requête HTTPS &  \\ 
+\hline
+2 & Le proxy envoie la requête HTTPS vers le serveur & & Le serveur reçoit la requête HTTPS & \\
+\hline
+3 & Le serveur envoie son certificat au proxy & Certificat serveur & Le proxy reçoit le certificat & \\
+\hline 
+4 & Le proxy génère son certificat & Certificat proxy & Le proxy envoie son certificat au client & \\
+\hline
+5 & Le client reçoit le certificat du proxy & Certificat proxy & Le client vérifie la 
+validité du certificat & \\
+\hline
+6 & Le client accepte le certificat & & Le client envoie une clé de session au 
+proxy & \\
+\hline
+7 & Le proxy reçoit la clé de session & Clé session client & Le proxy génère sa clé de session & \\
+\hline
+8 & Le proxy envoie sa clé de session au serveur & Clé session proxy & Le serveur 
+reçoit la clé de session & \\
+\hline
+9 & Session ouverte entre le serveur et le proxy & & Le serveur et le proxy 
+peuvent échanger des messages chiffrés & \\
+\hline
+10 & Session ouverte entre le proxy et le client & & Le proxy et le client 
+peuvent échanger des messages chiffrés & \\
+\hline
+Commentaires & \multicolumn{4}{|l|}{} \\ 
+\hline
+\end{tabular}
+
+\newpage
+
+
+\subsection{Transchiffrement des échanges HTTPS}
+
+\begin{tabular}{|m{2.5cm}|m{4cm}|m{3cm}|m{3.5cm}|m{2cm}|}
+\hline 
+\rowcolor{Blue} Objet & \multicolumn{4}{|l|}{Transfchiffrement échanges HTTPS} \\ 
+\hline 
+\rowcolor{Blue} Objectif & \multicolumn{4}{|l|}{Transchiffrement sur les connexions HTTPS de manière transparente} \\
+\rowcolor{Blue} & \multicolumn{4}{|l|}{pour l'utilisateur} \\ 
+\hline 
+\rowcolor{Blue} Pré-requis & \multicolumn{4}{|l|}{Session privée établie, Certificat généré, deux connexions SSL/TLS ouvertes,} \\ 
+\rowcolor{Blue} & \multicolumn{4}{|l|}{certificat de l'autorité installé sur le client et proxy fonctionnel} 
+\\
+\hline 
+\rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
+\hline 
+1 & Le client envoie une requête HTTPS au proxy & URL du serveur & Le proxy reçoit la requête HTTPS &  \\ 
+\hline
+2 & Le proxy déchiffre la requête HTTPS & & Le proxy log la requête en clair & \\
+\hline
+3 & Le proxy chiffre la requête & Clé session proxy-serveur & La requête est 
+correctement chiffrée & \\
+\hline
+4 & Le proxy envoie la requête chiffrée au serveur & & Le serveur reçoit la requête & \\
+\hline
+5 & Le serveur envoie une réponse au proxy & & Le proxy reçoit la 
+réponse & \\
+\hline
+6 & Le proxy déchiffre la réponse du serveur & & Le proxy log la réponse au 
+serveur en clair & \\
+\hline
+7 & Le proxy chiffre la réponse & Clé session client-proxy & La réponse est 
+correctement chiffrée & \\
+\hline
+8 & Le proxy envoie la réponse chiffrée au client & & Le client reçoit la réponse 
+& \\
+\hline
+9 & Le client déchiffre la réponse & & Le client peut lire et traiter le réponse 
+& \\
+\hline
+Commentaires & \multicolumn{4}{|l|}{} \\ 
+\hline
+\end{tabular}
+
+\newpage
+
+\end{document}
