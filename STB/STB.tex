@@ -17,10 +17,8 @@
 \usepackage{longtable}
 \usepackage{multirow}
 \usepackage{rotating}
-%\usepackage{pgfgantt}
-%\usepackage{pgfcalendar}
-%\usepackage{ifthen}
 \usepackage{gensymb}
+\usepackage{soulutf8}
 
 \linespread{1.1} % Line spacing
 
@@ -38,13 +36,13 @@
 
 \newcommand{\hmwkTitle}{Transchiffrement} % Assignment title
 \newcommand{\hmwkClass}{Master 2 SSI } % Course/class
-\newcommand{\hmwkAuthorName}{Julien BOURDON} % Your name
+\newcommand{\hmwkAuthorName}{Julien BOURDON, Émile GÉNÉRAT} % Your name
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Spécification Technique du Besoin} % Document name
 
-\newcommand{\version}{1.1} % Document version
-\newcommand{\docDate}{22 janvier 2014} % Document date
-\newcommand{\checked}{Émile GÉNÉRAT} % Checker name
+\newcommand{\version}{1.2} % Document version
+\newcommand{\docDate}{27 janvier 2014} % Document date
+\newcommand{\checked}{Jean-Baptiste SOUCHAL} % Checker name
 \newcommand{\approved}{} % Approver name
 
 \makeatletter
@@ -109,6 +107,8 @@
 	\hline
 	1.1 & 22/01/2014 & Prise en compte des remarques suite aux réunions client et à l'audit.\\
 	\hline
+	1.2 & 27/01/2014 & Prise en compte des nouvelles remarques du client.\\
+	\hline
 	\end{tabularx}
 \end{center}
 
@@ -121,40 +121,40 @@
 \newpage
 \section{Présentation de la mission du produit logiciel}
 
+\input{../PDD/introduction.tex}
 
-La première partie du projet est de créer un proxy transparent qui réalise du transchiffrement, c'est à dire de récupérer toutes les conversations normalement impossibles à lire entre un client et le serveur auquel il veut avoir accès.
-Pour ce faire, il faut d'abord trouver un moyen d'authentifier notre proxy en utilisant une autorité de certification pour signer les certificats que nous allons créer par la suite.
-Nous avons 3 choix qui s'offrent à nous :
 
+Les trois méthodes attendues par le client sont :
 \begin{itemize}
 \item Installer directement notre autorité de certification dans le système.
-\item Forcer l'utilisateur à accepter notre autorité de certification
+\item Forcer l'utilisateur à accepter notre autorité de certification.
 \item Forger un faux certificat d'autorité qui a le même haché MD5 qu'un certificat d'autorité valide existant.
 \end{itemize}
 
-Cette dernière façon de faire étant plus compliquée à réaliser, nous allons en faire la deuxième partie de notre projet que nous détaillerons un peu plus loin.
+\hl{La dernière méthode nécessite des recherches spécifiques, pour comprendre et mettre en oeuvre des collisions entre deux certificats.}
 
-Une fois l'autorité installée et acceptée, nous l'utiliserons pour signer des certificats correspondant aux serveurs auxquels le client veut se connecter que nous créerons à la volée. Une fois créés, nous pourrons les stocker pour une éventuelle réutilisation, ce qui nous fera gagner un temps précieux.
 
-	Les connexions client / proxy et proxy / serveur seront soit en "clair" (HTTP) ce qui n'implique pas de transchiffrement car les données seront directement lisibles sur le réseau, soit chiffrées et de ce fait, notre proxy agira comme un « man in the middle ».
+Une fois l'autorité installée et acceptée, nous l'utiliserons pour signer les certificats des serveurs auxquels le client veut se connecter que nous créerons à la volée. Une fois créés, nous pourrons les stocker pour une éventuelle réutilisation, ce qui nous fera gagner du temps.
 
-	La vitesse d'exécution est un facteur important pour ne pas que le proxy soit détecté pendant le déchiffrement / rechiffrement.
+
+\hl{La vitesse d'exécution est un exigence non-fonctionnelle importante pour éviter que les utilisateurs aient des doutes.}
 
 La deuxième partie du projet est surtout un travail de recherche sur les collisions MD5 afin de trouver un algorithme qui nous permette de forger cette fausse autorité. Nous aurons donc à faire tourner un programme de comparaison pendant une durée assez longue en parallèle de la première partie du projet.
 
-\subsection{Terminologie et sigles utilisés}
+\subsection{Terminologie}
 
 \begin{description}
-\item[Client] Utilisateur d'une machine privée (ordinateur) qui souhaite se connecter à un serveur web.
-\item[Proxy] Machine intermédiaire écoutant sur le réseau qui va réaliser le transchiffrement TLS/SSL.
-\item[Serveur] Serveur web, accessible à partir d'une URL.
-\item[Autorité de certification] Ici, l'autorité utilise sa clé privée pour signer des certificats qui prouvent l'appartenance d'une clé publique à un individu.
+\item[Client] Utilisateur d'une machine privée (ordinateur) qui souhaite se connecter à un serveur \hl{sur Internet}.
+\item[Proxy] \hl{Machine intermédiaire qui écoute sur le réseau, qui va transférer les paquets au serveur après analyse, et si nécessaire réaliser le transchiffrement TLS/SSL.}
+\item[Serveur] Machine sur Internet accessible à partir d'une URL ou d'une adresse IP.
+\item[Certificat] \hl{Fichier qui prouve l'appartenance d'une clé publique à un individu.}
+\item[Autorité de certification] \hl{Autorité qui utilise sa clé privée pour signer des certificats.}
 
 \end{description}
 
 \subsection{Liste des cas d'utilisation}
 
-Pour commencer le projet, une liste des différents cas possibles d’utilisation de l’application a été faite afin de répondre au besoin du client selon leur priorité. Chaque cas est alors développé afin d’identifier les étapes nécessaires pour sa réalisation. 
+Les différents cas d'utilisation de l'application sont les suivants.
 
 \begin{center}
 \begin{tabular}{|c|c|c|}
@@ -509,4 +509,22 @@ Pour que notre proxy soit considéré comme "transparent", nous devons remplir d
 On s'autorise donc une seconde de marge pour toute page générée très rapidement et jusqu'à 200\% du temps pour une page contenant un volume conséquent de données.
 
 Ces valeurs sont valables une fois que la connexion est établie. Lors de la première connexion d'un client à un serveur, il faut d'abord générer dynamiquement un certificat, et une clé de session.
+
+\newpage
+\section{Annexes}
+
+\subsection{Machines utilisées}
+\begin{itemize}
+\item Client
+\item Proxy
+\item Serveur
+\end{itemize}
+
+
+\subsection{Autorités et clés dans le périmètre du projet}
+\begin{itemize}
+\item Clé p
+\end{itemize}
+
+
 \end{document}

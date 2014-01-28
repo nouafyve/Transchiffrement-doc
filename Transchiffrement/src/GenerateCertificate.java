@@ -1,6 +1,5 @@
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,12 +24,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
-
 import javax.xml.bind.DatatypeConverter;
-
-import org.bouncycastle.asn1.ASN1InputStream;
-import org.bouncycastle.asn1.DERObject;
-
 import sun.security.x509.AlgorithmId;
 import sun.security.x509.CertificateAlgorithmId;
 import sun.security.x509.CertificateIssuerName;
@@ -175,9 +169,10 @@ public class GenerateCertificate {
 	}
 
 	public static void main(String args[]) {
+		String cert = args[0];
 		GenerateCertificate ic = new GenerateCertificate();
 		X509Certificate serveur = ic
-				.getCertificateFromFile("cles/*.univ-rouen.fr.pem");
+				.getCertificateFromFile("cles/"+cert);
 		byte[] encoded = null;
 		try {
 			encoded = serveur.getEncoded();
@@ -239,7 +234,7 @@ public class GenerateCertificate {
 				}
 				i++;
 			}
-			ic.ecrire("fake.*.univ-rouen.fr.pem", new String(
+			ic.ecrire("fake."+cert, new String(
 					"-----BEGIN CERTIFICATE-----\n" + affichage
 							+ "\n-----END CERTIFICATE-----\n"));
 		} catch (CertificateEncodingException e) {
