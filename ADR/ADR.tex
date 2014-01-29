@@ -44,8 +44,8 @@
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Analyse des Risques} % Document name
 
-\newcommand{\version}{1.1} % Document version
-\newcommand{\docDate}{22 Janvier 2014} % Document date
+\newcommand{\version}{1.2} % Document version
+\newcommand{\docDate}{29 Janvier 2014} % Document date
 \newcommand{\checked}{Julien BOURDON} % Checker name
 \newcommand{\approved}{} % Approver name
 
@@ -111,6 +111,8 @@
 	\hline
 	1.1 & 22/01/2014 & Modification pour prise en compte des remarques du Client et de l'audit \\
 	\hline
+	1.2 & 27/01/2014 & \hl{Modification pour prise en compte des remarques de l'audit du 24 janvier, cf CR\_A\_2013-01-24.pdf} \\
+	\hline
 	\end{tabularx}
 \end{center}
 
@@ -162,8 +164,9 @@ Si il n'y a pas de changement majeur, nous actualisons l'évaluation des risques
 \item \hl{correctement appliquées ;}
 \item \hl{suffisantes.}
 \end{itemize}
-\hl{Si ce n'est pas le cas, il doit proposer de nouvelles mesures en accord avec les acteurs concernés.}
+\hl{Si ce n'est pas le cas, il doit proposer de nouvelles mesures en accord avec les acteurs concernés.
 
+Lors de la mise en place d'un plan de contournement (des actions correctives), le pilote de risque s'assure avec le chef de projet que le client a une bonne visibilité sur les actions prises.}
 
 \subsection*{Portefeuille de risques}
 \begin{table}[!h]
@@ -198,7 +201,7 @@ Numéro & Risque & Date de création & Pilote & Catégorie \footnotemark[1] & In
 \endhead
 n01 & Ne pas livrer le client à temps & 13/12/2013 & Émile GÉNÉRAT & Planning & 1 & 3 & Acceptable \\
 \hline
-n02 & Insatisfaction du client & 13/12/2013 & Émile GÉNÉRAT & Planning & 1 & 4 &  À surveiller \\
+n02 & Insatisfaction du client & 13/12/2013 & Émile GÉNÉRAT & Planning & \hl{2} & 4 &  \hl{Critique}\\
 \hline
 n03 & Retard, algorithme prêt trop tard & 13/12/2013 & Émile GÉNÉRAT & Planning & 3 & 2 & À surveiller \\
 \hline
@@ -210,7 +213,7 @@ n06 & Perte des données du projet & 13/12/2013 & Yves NOUAFO & Technique & 1 & 
 \hline
 n07 & Performances insuffisantes (transchiffrement trop long) & 13/12/2013 & Ouissem HAMDANI & Technique & 1 & 3 & Acceptable \\
 \hline
-n08 & Modification du Cahier des Charges & 13/12/2013 & Julien BOURDON & Technique & 2 & 2 & Acceptable \\
+n08 & Modification du Cahier des Charges & 13/12/2013 & Julien BOURDON & Technique & \hl{3} & \hl{3} & \hl{Critique} \\
 \hline
 
 \end{longtable}
