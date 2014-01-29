@@ -1,0 +1,35 @@
+
+\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
+   \hline
+   Description & Transfert des paquets chiffrés \\
+   \hline
+   Pré-conditions & Connexion SSL/TLS établie \\
+   \hline
+   Évènement déclenchant &  Envoi d'un paquet chiffré du client vers le serveur. \\
+   \hline
+   Condition d'arrêt & Réponse chiffrée du serveur transmise au client. \\
+   \hline
+   Cas d'exception  & Le client n'a pas accepté SSI-Cert. \\
+   \hline   
+\end{tabular}
+~\\
+Description du flot d'évènements principal :
+
+\begin{tabular}{|m{8cm}|m{8cm}|}
+   \hline
+  \rowcolor[gray]{.8} Acteur(s) & Système \\
+   \hline
+   1. Envoi d'un paquet Application-data chiffré du client vers le serveur& \\
+   \hline
+& 2. Le proxy déchiffre le paquet reçu à l'aide de la clé privée associée à Fake-Cert. \\
+& 3. Le proxy chiffre le paquet avec la clé publique de Site-Cert.  \\
+   \hline
+ & 4. Transmission du paquet au serveur. \\
+   \hline
+5. Le serveur envoie sa réponse chiffrée avec la clé publique de Fake-Cert. &  \\
+   \hline
+  &  6. Le proxy déchiffre avec la clé privée de Fake-Cert, et rechiffre avec la clé publique du client.   \\
+   \hline
+      7. Le client déchiffre avec sa clé privée. &  \\
+   \hline
+\end{tabular}

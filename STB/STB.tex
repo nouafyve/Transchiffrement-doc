@@ -163,27 +163,28 @@ Les différents cas d'utilisation de l'application sont les suivants.
 \hline
 P.1 & Navigation en clair & Indispensable\\
 \hline
-P.2 & Navigation SSL/TLS & Indispensable \\ 
-\hline
-P.3 & Établissement d'une connexion & Indispensable \\
-P.4 & Génération d'un certificat & Indispensable \\ 
-\hline 
-P.5 & Installation du certificat de notre AC par l'utilisateur dans son navigateur
+P.2 & Installation de SSI-Cert par un administrateur sur la machine client  & Indispensable \\ 
+ \hline 
+P.3 & Installation de SSI-Cert par l'utilisateur dans son navigateur
  & Indispensable \\ 
 \hline 
-P.6 & Installation du certificat de notre AC par un administrateur sur la machine de l'utilisateur  & Indispensable \\ 
- \hline
-P.7 & Certificat avec un haché MD5
-en collision avec un certificat existant & Indispensable \\
+P.4 & Signature de Fake-Cert avec SSI-Cert-Collision dont le haché MD5 est le même que International-Cert accepté par la machine client & Optionnel \\
 \hline
-P.8 & Transchiffrement des paquets & Indispensable \\
+P.5 & Génération d'un certificat serveur Fake-Cert & Indispensable \\ 
 \hline
+P.6 & Établissement d'une connexion SSL/TLS & Indispensable \\
+\hline
+P.7 & Transchiffrement d'un paquet d'une connexion SSL/TLS & Indispensable \\
+\hline
+P.8 & Navigation SSL/TLS & Indispensable \\ 
+\hline
+
  
 
 \end{tabular} 
 \end{center}
 ~~\\
-\textbf{Exigence fonctionnelle indispensable :} Étude MD5
+\textbf{Exigence fonctionnelle indispensable :} Étude recherche de collsion MD5
 ~~\\
 
 \huge
@@ -193,385 +194,32 @@ P.8 & Transchiffrement des paquets & Indispensable \\
 \end{center}
 \normalsize
 
-\subsection{Schémas explicatifs}
-
-\subsubsection{Phase de partage de certificats}
-
-\begin{center}
-\includegraphics[width=\textwidth]{images/Certificats.pdf}
-\end{center}
-
-1. Le client envoie une requête au serveur pour négocier une connexion SSL/TLS.
-
-2. Le proxy intercepte la requête.
-
-3. Le proxy envoie sa propre requête de connexion au serveur demandé par le client.
-
-4. Le serveur répond au proxy et envoie son certificat signé par une autorité.
-
-5. Le proxy génère un faux certificat avec la clé publique du proxy et la signature de notre autorité.
-
-6. Le proxy envoie le faux certificat au client.
-
-7. Le client vérifie que le certificat est valide.\\
-
-Une fois les certificats partagés, il faut maintenant échanger une clé de session pour avoir une connexion sécurisée.
-
-\subsubsection{Phase d'échange des clés}
-
-\begin{center}
-\includegraphics[width=\textwidth]{images/Cles.pdf}
-\end{center}
-
-
-1. Le client envoie une clé de session chiffrée avec la clé publique présente sur le certificat du proxy.
-
-2. Le proxy déchiffre avec la clé privée associée.
-
-3. Le proxy ouvre une connexion sécurisée avec le client avec la clé de session.
-
-4. Le proxy chiffre une nouvelle clé de session avec la clé publique du serveur.
-
-5. Le proxy envoie la clé chiffrée au serveur.
-
-6. Le serveur déchiffre la clé de session.
-
-7. Le serveur ouvre une connexion sécurisée avec le proxy en utilisant la clé de session.
-
 
 \section{Cas d'utilisation}
 
 \subsection{Navigation en clair}
+\input{text/cu1.tex}
 
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
-   \hline
-   Description & Transfert de paquets en clair  \\
-   \hline
-   Pré-conditions & Connexion non-sécurisée établie \\
-   \hline
-   Évènement déclenchant &  Envoi d'un paquet en clair du client vers le serveur. \\
-   \hline
-   Condition d'arrêt & Réponse en clair du serveur transmise au client. \\
-   \hline
-   Cas d'exception  &  \\
-   \hline   
-\end{tabular}
-~\\
-Description du flot d'évènements principal :
-
-\begin{tabular}{|m{8cm}|m{8cm}|}
-   \hline
-  \rowcolor[gray]{.8} Acteur(s) & Système \\
-   \hline
-   1. Envoi d'un paquet en clair du client à destination du serveur. & \\
-   \hline
-&   2. Réception par le proxy.  \\
-   \hline   
- &     3. Le proxy journalise le paquet.  \\
-      \hline
-&      4. Le proxy retransmet le paquet au serveur.  \\
-      
-   \hline
-   5. Le serveur répond. & \\
-      
-   \hline
-&      6. Le proxy reçoit, journalise, et retransmet au client. \\
-      
-   \hline
-      7. Le client reçoit le paquet. & \\
-      
-   \hline
-\end{tabular}
-
-
-
-\subsection{Établissement d'une connexion SSL/TLS}
-
-
-
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
-   \hline
-   Description & Transfert des paquets chiffrés \\
-   \hline
-   Pré-conditions & Connexion SSL/TLS établie \\
-   \hline
-   Évènement déclenchant &  Envoi d'un paquet chiffré du client vers le serveur. \\
-   \hline
-   Condition d'arrêt & Réponse chiffrée du serveur transmise au client. \\
-   \hline
-   Cas d'exception  & Le client n'a pas accepté SSI-Cert. \\
-   \hline   
-\end{tabular}
-~\\
-Description du flot d'évènements principal :
-
-Dans ce cas d'utilisation, nous modifions les acteurs : le client est à gauche, le serveur à droite.
-
-Pour établir une connexion, il faut établir deux connexions SSL/TLS, une de chaque côté.
-
-Le proxy jouera alternativement les rôles de client et serveur.
-
-\begin{tabular}{|m{8cm}|m{8cm}|}
-   \hline
-  \rowcolor[gray]{.8} Client & Serveur \\
-   \hline
-1. (Client Hello) : Contient la date, un nonce et les algorithmes disponibles. & \\
-   \hline
-&2. (Server Hello) : Contient la date, un nonce et l'algorithme choisi.\\
-   \hline
-& 3. (Server Certificate) :  Contient un Site-Cert ainsi que les certificats de la chaîne de certification (Autorité).\\
-   \hline
-& 4. (Client Certificate Request) : Optionnel, seulement si le serveur veut que le client soit authentifié.\\
-   \hline
-& 5. (Server Hello Done) : Indique la fin d'envoi du serveur.\\
-   \hline
-6. (Client Certificate) : Si (4) est demandé, alors le client envoie son certificat. & \\
-   \hline
-7. (Client Key Exchange) : Message chiffré avec la clé publique du serveur qui contient une clé de session générée à partir des deux nonces échangés (Diffie-Hellman). Si le serveur est capable de déchiffrer et de répondre, il est authentifié auprès du client. & \\
-   \hline
-8. (Client Verify) : Si (4) est demandé, le client devra signer avec sa clé privée un haché des échanges précédents, ce qui l'authentifiera auprès du serveur. & \\
-   \hline
-9. (Change Cipher Spec.) : Précise que tous les messages envoyés à la suite du "Client Finished" seront chiffrés avec la clé de session échangée et les algorithmes choisis. & \\
-   \hline
-10. (Client Finished) : Informe que le client a fini et contient un haché de la totalité des échanges. & \\
-   \hline
-& 11. (Change Cipher Spec.) : Précise qu'à partir de maintenant, le serveur va envoyer des paquets chiffrés. \\
-   \hline
-& 12. (Server Finished) : Contient un haché de tous les échanges chiffré avec la clé de session et un MAC.\\
-   \hline
-\end{tabular}
-
-\subsection{Navigation SSL/TLS}
-
-
-
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
-   \hline
-   Description & Transfert des paquets chiffrés \\
-   \hline
-   Pré-conditions & Connexion SSL/TLS établie \\
-   \hline
-   Évènement déclenchant &  Envoi d'un paquet chiffré du client vers le serveur. \\
-   \hline
-   Condition d'arrêt & Réponse chiffrée du serveur transmise au client. \\
-   \hline
-   Cas d'exception  & Le client n'a pas accepté SSI-Cert. \\
-   \hline   
-\end{tabular}
-~\\
-Description du flot d'évènements principal :
-
-\begin{tabular}{|m{8cm}|m{8cm}|}
-   \hline
-  \rowcolor[gray]{.8} Acteur(s) & Système \\
-   \hline
-   1. Envoi d'un paquet Application-data chiffré du client vers le serveur& \\
-   \hline
-& 2. Le proxy déchiffre le paquet reçu à l'aide de la clé privée associée à Fake-Cert. \\
-& 3. Le proxy chiffre le paquet avec la clé publique de Site-Cert.  \\
-   \hline
- & 4. Transmission du paquet au serveur. \\
-   \hline
-5. Le serveur envoie sa réponse chiffrée avec la clé publique de Fake-Cert. &  \\
-   \hline
-  &  6. Le proxy déchiffre avec la clé privée de Fake-Cert, et rechiffre avec la clé publique du client.   \\
-   \hline
-      7. Le client déchiffre avec sa clé privée. &  \\
-   \hline
-\end{tabular}
-
-\subsection{Installation de l'autorité}
-
-Dans ce cas de figure, on prend l'exemple d'un administrateur système qui installe directement l'autorité sur les machines clientes.
-
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
-
-   \hline
-   Description & Première façon de faire : installer directement l'autorité dans le système\\
-   \hline
-   Pré-conditions &Autorité par défaut présente \\
-   \hline
-   Évènement déclenchant &  Mise en place de l'autorité\\
-   \hline
-   Condition d'arrêt & Autorité reconnue comme valide \\
-   \hline
-   Cas d'exception  & \\
-   \hline   
-\end{tabular}
-
-
-~\\
-
-Description du flot d'évènements principal :
-
-\begin{tabular}{|m{8cm}|m{8cm}|}
-   \hline
-   Acteur(s) & Système \\
-   \hline
-   1. Installation de l'autorité directement dans le système du client. & \\
-   \hline
-\end{tabular}
+\subsection{Installation de SSI-Cert par un administrateur sur la machine client}
+\input{text/cu2.tex}
 
 \subsection{Installation de SSI-Cert par l'utilisateur dans son navigateur}
+\input{text/cu3.tex}
 
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
-   \hline
-   Description & Lors de sa connexion au proxy, on force l'utilisateur à accepter le SSI-Cert. \\
-   \hline
-   Pré-conditions &  \\
-   \hline
-   Évènement déclenchant & Première connexion au proxy par le client \\
-   \hline
-   Condition d'arrêt &  \\
-   \hline
-   Cas d'exception  &  \\
-   \hline   
-\end{tabular}
+\subsection{Signature de Fake-Cert avec SSI-Cert-Collision dont le haché MD5 est le même que International-Cert accepté par la machine client }
+\input{text/cu4.tex}
 
-~\\
+\subsection{Génération d'un certificat serveur Fake-Cert}
+\input{text/cu5.tex}
 
-Description du flot d'évènements principal :
+\subsection{Établissement d'une connexion SSL/TLS}
+\input{text/cu6.tex}
 
-\begin{tabular}{|m{8cm}|m{8cm}|}
-   \hline
-  \rowcolor[gray]{.8} Acteur(s) & Système \\
-   \hline
-   1. Le client se connecte au proxy. & \\
-   \hline
-    & 2. Le client est redirigé vers une page de téléchargement de SSI-Cer. \\
-   \hline
-   3. Le client accepte SSI-Cert. &  \\
-   \hline
-\end{tabular}
+\subsection{Transchiffrement d'un paquet d'une connexion SSL/TLS}
+\input{text/cu7.tex}
 
-
-\subsection{Génération d'un certificat}
-
-À chaque demande de connexion SSL/TLS du client à un serveur, un faux certificat est envoyé au client. Il est généré si nécessaire.
-
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
-   \hline
-   Description & Génération de Fake-Cert à destination du client. \\
-   \hline
-   Pré-conditions & \begin{itemize}
-\item Le proxy est configuré sur le client.
-\item Le proxy est lancé.
-\item SSI-Cert est accepté par le client.
-   \end{itemize}
- \\
-   \hline
-   Évènement déclenchant & Le client tente de se connecter à un serveur \\
-   \hline
-   Condition d'arrêt &  Fake-Cert et la chaîne de certification avec SSI-Cert sont envoyés au client. \\
-   \hline
-   Cas d'exception  &
-\\
-   \hline   
-\end{tabular}
-
-~\\
-
-Description du flot d'évènements principal :
-
-\begin{tabular}{|m{8cm}|m{8cm}|}
-   \hline
-  \rowcolor[gray]{.8} Acteur(s) & Système \\
-   \hline
-   1. Le client tente de se connecter à un serveur & \\
-   \hline
-    & 
-2. Fake-Cert est généré :
-\begin{itemize}
-\item Le issuer est SSI-Sign.
-\item La clé publique est celle du bi-clé Fake-Cert, elle est constante pour tous les Fake-Cert. Nous connaissons la clé privée.
-\end{itemize}
-3. On envoie Fake-Cert au client. \\
-   \hline
-   4. Le client reconnaît Fake-Cert comme valide, car il est signé par SSI-Sign. &  \\
-   \hline
-\end{tabular}
-
-\subsection{Transchiffrement des paquets d'une connexion HTTPS}
-
-Une fois le certificat généré, le client établit une connexion TLS/SSL et envoie sa requête au proxy de manière chiffrée, le proxy déchiffre, la garde dans les logs (éventuellement) puis rechiffre cette requête pour le serveur (avec une autre clé). Le but de ce processus est d'être transparent donc très rapide.
-On a bien évidemment le même processus dans l'autre sens pour la réponse du serveur au client.
-
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
-   \hline
-   Description & Déchiffrement / Rechiffrement de la requête du client pour l'envoyer au serveur et de la réponse du serveur pour l'envoyer au client. \\
-   \hline
-   Pré-conditions & Certificat généré et deux connexions TLS/SSL ouvertes\\
-   \hline
-   Évènement déclenchant &  Envoi d'une requête du client\\
-   \hline
-   Condition d'arrêt & Message rédigé et transfert d’envoi terminé \\
-   \hline
-   Cas d'exception  & Renégociation TLS/SSL \\
-   \hline   
-\end{tabular}
-
-~\\
-
-Description du flot d'évènements principal :
-
-\begin{tabular}{|m{8cm}|m{8cm}|}
-   \hline
-  \rowcolor[gray]{.8} Acteur(s) & Système \\
-   \hline
-   1. Envoi d'une requête chiffrée par le client & \\
-   \hline
-    &
-2. Déchiffrement de la requête
-
-3. Log de cette requête
-
-4. Rechiffrement de la requête pour le serveur
-
-5. Envoi de cette requête au serveur
-
-
-8. Réception de la réponse chiffrée
-
-9. Déchiffrement de la réponse
-
-10. Log de la réponse\\
-\hline
-\end{tabular}
-
-
-\subsection{Utilisation d'un certificat dont le haché est le même qu'un certificat existant accepté }
-
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
-   \hline
-   Description & Utilisation d'un certificat généré à partir d'une collision. \\
-   \hline
-   Pré-conditions & L'étude a permis d'obtenir un deuxième certificat de même haché, mais dont on connaît la clé privée associée. \\
-   \hline
-   Évènement déclenchant & \\
-   \hline
-   Condition d'arrêt &  \\
-   \hline
-   Cas d'exception  &  \\
-   \hline   
-\end{tabular}
-
-~\\
-
-Description du flot d'évènements principal :
-
-\begin{tabular}{|m{8cm}|m{8cm}|}
-   \hline
-  \rowcolor[gray]{.8} Acteur(s) & Système \\
-   \hline
-   1. Le client demande une connexion. & \\
-   \hline
-&    2. Le proxy génère Fake-Cert et le signe avec SSI-Sign.  \\
-   \hline
- Le client reconnaît Fake-Cert comme valide, car la signature de SSI-Cert est valide (duppliquée d'un certificat de même haché) & \\
-\hline
-\end{tabular}
-
-
+\subsection{Navigation SSL/TLS}
+\input{text/cu8.tex}
 
 \section{Etude}
 
@@ -619,7 +267,7 @@ L'autorité que nous allons créer sera appelée "SSI-Sign", son certificat sera
 
 Dans le cadre de l'étude, nous allons chercher un certificat de même haché que "International-Sign", pour pouvoir recopier sa signature, et qu'elle soit valide.
 
-"Internation Sign" est un certificat reconnu par Firefox, il est donc diffusé dans tous les navigateurs des clients.
+"Internation-Sign" est un certificat reconnu par Firefox, il est donc diffusé dans tous les navigateurs des clients.
 
 Les certificats serveurs reçus seront appelés "Site-Cert" et les certificats que nous allons générer à partir de ces derniers seront appelés "Fake-Cert".
 
