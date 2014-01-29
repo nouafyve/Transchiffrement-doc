@@ -22,7 +22,7 @@
 %\usepackage{pgfcalendar}
 %\usepackage{ifthen}
 \usepackage{gensymb}
-
+\usepackage{soulutf8}
 
 \linespread{1.1} % Line spacing
 
@@ -130,24 +130,42 @@
 \newpage
 \section{Portefeuille de risques}
 
-\subsection*{Évaluation des risques}
+\subsection{Évaluation des risques}
+
+\hl{Les différents risques que nous avons découverts sont évalués en fonction leur probabilité d'apparition, et de la gravité de leur impact si ils se produisent, sur la satisfaction du client.}
 
 \begin{table}[!h]
 \begin{tabular}{|>{\centering\arraybackslash}m{4.5cm}|l|}
-\hline
-\multirow{4}*{Indice de gravité} & 1 : faible conséquence sur l'appréciation du client \\
- & 2 : conséquence significative sur l'appréciation du client \\
- & 3 : conséquence importante sur l'appréciation du client \\
- & 4 : mécontentement assuré du client \\
 \hline
 \multirow{4}*{Indice de probabilité} & 1 : très peu probable (P < 5\%) \\
  & 2 : peu probable  (5\% < P < 20\%) \\
  & 3 : probable  (20\% < P < 50\%) \\
  & 4 : très probable  (P > 50\%)\\
+ \hline
+\multirow{4}*{Indice de gravité} & 1 : faible conséquence sur l'appréciation du client \\
+ & 2 : conséquence significative sur l'appréciation du client \\
+ & 3 : conséquence importante sur l'appréciation du client \\
+ & 4 : mécontentement assuré du client \\
 \hline
 \end{tabular}
 \end{table}
 
+\hl{Nous devons porter une attention particulière aux risques \textit{critiques}, et dans une moindre mesure ceux \textit{à surveiller}.
+
+Si il n'y a pas de changement majeur, nous actualisons l'évaluation des risques chaque semaine.}
+
+
+\subsection{Rôle du pilote de risque}
+
+\hl{Lorsqu'un risque devient actif, le pilote de risque doit s'assurer que les mesures de corrections sont :}
+\begin{itemize}
+\item \hl{correctement appliquées ;}
+\item \hl{suffisantes.}
+\end{itemize}
+\hl{Si ce n'est pas le cas, il doit proposer de nouvelles mesures en accord avec les acteurs concernés.}
+
+
+\subsection*{Portefeuille de risques}
 \begin{table}[!h]
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -203,457 +221,37 @@ n08 & Modification du Cahier des Charges & 13/12/2013 & Julien BOURDON & Techniq
 
 \newpage
 
+\subsection{Fiches de risque}
 
-
-
-\begin{center}
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{8cm}|m{8cm}|}
-\hline
- Intitulé du risque & Ne pas livrer le client à temps \\
-\hline
- Description du risque & Des retards sur le projet empêchent de livrer les lots selon le planning prévu. \\
-\hline
-Pilote du risque & Émile GÉNÉRAT \\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|}
-\hline
-Indice de gravité & 3 &Date de début d'effet& Début de la conception \\
-\hline
-Indice de probabilité & 1 & Date de fin d'effet & Fin du projet\\
-\hline
-Criticité \footnotemark[1] & Acceptable &  & \\
-\hline
-État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Planning\\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{5cm}|m{11cm}|}
-\hline
-\rowcolor[gray]{.8} Actions préventives & Description\\
-\hline
- Réunions quotidiennes & Pour ne pas déborder du planning, cette réunion nous permettra de présenter l'avancement de la journée, et ce qui a été réalisé. \\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{5cm}|m{11cm}|}
-\hline
-\rowcolor[gray]{.8} Actions correctives & Description\\
-\hline
-Redéfinir le pérmètre du projet & Si le temps n'est pas suffisant pour terminer le projet, nous devrons nous concerter avec le client pour redéfinir les fonctionnalités minimales attendues.\\
-\hline
-\end{tabular}
-\end{center}
-
-
-
-\footnotetext[1]{Acceptable / À surveiller / Critique}
-\footnotetext[2]{Actif / Inactif}
-\footnotetext[3]{Compétences / Planning / Technique}
+\subsubsection{Risque n \no 1 : Ne pas livrer le client à temps}
+\input{text/fdr1.tex}
 
 \newpage
-
-
-
-\begin{center}
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{8cm}|m{8cm}|}
-\hline
- Intitulé du risque &  Insatisfaction du client\\
-\hline
- Description du risque & Malgré la finition du projet, le rendu n'est pas conforme aux attentes du client. \\
-\hline
-Pilote du risque &  Émile GÉNÉRAT \\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|}
-\hline
-Indice de gravité & 4 &Date de début d'effet& Début de la conception \\
-\hline
-Indice de probabilité & 1 & Date de fin d'effet & Fin du projet\\
-\hline
-Criticité \footnotemark[1] & À surveiller &  & \\
-\hline
-État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Planning\\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{5cm}|m{11cm}|}
-\hline
-\rowcolor[gray]{.8} Actions préventives & Description\\
-\hline
-Réunions hebdomadaires avec le client & Pour éviter de partir dans une mauvaise direction, ces réunions avec le client nous aideront à respecter ses attentes \\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{5cm}|m{11cm}|}
-\hline
-\rowcolor[gray]{.8} Actions correctives & Description\\
-\hline
-Correction de la livraison & Prendre en compte les remarques du client pendant la période de correction. \\
-\hline
-\end{tabular}
-\end{center}
-
-
-
-\footnotetext[1]{Acceptable / À surveiller / Critique}
-\footnotetext[2]{Actif / Inactif}
-\footnotetext[3]{Compétences / Planning / Technique}
+\subsubsection{Risque \no  2 : Insatisfaction du client}
+\input{text/fdr2.tex}
 
 \newpage
-
-\begin{center}
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{8cm}|m{8cm}|}
-\hline
- Intitulé du risque &  Retard, algorithme prêt trop tard\\
-\hline
- Description du risque & L'algorithme de recherche est prêt trop tard, et le temps d'exécution est trop court pour produire des résultats.  \\
-\hline
-Pilote du risque & Émile GÉNÉRAT \\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|}
-\hline
-Indice de gravité & 2 &Date de début d'effet& Début de la conception \\
-\hline
-Indice de probabilité & 3 & Date de fin d'effet & Fin du projet\\
-\hline
-Criticité \footnotemark[1] & À surveiller & & \\
-\hline
-État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Planning\\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{5cm}|m{11cm}|}
-\hline
-\rowcolor[gray]{.8} Actions préventives & Description\\
-\hline
-Réunions hebdomadaires avec le client & Demander des indications à notre Client. \\
-\hline
-Recherche & Travail de compréhension de l'attaque sur MD5 à partir d'articles publiés et récupération d'aide sur l'algorithme utilisé dans cette recherche. \\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{5cm}|m{11cm}|}
-\hline
-\rowcolor[gray]{.8} Actions correctives & Description\\
-\hline
-Étude rédigée & L'étude rédigée permet de garder une trace des différentes recherches qui ont été faites pour mettre au point l'algorithme. \\
-\hline
-\end{tabular}
-\end{center}
-
-
-
-
-\footnotetext[1]{Acceptable / À surveiller / Critique}
-\footnotetext[2]{Actif / Inactif}
-\footnotetext[3]{Compétences / Planning / Technique}
+\subsubsection{Risque \no  3 : Retard, algorithme prêt trop tard}
+\input{text/fdr3.tex}
 
 \newpage
-
-\begin{center}
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{8cm}|m{8cm}|}
-\hline
- Intitulé du risque &  Niveau technique insuffisant\\
-\hline
- Description du risque & Un manque de technique d'un ou plusieurs des étudiants nous handicape et ne nous permet pas de réaliser le projet en totalité  \\
-\hline
-Pilote du risque & Jean-Baptiste SOUCHAL \\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|}
-\hline
-Indice de gravité & 2 &Date de début d'effet& Début de la conception \\
-\hline
-Indice de probabilité & 1 & Date de fin d'effet & Fin du projet\\
-\hline
-Criticité \footnotemark[1] & Acceptable &  & \\
-\hline
-État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Compétence\\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{5cm}|m{11cm}|}
-\hline
-\rowcolor[gray]{.8} Actions préventives & Description\\
-\hline
-Formation & Que ce soit par le biais de tutoriels ou d'une explication d'un autre étudiant, l'apprentissage et l'approfondissement des connaissances devra être fait en amont des tâches.\\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{5cm}|m{11cm}|}
-\hline
-\rowcolor[gray]{.8} Actions correctives & Description\\
-\hline
-%\aRemplir{Nom de l'action} & \aRemplir{Lister les actions corrective en étant le plus précis possible} \\
-Entre-aide & Si un étudiant n'est pas capable de développer sa partie à cause d'un manque de connaissance, il sera aidé par un autre étudiant sur l'ensemble de sa tâche ce qui lui fera comprendre comment il faut faire. \\
-\hline
-\end{tabular}
-\end{center}
-
-
-
-
-\footnotetext[1]{Acceptable / À surveiller / Critique}
-\footnotetext[2]{Actif / Inactif}
-\footnotetext[3]{Compétences / Planning / Technique}
+\subsubsection{Risque \no  4 : Niveau technique insuffisant}
+\input{text/fdr4.tex}
 
 \newpage
-
-
-\begin{center}
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{8cm}|m{8cm}|}
-\hline
- Intitulé du risque &  Implication insuffisante ou absences \\
-\hline
- Description du risque & Un ou plusieurs étudiants n'accomplissent pas les tâches qui leur ont été données ou sont absents trop longtemps pour ne pas avoir le temps de les faire. \\
-\hline
-Pilote du risque & Julien BOURDON \\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|}
-\hline
-Indice de gravité & 3 &Date de début d'effet& Début de la conception \\
-\hline
-Indice de probabilité & 1 & Date de fin d'effet & Fin du projet\\
-\hline
-Criticité \footnotemark[1] & Acceptable &  & \\
-\hline
-État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Planning\\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{5cm}|m{11cm}|}
-\hline
-\rowcolor[gray]{.8} Actions préventives & Description\\
-\hline
-Réunions quotidiennes & Pour surveiller que chacun accomplit bien les tâches qui lui sont affectées, une réunion quotidienne permettra de sentir la motivation des étudiants.\\
-\hline
-Prévoir les absences & Pour que les absences ne soient pas dérangeantes pour le projet (absences des deux personnes qui travaillent sur le même point), les absences prévues sont publiées à l'avance. \\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{5cm}|m{11cm}|}
-\hline
-\rowcolor[gray]{.8} Actions correctives & Description\\
-\hline
-%\aRemplir{Nom de l'action} & \aRemplir{Lister les actions corrective en étant le plus précis possible} \\
-Réaffectation des tâches & Un étudiant qui peine à travailler sur une tâche car elle ne l'intéresse pas pourra se voir affecter à une autre tâche pour tenter de le remotiver (cas exceptionnel).\\
-\hline
-Sanction & Un étudiant qui est trop absent sera amené à s'expliquer avec le professeur encadrant.\\
-\hline
-\end{tabular}
-\end{center}
-
-
-
-
-\footnotetext[1]{Acceptable / À surveiller / Critique}
-\footnotetext[2]{Actif / Inactif}
-\footnotetext[3]{Compétences / Planning / Technique}
+\subsubsection{Risque \no  5 : Implication insuffisante ou absences}
+\input{text/fdr5.tex}
 
 \newpage
-
-
-\begin{center}
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{8cm}|m{8cm}|}
-\hline
- Intitulé du risque &  Perte des données du projet \\
-\hline
- Description du risque & Une mauvaise manipulation ou un crash du serveur où sont stockées les données résultent en une perte de toute les données. \\
-\hline
-Pilote du risque & Yves NOUAFO \\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|}
-\hline
-Indice de gravité & 4 &Date de début d'effet& Début de la conception \\
-\hline
-Indice de probabilité & 1 & Date de fin d'effet & Fin du projet\\
-\hline
-Criticité \footnotemark[1] & À surveiller &  & \\
-\hline
-État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Technique\\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{5cm}|m{11cm}|}
-\hline
-\rowcolor[gray]{.8} Actions préventives & Description\\
-\hline
-Sauvegarde & Tous les soirs, une copie des données sera faite en local sur chaque ordinateur, ce qui permettra de recréer le projet à partir de ces données \\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{5cm}|m{11cm}|}
-\hline
-\rowcolor[gray]{.8} Actions correctives & Description\\
-\hline
-%\aRemplir{Nom de l'action} & \aRemplir{Lister les actions corrective en étant le plus précis possible} \\
-Récupération des données & Utilisation de la sauvegarde locale sur un des ordinateurs du groupe \\
-\hline
-\end{tabular}
-\end{center}
-
-
-
-
-\footnotetext[1]{Acceptable / À surveiller / Critique}
-\footnotetext[2]{Actif / Inactif}
-\footnotetext[3]{Compétences / Planning / Technique}
+\subsubsection{Risque \no  6 : Perte des données du projet }
+\input{text/fdr6.tex}
 
 \newpage
-
-
-\begin{center}
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{8cm}|m{8cm}|}
-\hline
- Intitulé du risque &  Performances insuffisantes \\
-\hline
- Description du risque & Une mauvaise implémentation du code ne satisfait pas les contraintes de rapidité pour rendre le transchiffrement du proxy transparent. \\
-\hline
-Pilote du risque & Ouissem HAMDANI \\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|}
-\hline
-Indice de gravité & 3 &Date de début d'effet& Début de la conception \\
-\hline
-Indice de probabilité & 1 & Date de fin d'effet & Fin du projet\\
-\hline
-Criticité \footnotemark[1] & Acceptable &  & \\
-\hline
-État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Technique\\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{5cm}|m{11cm}|}
-\hline
-\rowcolor[gray]{.8} Actions préventives & Description\\
-\hline
-Tests d'efficacité & Plusieurs tests seront faits pour que les temps ne dépassent pas ceux spécifiés dans la STB. \\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{5cm}|m{11cm}|}
-\hline
-\rowcolor[gray]{.8} Actions correctives & Description\\
-\hline
-%\aRemplir{Nom de l'action} & \aRemplir{Lister les actions corrective en étant le plus précis possible} \\
-Optimisation des algorithmes & Nous profilerons l'application, pour chercher les tâches qui consomment le plus de temps. Nous pourrons modifier nos algorithmes, et/ou utiliser de nouveaux algorithmes pour le chiffrement.  \\
-\hline
-\end{tabular}
-\end{center}
-
-
-
-
-\footnotetext[1]{Acceptable / À surveiller / Critique}
-\footnotetext[2]{Actif / Inactif}
-\footnotetext[3]{Compétences / Planning / Technique}
+\subsubsection{Risque \no  7 : Performances insuffisantes }
+\input{text/fdr7.tex}
 
 \newpage
-
-\begin{center}
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{8cm}|m{8cm}|}
-\hline
- Intitulé du risque &  Modification du cachier des charges \\
-\hline
- Description du risque & Le client souhaite modifier ou ajouter des fonctionnalités au cahier des charges  \\
-\hline
-Pilote du risque & Julien BOURDON \\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|>{\columncolor[gray]{.8}}m{3.8cm}|m{3.8cm}|}
-\hline
-Indice de gravité & 2 &Date de début d'effet& Début de la conception \\
-\hline
-Indice de probabilité & 2 & Date de fin d'effet & Fin du projet\\
-\hline
-Criticité \footnotemark[1] & Acceptable &  & \\
-\hline
-État \footnotemark[2] & Actif & Catégorie \footnotemark[3] & Technique\\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{5cm}|m{11cm}|}
-\hline
-\rowcolor[gray]{.8} Actions préventives & Description\\
-\hline
- Réunions hebdomadaires avec le client & Pour éviter de créer de nouveaux besoins, ces réunions avec le client nous aideront à respecter ses attentes et à limiter les modifications \\
-\hline
-\end{tabular}
-\end{center}
-
-\begin{center}
-\begin{tabular}{|m{5cm}|m{11cm}|}
-\hline
-\rowcolor[gray]{.8} Actions correctives & Description\\
-\hline
-%\aRemplir{Nom de l'action} & \aRemplir{Lister les actions corrective en étant le plus précis possible} \\
-Prise en compte des modifications & Une réorganisation du planning sera faite si nous avons le temps et les moyens de réaliser cette modification, sinon cette modification sera considérée comme optionnelle en accord avec le client. \\
-\hline
-\end{tabular}
-\end{center}
-
-
-\footnotetext[1]{Acceptable / À surveiller / Critique}
-\footnotetext[2]{Actif / Inactif}
-\footnotetext[3]{Compétences / Planning / Technique}
+\subsubsection{Risque \no  8 : Modification du cahier des charges}
+\input{text/fdr8.tex}
 
 \end{document}
