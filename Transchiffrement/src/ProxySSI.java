@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,14 +27,12 @@ public class ProxySSI {
 
 		byte[] buf = new byte[40960];
 		byte[] buffer2 = new byte[40960];
-		byte[] buffer3 = new byte[40960];
 		int count = -1;
 		int count2 = -1;
-		int count3 = -1;
 		String line;
-		byte[] grosPate = new byte[40960];
 
 		BufferedInputStream in = new BufferedInputStream(connectionSocket.getInputStream(), buf.length);
+		BufferedOutputStream out = new BufferedOutputStream(connectionSocket.getOutputStream(), buf.length);
 		
 		while ((count = in.read(buf)) > 0) {
 			line = new String(buf, 0, count, "UTF-8");
@@ -45,8 +44,6 @@ public class ProxySSI {
 			Matcher httpsConnectMatcher = m_httpsConnectPattern.matcher(line);
 			
 			if (httpsConnectMatcher.find()) {
-				
-
 				// TODO Flush ?
 				
 				//while (in.read(buf, 0, in.available()) > 0) {}
@@ -56,19 +53,43 @@ public class ProxySSI {
 				int remotePort = Integer.parseInt(httpsConnectMatcher.group(2));
 				System.out.println("HTTPS SSL/TLS : "+httpsConnectMatcher.group(1)+" "+httpsConnectMatcher.group(2));
 				
+				
+				
+				StringBuffer response = new StringBuffer();
+			    response.append("HTTP/1.0 ").append("200 OK").append("\r\n");
+			    response.append("Host: " + remoteHost + ":" + remotePort + "\r\n");
+			    response.append("Proxy-agent: CS255-MITMProxy/1.0\r\n");
+		    	response.append("\r\n");
+		    	out.write(response.toString().getBytes());
+		    	out.flush();
+				System.out.println("réponse 200 ok");
+				
+				
+				
+				
+				
+				
 				X509Certificate java_cert = null;
 				SSLSocket remoteSocket = null;
 				try {
 					// Client => Proxy					
 					SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-					SSLSocket sslSocket = (SSLSocket) sslsocketfactory.createSocket(connectionSocket, null, connectionSocket.getPort(), false);
+					// TODO
+					String clientHost = connectionSocket.getInetAddress().toString();
+					System.out.println("Test : "+clientHost);
+					
+					
+					SSLSocket sslSocket = (SSLSocket) sslsocketfactory.createSocket(connectionSocket, "127.0.0.1", connectionSocket.getPort(), false);
+					sslSocket.setEnabledCipherSuites(sslSocket.getSupportedCipherSuites());
+					
 					sslSocket.setUseClientMode(false);
 					
 					// Proxy => Server
 					SSLSocket sslsocketClient = (SSLSocket) sslsocketfactory.createSocket(remoteHost, remotePort);
 					
 					
-					//sslsocketClient.setEnabledCipherSuites(sslsocketClient.getSupportedCipherSuites());
+					sslsocketClient.setEnabledCipherSuites(sslsocketClient.getSupportedCipherSuites());
+
 					//sslsocketClient.startHandshake();
 					
 					OutputStream requeteAuServeurWeb = sslsocketClient.getOutputStream();
@@ -79,6 +100,7 @@ public class ProxySSI {
 					//ETAPE 4
 					InputStream inputStreamClient = sslSocket.getInputStream();
 					OutputStream outputStreamClient = sslSocket.getOutputStream();
+					
 					
 					while ((count2 = reponseDuServeurWeb.read(buffer2)) > 0) {
 						System.out.println(new String(buffer2));
