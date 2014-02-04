@@ -1,0 +1,30 @@
+\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
+   \hline
+   Description & Lors de sa connexion au proxy, on force l'utilisateur à accepter le SSI-Cert. \\
+   \hline
+   Pré-conditions &  \\
+   \hline
+   Évènement déclenchant & Première connexion au proxy par le client \\
+   \hline
+   Condition d'arrêt & Autorité SSI-Sign reconnue comme valide. \\
+   \hline
+   Cas d'exception  &  \\
+   \hline   
+\end{tabular}
+
+~\\
+
+Description du flot d'évènements principal :
+
+\begin{tabular}{|m{8cm}|m{8cm}|}
+   \hline
+  \rowcolor[gray]{.8} Acteur(s) & Système \\
+   \hline
+   1. Le client se connecte au proxy. & \\
+   \hline
+    & 2. Le client est redirigé vers une page de téléchargement de SSI-Cer. \\
+   \hline
+   3. Le client accepte SSI-Cert. &  \\
+   \hline
+\end{tabular}
+

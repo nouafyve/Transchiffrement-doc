@@ -1,0 +1,32 @@
+\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
+   \hline
+   Description & Utilisation d'un certificat généré à partir d'une collision. \\
+   \hline
+   Pré-conditions & \begin{itemize}
+\item  L'étude a permis d'obtenir un deuxième certificat de même haché MD5, mais dont on connaît la clé privée associée.
+  \item Le client possède l'autorité attaquée.
+   \end{itemize} \\
+   \hline
+   Évènement déclenchant & Un client demande une connexion. \\
+   \hline
+   Condition d'arrêt & Le certificat Fake-Cert est reconnu valide par le client. \\
+   \hline
+   Cas d'exception  &  \\
+   \hline   
+\end{tabular}
+
+~\\
+
+Description du flot d'évènements principal :
+
+\begin{tabular}{|m{8cm}|m{8cm}|}
+   \hline
+  \rowcolor[gray]{.8} Acteur(s) & Système \\
+   \hline
+   1. Le client demande une connexion. & \\
+   \hline
+&    2. Le proxy génère Fake-Cert et le signe avec SSI-Sign-Collision.  \\
+   \hline
+ Le client reconnaît Fake-Cert comme valide, car la signature de SSI-Cert-Collision est valide (duppliquée d'un certificat de même haché) & \\
+\hline
+\end{tabular}

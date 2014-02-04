@@ -1,0 +1,13 @@
+Pour garantir la confidentialité du trafic internet, les sites ont de plus en plus souvent recours au chiffrement des échanges. Ce chiffrement s'effectue de bout en bout, du client jusqu'au serveur.
+Ainsi, un intrus qui intercepte les connexions ne peut pas lire les paquets qui transitent.
+
+
+Fréquemment, les entreprises analysent le trafic entrant et sortant de leur réseau. Cette analyse du contenu des paquets permet par exemple de chercher la présence de virus.
+
+
+Le but du projet est de fournir une solution de transchiffrement, qui permette d'analyse en clair au sein du proxy les paquets, qu'ils soient issus d'une connexion en clair ou chiffrée. Dans ce dernier cas, il faut établir une connexion chiffrée vers le client, et une autre vers le serveur distant. Ce système permet de faire une attaque de type "Man In The Middle".
+
+
+Pour cela, nous aurons besoin d'une autorité de certification reconnue par le client pour générer des certificats.
+Il existe plusieurs méthodes, dont l'étude des collisions MD5.
+Le but de la collision revient à générer un deuxième certificat dont la clé publique est différente, mais qui a la même signature MD5.

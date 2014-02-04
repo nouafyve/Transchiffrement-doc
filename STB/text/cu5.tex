@@ -1,0 +1,52 @@
+À chaque demande de connexion SSL/TLS du client à un serveur, un faux certificat est envoyé au client. Il est généré si nécessaire.
+
+Ce cas d'utilisation peut être décliné avec deux autorités, SSI-Sign, et SSI-Sign-Collision si nous avons trouvé une collision entre deux certificats.
+
+Le proxy ne peut utiliser qu'une des deux autorités, sélectionnée manuellement lors de l'installation du proxy.
+
+\begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
+   \hline
+   Description & Génération de Fake-Cert à destination du client. \\
+   \hline
+   Pré-conditions & \begin{itemize}
+\item Le proxy est configuré sur le client.
+\item Le proxy est lancé.
+\item SSI-Cert est accepté par le client.
+   \end{itemize}
+ \\
+   \hline
+   Évènement déclenchant & Le client tente de se connecter à un serveur \\
+   \hline
+   Condition d'arrêt &  Fake-Cert et la chaîne de certification avec SSI-Cert sont envoyés au client. \\
+   \hline
+   Cas d'exception  &
+\\
+   \hline   
+\end{tabular}
+
+~\\
+
+Description du flot d'évènements principal :
+
+\begin{tabular}{|m{8cm}|m{8cm}|}
+   \hline
+  \rowcolor[gray]{.8} Acteur(s) & Système \\
+   \hline
+   1. Le client tente de se connecter à un serveur & \\
+   \hline
+    & 
+2. 
+Deux cas sont possibles :
+\begin{itemize}
+\item Si le certificat est déjà dans la base de données, on le récupère.
+\item Sinon Fake-Cert est généré :
+\begin{itemize}
+\item Le issuer est SSI-Sign.
+\item La clé publique est celle du bi-clé Fake-Cert, elle est constante pour tous les Fake-Cert. Nous connaissons la clé privée.
+\end{itemize}
+\end{itemize}
+3. On envoie Fake-Cert au client. \\
+   \hline
+   4. Le client reconnaît Fake-Cert comme valide, car il est signé par SSI-Sign. &  \\
+   \hline
+\end{tabular}
