@@ -1,22 +1,20 @@
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketAddress;
+import java.security.KeyStore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.net.ServerSocketFactory;
-import javax.net.ssl.SSLServerSocket;
-import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManagerFactory;
 import javax.security.cert.X509Certificate;
 
 public class ProxySSI {
@@ -44,17 +42,14 @@ public class ProxySSI {
 			Matcher httpsConnectMatcher = m_httpsConnectPattern.matcher(line);
 			
 			if (httpsConnectMatcher.find()) {
-				// TODO Flush ?
-				
+
+				//TODO Flush ?
 				//while (in.read(buf, 0, in.available()) > 0) {}
-				
 				
 				String remoteHost = httpsConnectMatcher.group(1);
 				int remotePort = Integer.parseInt(httpsConnectMatcher.group(2));
 				System.out.println("HTTPS SSL/TLS : "+httpsConnectMatcher.group(1)+" "+httpsConnectMatcher.group(2));
-				
-				
-				
+							
 				StringBuffer response = new StringBuffer();
 			    response.append("HTTP/1.0 ").append("200 OK").append("\r\n");
 			    response.append("Host: " + remoteHost + ":" + remotePort + "\r\n");
@@ -63,14 +58,69 @@ public class ProxySSI {
 		    	out.write(response.toString().getBytes());
 		    	out.flush();
 				System.out.println("réponse 200 ok");
+								
 				
+				/***********************************/
 				
+
+		        /* Load properties */
+		        
+				System.setProperty("https.protocols","TLSv1");
+				String keyStoreFile = "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cacerts";
+				char[] keyStorePassword = "changeit".toCharArray();
+		        
+		        /* Create keystore */
+		        KeyStore keyStore = null; // = KeyStore.getInstance(KeyStore.getDefaultType());
+
+	        	// Que fait le 2ème paramètre ?
+	        	String keyStoreType = "jks";
+	        	keyStore = KeyStore.getInstance(keyStoreType);
+	        	keyStore.load(new FileInputStream(keyStoreFile), keyStorePassword);
+	        	System.out.println("On a ouvert un keystoreFile " +keyStore);
+
+		        /* Get factory for the given keystore */
+		        //TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+		        //tmf.init(keyStore);		        
+		        SSLContext ctx = SSLContext.getInstance("TLS");
+		        KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+		        
+		        KeyStore.Entry entry = keyStore.getEntry("mykey", new KeyStore.PasswordProtection("000000".toCharArray()));
+		        
+		        kmf.init(keyStore, "000000".toCharArray());
+		        ctx.init(kmf.getKeyManagers(), null, null);
+		        
+		        SSLSocketFactory factory = ctx.getSocketFactory();
+
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        /*
+		    	PrivateKey pk = (PrivateKey) keyStore.getKey(JSSEConstants.DEFAULT_ALIAS,keyStorePassword);
+		    	iaik.x509.X509Certificate newCert = SignCert.forgeCert(keyStore, keyStorePassword,JSSEConstants.DEFAULT_ALIAS,  remoteCN, remoteServerCert);
+		    	KeyStore newKS = KeyStore.getInstance("jks");
+		    	newKS.load(null, null);
+		    	newKS.setKeyEntry(JSSEConstants.DEFAULT_ALIAS, pk, keyStorePassword, new Certificate[] {newCert});
+		    	keyManagerFactory.init(newKS, keyStorePassword);
+		    	m_sslContext.init(keyManagerFactory.getKeyManagers(),  new TrustManager[] { new TrustEveryone() }, null);
+		    	m_serverSocketFactory = m_sslContext.getServerSocketFactory(); */
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        
+		        /*********************************************/
 				
-				
-				
-				
-				X509Certificate java_cert = null;
-				SSLSocket remoteSocket = null;
 				try {
 					// Client => Proxy					
 					SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
@@ -78,19 +128,23 @@ public class ProxySSI {
 					String clientHost = connectionSocket.getInetAddress().toString();
 					System.out.println("Test : "+clientHost);
 					
-					
-					SSLSocket sslSocket = (SSLSocket) sslsocketfactory.createSocket(connectionSocket, "127.0.0.1", connectionSocket.getPort(), false);
+					SSLSocket sslSocket = (SSLSocket) factory.createSocket(connectionSocket, "127.0.0.1", connectionSocket.getPort(), false);
 					sslSocket.setEnabledCipherSuites(sslSocket.getSupportedCipherSuites());
+									
+					
+					for( String i : sslSocket.getEnabledProtocols()){
+						System.out.println("Julien : "+i);
+					}
 					
 					sslSocket.setUseClientMode(false);
 					
-					// Proxy => Server
+					// Proxy <=> Server
 					SSLSocket sslsocketClient = (SSLSocket) sslsocketfactory.createSocket(remoteHost, remotePort);
 					
-					
 					sslsocketClient.setEnabledCipherSuites(sslsocketClient.getSupportedCipherSuites());
-
-					//sslsocketClient.startHandshake();
+				
+					
+					System.out.println(sslsocketClient.getSession().getPeerCertificates()[0]);
 					
 					OutputStream requeteAuServeurWeb = sslsocketClient.getOutputStream();
 					InputStream reponseDuServeurWeb = sslsocketClient.getInputStream();
@@ -98,18 +152,16 @@ public class ProxySSI {
 					requeteAuServeurWeb.write("GET / \n".getBytes());
 					
 					//ETAPE 4
-					InputStream inputStreamClient = sslSocket.getInputStream();
+					//SSLSOCKET = Client <-> Proxy
 					OutputStream outputStreamClient = sslSocket.getOutputStream();
 					
-					
 					while ((count2 = reponseDuServeurWeb.read(buffer2)) > 0) {
-						System.out.println(new String(buffer2));
-						System.out.println("passe");
+						System.out.println(new String(buffer2)); 
 						outputStreamClient.write(buffer2);
 						System.out.println("passe pas");
 					}
 					//outputStreamClient.flush();
-					System.out.println("Bim le client");
+					System.out.println("Bim le client.... ou pas :/");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
