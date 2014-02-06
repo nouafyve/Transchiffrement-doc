@@ -19,11 +19,24 @@ import javax.net.ssl.SSLSocketFactory;
 public class ProxySSI {
 	public static void main(String[] args) throws Exception {
 
-		ServerSocket serverSocket = new ServerSocket(9999);
+		String keyStoreFile = "/home/emile/keyStoreSSIAutoSigned";
+		String keyStorePassword = "000000";
+		int proxyPort = 9999;
+		int bufferSize = 40960;
+		
+		
+		System.setProperty("javax.net.ssl.keyStore", keyStoreFile);
+		System.setProperty("javax.net.ssl.keyStorePassword", keyStorePassword);
+		System.setProperty("javax.net.ssl.trustStore", keyStoreFile);
+		System.setProperty("javax.net.ssl.trustStorePassword", keyStorePassword);
+		System.setProperty("https.protocols","TLSv1");
+		
+		
+		ServerSocket serverSocket = new ServerSocket(proxyPort);
 		Socket connectionSocket = serverSocket.accept();
 
-		byte[] buf = new byte[40960];
-		byte[] buffer2 = new byte[40960];
+		byte[] buf = new byte[bufferSize];
+		byte[] buffer2 = new byte[bufferSize];
 		int count = -1;
 		String line;
 
@@ -61,14 +74,12 @@ public class ProxySSI {
 
 		        /* Load properties */
 		        
-				System.setProperty("https.protocols","TLSv1");
-				String keyStoreFile = "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cacerts";
-				char[] keyStorePassword = "changeit".toCharArray();
+				
+				char[] keyStorePasswordChar = keyStorePassword.toCharArray();
 
 	        	// Que fait le 2ème paramètre ?
-	        	String keyStoreType = "jks";
-	        	KeyStore keyStore = KeyStore.getInstance(keyStoreType);
-	        	keyStore.load(new FileInputStream(keyStoreFile), keyStorePassword);
+	        	KeyStore keyStore = KeyStore.getInstance("jks");
+	        	keyStore.load(new FileInputStream(keyStoreFile), keyStorePasswordChar);
 
 		        /* Get factory for the given keystore */	        
 		        SSLContext ctx = SSLContext.getInstance("TLS");
@@ -76,7 +87,7 @@ public class ProxySSI {
 		        
 		        //KeyStore.Entry entry = keyStore.getEntry("mykey", new KeyStore.PasswordProtection("000000".toCharArray()));
 
-		        kmf.init(keyStore, "000000".toCharArray());
+		        kmf.init(keyStore, keyStorePasswordChar);
 		        ctx.init(kmf.getKeyManagers(), null, null);
 		        SSLSocketFactory factory = ctx.getSocketFactory();
 		        
@@ -123,6 +134,7 @@ public class ProxySSI {
 					
 					// Réponse qu'on envoie au client
 					outputStreamClient.write(buffer2);
+					System.out.println("Sortie HTTPS");
 					outputStreamClient.flush();
 				}
 				catch (IOException e) {
@@ -136,14 +148,14 @@ public class ProxySSI {
 			
 				BufferedOutputStream requeteServeur = new BufferedOutputStream(clientSocket.getOutputStream(), buffer2.length);
 				BufferedInputStream reponseServeur = new BufferedInputStream(clientSocket.getInputStream(), buffer2.length);
-				System.out.println("1111");
-				//requeteServeur.write("GET / HTTP/1.1 \n".getBytes());
 				requeteServeur.write(buf);
-				System.out.println("222");
-				reponseServeur.read(buffer2);
-				System.out.println(new String(buffer2));
-				System.out.println("333");
-				out.write(buffer2);
+				
+				int count2;
+				while ((count2 = reponseServeur.read(buffer2)) > 0) {
+					System.out.println("Boucle");
+					out.write(buffer2);
+					buffer2 = new byte[40960];
+				}
 				System.out.println("Sortie HTTP");
 				clientSocket.close();
 			}
