@@ -1,12 +1,12 @@
 \begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
    \hline
-   Description & Transfert de paquets en clair  \\
+   Description & Transfert de trames en clair  \\
    \hline
    Pré-conditions & Connexion non-sécurisée établie \\
    \hline
-   Évènement déclenchant &  Envoi d'un paquet en clair du client vers le serveur. \\
+   Évènement déclenchant &  Réception d'une trame en clair sur une interface. \\
    \hline
-   Condition d'arrêt & Réponse en clair du serveur transmise au client. \\
+   Condition d'arrêt & Trame transférée sur l'autre interface. \\
    \hline
    Cas d'exception  &  \\
    \hline   
@@ -18,22 +18,12 @@ Description du flot d'évènements principal :
    \hline
   \rowcolor[gray]{.8} Acteur(s) & Système \\
    \hline
-   1. Envoi d'un paquet en clair du client à destination du serveur. & \\
+   1. Envoi d'une trame en clair par le client ou le serveur. & \\
    \hline
 &   2. Réception par le proxy.  \\
    \hline   
  &     3. Le proxy journalise le paquet.  \\
       \hline
-&      4. Le proxy retransmet le paquet au serveur.  \\
-      
-   \hline
-   5. Le serveur répond. & \\
-      
-   \hline
-&      6. Le proxy reçoit, journalise, et retransmet au client. \\
-      
-   \hline
-      7. Le client reçoit le paquet. & \\
-      
+&      4. Le proxy retransmet le paquet au destinataire.  \\
    \hline
 \end{tabular}
