@@ -1,15 +1,15 @@
 
 \begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
    \hline
-   Description & Transfert des paquets chiffrés \\
+   Description & Transfert de trames chiffrés \\
    \hline
    Pré-conditions & Connexion SSL/TLS établie \\
    \hline
-   Évènement déclenchant &  Envoi d'un paquet chiffré du client vers le serveur. \\
+   Évènement déclenchant &  Réception d'une trame chiffrée. \\
    \hline
-   Condition d'arrêt & Réponse chiffrée du serveur transmise au client. \\
+   Condition d'arrêt & Envoi de cette trame au destinataire. \\
    \hline
-   Cas d'exception  & Le client n'a pas accepté SSI-Cert. \\
+   Cas d'exception  & Si le proxy n'est pas capable de déchiffrer la trame, on la jette. \\
    \hline   
 \end{tabular}
 ~\\
@@ -19,17 +19,16 @@ Description du flot d'évènements principal :
    \hline
   \rowcolor[gray]{.8} Acteur(s) & Système \\
    \hline
-   1. Envoi d'un paquet Application-data chiffré du client vers le serveur& \\
+   1. Envoi d'une trame chiffrée.& \\
    \hline
-& 2. Le proxy déchiffre le paquet reçu à l'aide de la clé privée associée à Fake-Cert. \\
-& 3. Le proxy chiffre le paquet avec la clé publique de Site-Cert.  \\
-   \hline
- & 4. Transmission du paquet au serveur. \\
-   \hline
-5. Le serveur envoie sa réponse chiffrée avec la clé publique de Fake-Cert. &  \\
-   \hline
-  &  6. Le proxy déchiffre avec la clé privée de Fake-Cert, et rechiffre avec la clé publique du client.   \\
-   \hline
-      7. Le client déchiffre avec sa clé privée. &  \\
-   \hline
+    &
+2. Déchiffrement de la trame.
+
+3. Log de cette trame.
+
+4. Rechiffrement de la requête pour le destinataire.
+
+5. Envoi de cette trame au destinataire.
+\\
+\hline
 \end{tabular}

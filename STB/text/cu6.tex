@@ -1,12 +1,12 @@
 \begin{tabular}{|>{\columncolor[gray]{.8}}m{4cm}|m{12cm}|}
    \hline
-   Description & Transfert des paquets chiffrés \\
+   Description & Etablissement d'une connexion SSL/TLS entre deux entités. \\
    \hline
-   Pré-conditions & Connexion SSL/TLS établie \\
+   Pré-conditions & Autorité de certification ayant signé le certificat du serveur acceptée. \\
    \hline
-   Évènement déclenchant &  Envoi d'un paquet chiffré du client vers le serveur. \\
+   Évènement déclenchant &  Réception d'un Client Hello. \\
    \hline
-   Condition d'arrêt & Réponse chiffrée du serveur transmise au client. \\
+   Condition d'arrêt & Server Hello Done envoyé. \\
    \hline
    Cas d'exception  & Le client n'a pas accepté SSI-Cert. \\
    \hline   
@@ -36,7 +36,7 @@ Le proxy jouera alternativement les rôles de client et serveur.
    \hline
 6. (Client Certificate) : Si (4) est demandé, alors le client envoie son certificat. & \\
    \hline
-7. (Client Key Exchange) : Paquet chiffré avec la clé publique du serveur qui contient une clé de session générée à partir des deux nonces échangés (Diffie-Hellman). Si le serveur est capable de déchiffrer et de répondre, il est authentifié auprès du client. & \\
+7. (Client Key Exchange) : Paquet chiffré avec la clé publique du serveur qui contient une clé de session générée à partir des deux nonces échangés. Si le serveur est capable de déchiffrer et de répondre, il est authentifié auprès du client. & \\
    \hline
 8. (Client Verify) : Si (4) est demandé, le client devra signer avec sa clé privée un haché des échanges précédents, ce qui l'authentifiera auprès du serveur. & \\
    \hline
