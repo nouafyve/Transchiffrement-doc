@@ -1,0 +1,111 @@
+\documentclass[a4paper,11pt,french]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel} 
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, includeheadfoot]{geometry} %pour les marges
+\usepackage{lmodern}
+\usepackage{pict2e}
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{tabularx, longtable}
+\usepackage{color, colortbl}
+\usepackage{lscape}
+%\usepackage[hidelinks]{hyperref}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{rotating}
+%\usepackage{pgfgantt}
+%\usepackage{pgfcalendar}
+%\usepackage{ifthen}
+\usepackage{gensymb}
+
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
+\rhead{\includegraphics[width=10em]{../../images/logo_univ.png}}
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ / \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength{\headheight}{40pt}
+
+\newcommand{\hmwkTitle}{Transchiffrement} % Assignment title
+\newcommand{\hmwkClass}{Master 2 SSI } % Course/class
+\newcommand{\hmwkAuthorName}{Julien BOURDON} % Your name
+\newcommand{\hmwkSubject}{Conduite de projet} % Subject
+\newcommand{\hmwkDocName}{Compte rendu réunion 30/01/14} % Document name
+
+\makeatletter
+\newcommand{\resettranslate}{\let\translate\@firstofone}
+\makeatother
+
+\definecolor{gris}{rgb}{0.95, 0.95, 0.95}
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass :\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+\vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{} % Insert date here if you want it to appear below your name
+
+\usepackage{amsmath}
+\begin{document}
+\newcount\startdate
+\newcount\daynum
+%\pgfcalendardatetojulian{2013-01-021}{\startdate}
+\pagestyle{fancy}
+
+\vspace*{5cm}
+\begin{center}\textbf{\Huge{\hmwkDocName}}\end{center}
+\vspace*{4.5cm}
+
+\newpage
+
+%Tableau de mises à jour
+
+
+%La table des matières
+%\clearpage
+%\tableofcontents
+%\clearpage
+
+\section{Personnes présentes :}
+\begin{itemize}
+  \item Magali Bardet
+  \item Emile Générat
+  \item Julien Bourdon
+  \item Yves Nouafo
+  \item Ouissem Hamdani
+  \item Jean-Baptiste Souchal
+\end{itemize}
+
+\section{Sujets abordés :}
+\begin{itemize}
+  \item Correction de fautes dans la STB (ex : paquet => trame).
+  \item Remplacer le mode unilatéral "client vers serveur" par un mode bilatéral "d'un côté vers l'autre". 
+  \item Remplacer donc la condition d'arrêt par "paquet envoyé de l'autre côté".
+  \item Rectifier l'utilisation des clés de chiffrement (RSA n'est pas utilisé pour le chiffrement).
+  \item Supprimer le cas Transchiffrement qui fait doublon avec Navigation chiffrée.
+\end{itemize}
+
+\section{Actions à prévoir pour la réunion de la semaine prochaine :}
+\begin{itemize}
+  \item Se renseigner sur la renégociation et l'authentification client. 
+  \item Développer pourquoi l'authentification client pourrait être la seule façon d'annuler le Man in the Middle.
+\end{itemize}
+~\\
+La prochaine réunion est prévue le jeudi 6 février dans l'après-midi.
+
+\end{document}
