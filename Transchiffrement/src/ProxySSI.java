@@ -48,14 +48,10 @@ public class ProxySSI {
 		String line;
 		while ((count = in.read(buf)) > 0) {
 			line = new String(buf, 0, count, "UTF-8");
-			System.out.println(line);
 
 			// TODO regex ???
 			Pattern m_httpsConnectPattern = Pattern.compile("^CONNECT[ \\t]+([^:]+):(\\d+).*\r\n\r\n", Pattern.DOTALL);
 			Matcher httpsConnectMatcher = m_httpsConnectPattern.matcher(line);
-			
-//			Pattern m_httpGETPattern = Pattern.compile("^GET[ \\t]+([^:]+):(\\d+).*\r\n\r\n", Pattern.DOTALL);
-//			Matcher httpGETMatcher = m_httpGETPattern.matcher(line);
 			
 			
 			if (httpsConnectMatcher.find() ||https_mode) {	
@@ -109,6 +105,10 @@ public class ProxySSI {
 					OutputStream requeteAuServeurWeb = sslsocketClient.getOutputStream();
 					InputStream reponseDuServeurWeb = sslsocketClient.getInputStream();
 					
+					
+	                GenerateCertificate gen = new GenerateCertificate(serveurCert);
+					
+					
 					requeteAuServeurWeb.write("GET / \n".getBytes());
 					reponseDuServeurWeb.read(buffer2);
 					System.out.println(new String(buffer2));
@@ -139,7 +139,6 @@ public class ProxySSI {
 					
 					// Réponse qu'on envoie au client
 					outputStreamClient.write(buffer2);
-					//outputStreamClient.write("JB la buse".getBytes());
 					outputStreamClient.flush();
 					System.out.println("Sortie HTTPS");
 				}
