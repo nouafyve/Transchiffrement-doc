@@ -1,14 +1,12 @@
-'''
-usage: python SimpleSecureHTTPServer.py
-'''
-import socket, os
+import socket
 from SocketServer import BaseServer
 from BaseHTTPServer import HTTPServer
 from SimpleHTTPServer import SimpleHTTPRequestHandler
 from OpenSSL import SSL
+from BaseHTTPServer import BaseHTTPRequestHandler
 
 
-class SecureHTTPServer(HTTPServer):
+class HTTPSServer(HTTPServer):
     def __init__(self, server_address, HandlerClass):
         BaseServer.__init__(self, server_address, HandlerClass)
         ctx = SSL.Context(SSL.SSLv23_METHOD)
@@ -21,7 +19,7 @@ class SecureHTTPServer(HTTPServer):
         self.server_activate()
 
 
-class SecureHTTPRequestHandler(SimpleHTTPRequestHandler):
+class myHandler(SimpleHTTPRequestHandler):
     def setup(self):
         self.connection = self.request
         self.rfile = socket._fileobject(self.request, "rb", self.rbufsize)
@@ -29,15 +27,14 @@ class SecureHTTPRequestHandler(SimpleHTTPRequestHandler):
         
 	def shutdown_request(self,request):
 		request.shutdown()
+	
+	def shutdown(self, args=None):
+         return self._con.shutdown()
 
 
-def test(HandlerClass = SecureHTTPRequestHandler,        ServerClass = SecureHTTPServer):
-    server_address = ('127.0.0.1', 4443)
-    httpd = SecureHTTPServer(server_address, HandlerClass)
-    sa = httpd.socket.getsockname()
-    print "Serving HTTPS on", sa[0], "port", sa[1], "..."
-    httpd.serve_forever()
 
-
-if __name__ == '__main__':
-    test()
+server_address = ('127.0.0.1', 8080)
+httpd = HTTPSServer(server_address, myHandler)
+sa = httpd.socket.getsockname()
+print "Serving HTTPS on", sa[0], "port", sa[1], "..."
+httpd.serve_forever()

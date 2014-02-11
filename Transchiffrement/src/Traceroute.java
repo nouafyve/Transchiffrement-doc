@@ -41,7 +41,7 @@ public class Traceroute {
 		try {
 			JpcapCaptor captor = JpcapCaptor.openDevice(inputInterface, 65535, false, 20);
 			captor.setFilter("tcp", true);
-			captor.loopPacket(100, new PacketPrinter(outputInterface));
+			captor.loopPacket(100, new PacketHandler(outputInterface));
 			captor.close();
 		} catch (Exception e) {
 			System.out.println("Exception");

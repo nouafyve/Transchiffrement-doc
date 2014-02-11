@@ -7,3 +7,5 @@
 *.blg
 *.pdf
 *.class
+*.dvi
+DiaToPDF

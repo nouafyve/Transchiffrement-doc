@@ -7,7 +7,7 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.KeyStore;
-import java.security.cert.Certificate;
+import java.security.cert.X509Certificate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,11 +19,14 @@ import javax.net.ssl.SSLSocketFactory;
 public class ProxySSI {
 	public static void main(String[] args) throws Exception {
 
-		String keyStoreFile = "/home/emile/keyStoreSSIAutoSigned";
+		String keyStoreFile = "/home/emile/certificat_serveur/mardi_soir/keystore_ok.jks";
 		String keyStorePassword = "000000";
 		int proxyPort = 9999;
 		int bufferSize = 40960;
-		
+		byte[] buf = new byte[bufferSize];
+		byte[] buffer2 = new byte[bufferSize];
+		int count = -1;
+		boolean https_mode = false;
 		
 		System.setProperty("javax.net.ssl.keyStore", keyStoreFile);
 		System.setProperty("javax.net.ssl.keyStorePassword", keyStorePassword);
@@ -35,14 +38,14 @@ public class ProxySSI {
 		ServerSocket serverSocket = new ServerSocket(proxyPort);
 		Socket connectionSocket = serverSocket.accept();
 
-		byte[] buf = new byte[bufferSize];
-		byte[] buffer2 = new byte[bufferSize];
-		int count = -1;
-		String line;
+
+		
+		
 
 		BufferedInputStream in = new BufferedInputStream(connectionSocket.getInputStream(), buf.length);
 		BufferedOutputStream out = new BufferedOutputStream(connectionSocket.getOutputStream(), buf.length);
 		
+		String line;
 		while ((count = in.read(buf)) > 0) {
 			line = new String(buf, 0, count, "UTF-8");
 			System.out.println(line);
@@ -55,7 +58,8 @@ public class ProxySSI {
 //			Matcher httpGETMatcher = m_httpGETPattern.matcher(line);
 			
 			
-			if (httpsConnectMatcher.find()) {				
+			if (httpsConnectMatcher.find() ||https_mode) {	
+				https_mode = true;
 				String remoteHost = httpsConnectMatcher.group(1);
 				int remotePort = Integer.parseInt(httpsConnectMatcher.group(2));
 				System.out.println("HTTPS SSL/TLS : "+httpsConnectMatcher.group(1)+" "+httpsConnectMatcher.group(2));
@@ -63,11 +67,10 @@ public class ProxySSI {
 				StringBuffer response = new StringBuffer();
 			    response.append("HTTP/1.0 ").append("200 OK").append("\r\n");
 			    response.append("Host: " + remoteHost + ":" + remotePort + "\r\n");
-			    response.append("Proxy-agent: CS255-MITMProxy/1.0\r\n");
+			    response.append("Proxy-agent: toto/1.0\r\n");
 		    	response.append("\r\n");
 		    	out.write(response.toString().getBytes());
 		    	out.flush();
-				System.out.println("réponse 200 ok");
 								
 				
 				/***********************************/	
@@ -75,7 +78,7 @@ public class ProxySSI {
 		        /* Load properties */
 		        
 				
-				char[] keyStorePasswordChar = keyStorePassword.toCharArray();
+		    	char[] keyStorePasswordChar = keyStorePassword.toCharArray();
 
 	        	// Que fait le 2ème paramètre ?
 	        	KeyStore keyStore = KeyStore.getInstance("jks");
@@ -101,13 +104,15 @@ public class ProxySSI {
 					// Proxy <=> Server
 					SSLSocket sslsocketClient = (SSLSocket) sslsocketfactory.createSocket(remoteHost, remotePort);
 					sslsocketClient.setEnabledCipherSuites(sslsocketClient.getSupportedCipherSuites());
-					//Certificate serveurCert = sslsocketClient.getSession().getPeerCertificates()[0]; 
+					X509Certificate serveurCert = (X509Certificate)sslsocketClient.getSession().getPeerCertificates()[0];
+					System.out.println(serveurCert);
 					OutputStream requeteAuServeurWeb = sslsocketClient.getOutputStream();
 					InputStream reponseDuServeurWeb = sslsocketClient.getInputStream();
 					
 					requeteAuServeurWeb.write("GET / \n".getBytes());
 					reponseDuServeurWeb.read(buffer2);
 					System.out.println(new String(buffer2));
+					
 					
 					//ETAPE 4
 					//SSLSOCKET = Client <-> Proxy
@@ -134,14 +139,14 @@ public class ProxySSI {
 					
 					// Réponse qu'on envoie au client
 					outputStreamClient.write(buffer2);
-					System.out.println("Sortie HTTPS");
+					//outputStreamClient.write("JB la buse".getBytes());
 					outputStreamClient.flush();
+					System.out.println("Sortie HTTPS");
 				}
 				catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			//else if (httpGETMatcher.find()){
 			else{
 				System.out.println("Entrée en mode HTTP");
 				Socket clientSocket = new Socket("192.168.56.101", 80);
@@ -153,7 +158,8 @@ public class ProxySSI {
 				int count2;
 				while ((count2 = reponseServeur.read(buffer2)) > 0) {
 					System.out.println("Boucle");
-					out.write(buffer2);
+					out.write("<html><body><h1>SSL web site</h1><p>This is the default web page for this server.</p></body></html>".getBytes());
+					//out.write(buffer2);
 					buffer2 = new byte[40960];
 				}
 				System.out.println("Sortie HTTP");
