@@ -30,8 +30,8 @@ public class Transchiffrement {
 		
 		while (true) {
 			while ((count = in.read(buf)) > 0) {
-				line = new String(buf, 0, count, "UTF-8");
-				System.out.println(line);
+				line = new String(buf, 0, count, "US-ASCII");
+				//System.out.println(line);
 				Pattern httpsConnectPattern = Pattern.compile("^CONNECT[ \\t]+([^:]+):(\\d+).*\r\n\r\n", Pattern.DOTALL);
 				Pattern httpGetPattern = Pattern.compile("^(.+)[ \\t]+(http://.+) HTTP/1.1\r\nHost:[ \\t]+(.+)\r\n.*\r\n\r\n", Pattern.DOTALL);
 				

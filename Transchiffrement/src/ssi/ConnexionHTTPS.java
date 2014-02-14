@@ -30,8 +30,6 @@ public class ConnexionHTTPS extends Connexion {
 		SSLContext ctx = SSLContext.getInstance("TLS");
 		KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
 
-		// KeyStore.Entry entry = keyStore.getEntry("mykey", new KeyStore.PasswordProtection("000000".toCharArray()));
-
 		kmf.init(keyStore, keyStorePasswordChar);
 		ctx.init(kmf.getKeyManagers(), null, null);
 		SSLSocketFactory factory = ctx.getSocketFactory();
@@ -45,47 +43,24 @@ public class ConnexionHTTPS extends Connexion {
 		BufferedOutputStream requeteAuServeurWeb = new BufferedOutputStream(sslsocketClient.getOutputStream(), Constantes.BUFFER_SIZE);
 		BufferedInputStream reponseDuServeurWeb = new BufferedInputStream(sslsocketClient.getInputStream(), Constantes.BUFFER_SIZE);
 
-		GenerationCertificat gen = new GenerationCertificat(serveurCert);
-		X509Certificate truc = GenerationCertificat.getCertificateFromFile("cles/fake-cert.pem");
-		// PrivateKey pk = (PrivateKey)
-		// keyStore.getKey("mykey",keyStorePassword);
-		// keyStore.setKeyEntry(new String("mykey"), pk, keyStorePassword, new
-		// Certificate[] {truc});
-
 		// TODO récupérer la page souhaitée par l'utilisateur
 		requeteAuServeurWeb.write("GET / \n".getBytes());
-
-		// ETAPE 4
-		// SSLSOCKET = Client <-> Proxy
-		// Client => Proxy
-		// Pour récupérer l'adresse du client
-		// String clientHost = connectionSocket.getInetAddress().toString();
-
-		// keyStore.setKeyEntry("monserv", "ch	ngeit".getBytes(), new
-		// Certificate[]{serveurCert});
-
-		/*
-		 * PrivateKey pk = (PrivateKey)
-		 * keyStore.getKey(JSSEConstants.DEFAULT_ALIAS,keyStorePassword);
-		 * iaik.x509.X509Certificate newCert = SignCert.forgeCert(keyStore,
-		 * keyStorePassword,JSSEConstants.DEFAULT_ALIAS, remoteCN,
-		 * remoteServerCert); KeyStore newKS = KeyStore.getInstance("jks");
-		 * newKS.load(null, null);
-		 * newKS.setKeyEntry(JSSEConstants.DEFAULT_ALIAS, pk, keyStorePassword,
-		 * new Certificate[] {newCert}); keyManagerFactory.init(newKS,
-		 * keyStorePassword);
-		 * m_sslContext.init(keyManagerFactory.getKeyManagers(), new
-		 * TrustManager[] { new TrustEveryone() }, null); m_serverSocketFactory
-		 * = m_sslContext.getServerSocketFactory();
-		 */
-
+		requeteAuServeurWeb.flush();
+		
 		SSLSocket sslSocket = (SSLSocket) factory.createSocket(socketClient, ipClient, portClient, false);
 		sslSocket.setEnabledCipherSuites(sslSocket.getSupportedCipherSuites());
-		System.out.println(sslSocket.getSupportedCipherSuites());
 		sslSocket.setUseClientMode(false);
 		BufferedOutputStream outputStreamClient = new BufferedOutputStream(sslSocket.getOutputStream(),Constantes.BUFFER_SIZE);
-		Transfert threadServeurWebVersClient = new Transfert(reponseDuServeurWeb, outputStreamClient);
-		threadServeurWebVersClient.start();
+		
+		byte[] buffer = new byte[4096];
+		System.out.println("passe toujours ici");
+		reponseDuServeurWeb.read(buffer);
+		System.out.println("passe jamais ici");
+		System.out.println(new String(buffer));
+		outputStreamClient.write(buffer);
+		
+		/*Transfert threadServeurWebVersClient = new Transfert(reponseDuServeurWeb, outputStreamClient);
+		threadServeurWebVersClient.start();*/
 	}
 	
 	public void envoyerMessageClient(String message) throws Exception {

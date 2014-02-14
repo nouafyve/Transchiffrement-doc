@@ -1,8 +1,11 @@
 package ssi;
 
-import java.io.IOException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import ssi.paquets.JournalFichier;
 
 public class Transfert extends Thread {
 
@@ -18,13 +21,22 @@ public class Transfert extends Thread {
 	public void run() {
 		try {
 			while (entree.read(buffer) > 0) {
+				String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+				System.out.println(timeStamp);
 				System.out.println("Passage dans la boucle du thread");
-				System.out.println(new String(buffer));
+				System.out.println("SALUT LES ZOUZOUS ! "+new String(buffer, "US-ASCII"));
+				System.out.println("Ouverture du ficheir");
+				JournalFichier logger = new JournalFichier(Constantes.DOSSIER_LOG + "log" + timeStamp + ".txt");
+				
+				logger.ecrire(new String(buffer));
+				logger.close();
+				System.out.println("Fermeture du ficheir");
 				sortie.write(buffer);
 				sortie.flush();
 				Thread.sleep(10);
 			}
-		} catch (IOException | InterruptedException e) {
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
