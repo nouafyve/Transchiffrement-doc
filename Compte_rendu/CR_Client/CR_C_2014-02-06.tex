@@ -1,0 +1,115 @@
+\documentclass[a4paper,11pt,french]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel} 
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, includeheadfoot]{geometry} %pour les marges
+\usepackage{lmodern}
+\usepackage{pict2e}
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{tabularx, longtable}
+\usepackage{color, colortbl}
+\usepackage{lscape}
+%\usepackage[hidelinks]{hyperref}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{rotating}
+%\usepackage{pgfgantt}
+%\usepackage{pgfcalendar}
+%\usepackage{ifthen}
+\usepackage{gensymb}
+
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
+\rhead{\includegraphics[width=10em]{../../images/logo_univ.png}}
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ / \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength{\headheight}{40pt}
+
+\newcommand{\hmwkTitle}{Transchiffrement} % Assignment title
+\newcommand{\hmwkClass}{Master 2 SSI } % Course/class
+\newcommand{\hmwkAuthorName}{Émile GÉNÉRAT} % Your name
+\newcommand{\hmwkSubject}{Conduite de projet} % Subject
+\newcommand{\hmwkDocName}{Compte rendu réunion 30/01/14} % Document name
+
+\makeatletter
+\newcommand{\resettranslate}{\let\translate\@firstofone}
+\makeatother
+
+\definecolor{gris}{rgb}{0.95, 0.95, 0.95}
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass :\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+\vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{} % Insert date here if you want it to appear below your name
+
+\usepackage{amsmath}
+\begin{document}
+\newcount\startdate
+\newcount\daynum
+%\pgfcalendardatetojulian{2013-01-021}{\startdate}
+\pagestyle{fancy}
+
+\vspace*{5cm}
+\begin{center}\textbf{\Huge{\hmwkDocName}}\end{center}
+\vspace*{4.5cm}
+
+\newpage
+
+%Tableau de mises à jour
+
+
+%La table des matières
+%\clearpage
+%\tableofcontents
+%\clearpage
+
+\section{Personnes présentes :}
+\begin{itemize}
+  \item Magali Bardet
+  \item Emile Générat
+  \item Julien Bourdon
+  \item Yves Nouafo
+  \item Ouissem Hamdani
+  \item Jean-Baptiste Souchal
+\end{itemize}
+
+\section{Sujets abordés :}
+Nous avons des problèmes pour établir une connexion TLS entre le client et le proxy.
+Pour Madame Bardet, les points à vérifier/suggestions sont :
+\begin{itemize}
+\item s'assurer que le keystore contient les bonnes clés/certificats;
+  \item le fichier cert.pem, qui doit contenir la concaténation des autorités de la chaîne;
+  \item utiliser deux keystores;
+  \item utiliser l'autorité intermédiaire faite en TP (pour ne pas avoir la clé privée de l'autorité racine) ;
+  \item le certificat généré par le proxy pour un site doit avoir le même CN que le certificat du site distant.
+  \item utiliser s\_client (si possible de le configurer avec un proxy)  
+\end{itemize}
+
+Pour l'acceptation des certificats d'autorité au sein des navigateurs, il faut chercher une solution sans devoir cliquer (problématique d'une flotte importante).
+
+\section{Actions à prévoir pour la réunion de la semaine prochaine :}
+\begin{itemize}
+  \item Présenter notre projet à Madame Bardet mardi matin, pour vérifier si la partie cryptographique est correcte.
+\end{itemize}
+~\\
+La prochaine réunion est prévue le jeudi 13 février dans l'après-midi.
+
+\end{document}
