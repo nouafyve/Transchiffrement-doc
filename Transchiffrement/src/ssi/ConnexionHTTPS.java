@@ -3,8 +3,6 @@ package ssi;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.security.KeyStore;
 import java.security.cert.X509Certificate;
@@ -16,8 +14,10 @@ import javax.net.ssl.SSLSocketFactory;
 
 public class ConnexionHTTPS extends Connexion {
 
+	private String ipWeb;
 	public ConnexionHTTPS(Socket socketClient, String ipWeb, int portWeb) throws Exception {
 		super(socketClient, ipWeb, portWeb);
+		this.ipWeb = ipWeb;
 	}
 
 	public void lancer() throws Exception {
@@ -44,21 +44,48 @@ public class ConnexionHTTPS extends Connexion {
 		BufferedInputStream reponseDuServeurWeb = new BufferedInputStream(sslsocketClient.getInputStream(), Constantes.BUFFER_SIZE);
 
 		// TODO récupérer la page souhaitée par l'utilisateur
-		requeteAuServeurWeb.write("GET / \n".getBytes());
-		requeteAuServeurWeb.flush();
+		//requeteAuServeurWeb.write(("GET / \n").getBytes());
+//		byte[] buffer2 = new byte[4096];
+//		int count = entreeClient.read(buffer2);
+//		System.out.println(new String(buffer2,0,count,"UTF-8"));
+//		requeteAuServeurWeb.write(buffer2);
+		//requeteAuServeurWeb.flush();
+		
+		
+		
+		
+		 //Génération de fake-cert et importation dans le keystore du nouveau pkcs12.
+        GenerationCertificat gen = new GenerationCertificat(serveurCert);
+        //Chargement du nouveau keystore dans la variable Java.
+        keyStore.load(new FileInputStream(Constantes.KEYSTORE_FILE), keyStorePasswordChar);
+        //Réinitiation des objets utiles à la création du socket avec le bon keystore.
+        kmf.init(keyStore, keyStorePasswordChar);
+        ctx.init(kmf.getKeyManagers(), null, null);
+        factory = ctx.getSocketFactory();
 		
 		SSLSocket sslSocket = (SSLSocket) factory.createSocket(socketClient, ipClient, portClient, false);
 		sslSocket.setEnabledCipherSuites(sslSocket.getSupportedCipherSuites());
 		sslSocket.setUseClientMode(false);
 		BufferedOutputStream outputStreamClient = new BufferedOutputStream(sslSocket.getOutputStream(),Constantes.BUFFER_SIZE);
 		
-		byte[] buffer = new byte[4096];
-		System.out.println("passe toujours ici");
-		reponseDuServeurWeb.read(buffer);
-		System.out.println("passe jamais ici");
-		System.out.println(new String(buffer));
-		outputStreamClient.write(buffer);
+		BufferedInputStream in = new BufferedInputStream(sslSocket.getInputStream(), Constantes.BUFFER_SIZE);
 		
+		
+		byte[] buffer = new byte[4096];
+		
+		int count = in.read(buffer);
+		String s = new String(buffer, 0, count, "UTF-8");
+		count = in.read(buffer);
+		s += new String(buffer, 0, count, "UTF-8");
+		String s2 = (s.substring(0, s.indexOf("HTTP"))+"\n");
+		System.out.println(s2);
+		//requeteAuServeurWeb.write("GET / \n".getBytes());
+		requeteAuServeurWeb.write(s2.getBytes());
+		requeteAuServeurWeb.flush();
+		
+		Thread myThread = new Thread(new Transfert(reponseDuServeurWeb, outputStreamClient));
+        myThread.start();
+        myThread.join();
 		/*Transfert threadServeurWebVersClient = new Transfert(reponseDuServeurWeb, outputStreamClient);
 		threadServeurWebVersClient.start();*/
 	}
