@@ -13,16 +13,21 @@ public class Transfert extends Thread {
 	// public byte[] buffer = new byte[Constantes.BUFFER_SIZE];
 	private final InputStream entree;
 	private final OutputStream sortie;
-
-	public Transfert(InputStream entree, OutputStream sortie) {
+	private final String texteEntree;
+	private final String texteSortie;
+	
+	public Transfert(InputStream entree, OutputStream sortie, String texteEntree, String texteSortie) {
 		this.entree = entree;
 		this.sortie = sortie;
+		this.texteEntree = texteEntree;
+		this.texteSortie = texteSortie;
 	}
 
 	public void run() {
 		byte[] buffer = new byte[Constantes.BUFFER_SIZE];
 		try {
 			while (true) {
+				buffer = new byte[Constantes.BUFFER_SIZE];
 				int byteRead = entree.read(buffer, 0, Constantes.BUFFER_SIZE);
 				String line = new String(buffer, 0, buffer.length);
 
@@ -37,9 +42,8 @@ public class Transfert extends Thread {
 					Date date = new Date();
 					JournalFichier jf = new JournalFichier(
 							dateFormat.format(date));
-					System.out.println(dateFormatDetail.format(date) + "\n"
-							+ line);
-					jf.ecrire(dateFormatDetail.format(date) + "\n" + line);
+					//System.out.println(dateFormatDetail.format(date) + "   " + texteEntree + " => " + texteSortie +"\n"+ line);
+					jf.ecrire(dateFormatDetail.format(date) + "   " + texteEntree + " => " + texteSortie +"\n"+ line);
 					jf.close();
 					sortie.write(buffer, 0, byteRead);
 					sortie.flush();

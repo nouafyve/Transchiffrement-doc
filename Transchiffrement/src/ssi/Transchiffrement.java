@@ -45,18 +45,18 @@ public class Transchiffrement {
 
 				if (httpsConnectMatcher.find() || https_mode) {
 					// https_mode= true;
-					System.out.println("Entrée HTTPS");
+					//System.out.println("Entrée HTTPS");
 					String ipWeb = httpsConnectMatcher.group(1);
 					int portWeb = Integer
 							.parseInt(httpsConnectMatcher.group(2));
 					ConnexionHTTPS connexionHTTPS = new ConnexionHTTPS(
 							connectionSocket, ipWeb, portWeb);
 					connexionHTTPS.lancer();
-					System.out.println("Sortie HTTPS");
+					//System.out.println("Sortie HTTPS");
 					connectionSocket.shutdownInput();
 					connectionSocket.shutdownOutput();
 				} else if (httpGetMatcher.find()) {
-					System.out.println("Entrée HTTP");
+					//System.out.println("Entrée HTTP");
 					String requete = httpGetMatcher.group(1) + " "
 							+ httpGetMatcher.group(2);
 					// System.out.println(requete);
@@ -64,7 +64,7 @@ public class Transchiffrement {
 					ConnexionHTTP connexionHTTP = new ConnexionHTTP(
 							connectionSocket, ipWeb, 80, buf);
 					connexionHTTP.lancer();
-					System.out.println("Sortie HTTP");
+					//System.out.println("Sortie HTTP");
 				}
 			}
 			buf = new byte[Constantes.BUFFER_SIZE];

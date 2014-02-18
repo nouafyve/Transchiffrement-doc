@@ -6,11 +6,16 @@ import java.io.FileInputStream;
 import java.net.Socket;
 import java.security.KeyStore;
 import java.security.cert.X509Certificate;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+
+import ssi.paquets.JournalFichier;
 
 public class ConnexionHTTPS extends Connexion {
 
@@ -24,7 +29,7 @@ public class ConnexionHTTPS extends Connexion {
 
 	public void lancer() throws Exception {
 		envoyerMessageClient("200 OK");
-		System.out.println("HTTPS SSL/TLS : " + ipWeb + " " + portWeb);
+		//System.out.println("HTTPS SSL/TLS : " + ipWeb + " " + portWeb);
 		char[] keyStorePasswordChar = Constantes.KEYSTORE_PASSWORD
 				.toCharArray();
 
@@ -54,14 +59,6 @@ public class ConnexionHTTPS extends Connexion {
 		BufferedInputStream reponseDuServeurWeb = new BufferedInputStream(
 				sslsocketClient.getInputStream(), Constantes.BUFFER_SIZE);
 
-		// TODO récupérer la page souhaitée par l'utilisateur
-		// requeteAuServeurWeb.write(("GET / \n").getBytes());
-		// byte[] buffer2 = new byte[4096];
-		// int count = entreeClient.read(buffer2);
-		// System.out.println(new String(buffer2,0,count,"UTF-8"));
-		// requeteAuServeurWeb.write(buffer2);
-		// requeteAuServeurWeb.flush();
-
 		// Génération de fake-cert et importation dans le keystore du nouveau
 		// pkcs12.
 		GenerationCertificat gen = new GenerationCertificat(serveurCert);
@@ -90,14 +87,25 @@ public class ConnexionHTTPS extends Connexion {
 		String s = new String(buffer, 0, count, "UTF-8");
 		count = in.read(buffer);
 		s += new String(buffer, 0, count, "UTF-8");
-		String s2 = (s.substring(0, s.indexOf("HTTP")) + "\n");
-		System.out.println(s2);
+		//String s2 = (s.substring(0, s.indexOf("HTTP")) + "\n");
+		String sDebut = (s.substring(0, s.indexOf("Accept-Encoding")));
+		String sFin = (s.substring(s.indexOf("Connection"), s.length()));
+		//System.out.println(s2);
 		// requeteAuServeurWeb.write("GET / \n".getBytes());
-		requeteAuServeurWeb.write(s2.getBytes());
+		DateFormat dateFormat = new SimpleDateFormat(
+				"yyyy_MM_dd_HH");
+		DateFormat dateFormatDetail = new SimpleDateFormat("mm:ss");
+		Date date = new Date();
+		JournalFichier jf = new JournalFichier(
+				dateFormat.format(date));
+		//System.out.println(dateFormatDetail.format(date) + "   " + texteEntree + " => " + texteSortie +"\n"+ line);
+		jf.ecrire(dateFormatDetail.format(date) + "   " + sslSocket.getRemoteSocketAddress().toString() + " => " + sslsocketClient.getRemoteSocketAddress().toString() +"\n"+ sDebut+""+sFin+"\n");
+		jf.close();
+		requeteAuServeurWeb.write((sDebut+""+sFin).getBytes());
 		requeteAuServeurWeb.flush();
 
 		Thread myThread = new Thread(new Transfert(reponseDuServeurWeb,
-				outputStreamClient));
+				outputStreamClient, sslsocketClient.getRemoteSocketAddress().toString(), sslSocket.getRemoteSocketAddress().toString()));
 		myThread.start();
 		myThread.join();
 		/*
