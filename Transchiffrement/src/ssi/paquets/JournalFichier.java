@@ -1,26 +1,22 @@
 package ssi.paquets;
 
 import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
+import java.io.FileWriter;
 import java.io.PrintWriter;
 
-public class JournalFichier implements Journal{
-	
+public class JournalFichier implements Journal {
+
 	private PrintWriter writer;
-	
-	public JournalFichier(String nomFichier) throws Exception{
-		this.writer = new PrintWriter(new BufferedWriter(
-				new OutputStreamWriter(new FileOutputStream(nomFichier),
-						"US-ASCII")));
+
+	public JournalFichier(String nomFichier) throws Exception {
+		this.writer = new PrintWriter(new BufferedWriter(new FileWriter(nomFichier, true)));
 	}
-	
-	
-	public void ecrire(String chaine){
+
+	public void ecrire(String chaine) {
 		writer.println(chaine);
 	}
-	
-	public void close(){
+
+	public void close() {
 		writer.close();
-	}	
+	}
 }

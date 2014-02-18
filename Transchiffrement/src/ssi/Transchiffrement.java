@@ -10,10 +10,10 @@ public class Transchiffrement {
 
 	public static void main(String[] args) throws Exception {
 		Transchiffrement proxy = new Transchiffrement();
-			proxy.initialisationKeyStore();
-			proxy.attendreRequete();
+		proxy.initialisationKeyStore();
+		proxy.attendreRequete();
 	}
-	
+
 	public void attendreRequete() throws Exception {
 		// Faire une boucle pour tourner en boucle
 		int count = -1;
@@ -24,36 +24,45 @@ public class Transchiffrement {
 		serverSocket = new ServerSocket(Constantes.PROXY_PORT);
 		while (true) {
 			connectionSocket = serverSocket.accept();
-			BufferedInputStream in = new BufferedInputStream(connectionSocket.getInputStream(), buf.length);
-			
+			BufferedInputStream in = new BufferedInputStream(
+					connectionSocket.getInputStream(), buf.length);
+
 			String line;
-			
+
 			while ((count = in.read(buf)) > 0) {
 				line = new String(buf, 0, count, "UTF-8");
-				//System.out.println("Début de line" +line);
-				Pattern httpsConnectPattern = Pattern.compile("^CONNECT[ \\t]+([^:]+):(\\d+).*\r\n\r\n", Pattern.DOTALL);
-				Pattern httpGetPattern = Pattern.compile("^(.+)[ \\t]+(http://.+) HTTP/1.1\r\nHost:[ \\t]+(.+)\r\n.*\r\n\r\n", Pattern.DOTALL);
-				
+				// System.out.println("Début de line" +line);
+				Pattern httpsConnectPattern = Pattern.compile(
+						"^CONNECT[ \\t]+([^:]+):(\\d+).*\r\n\r\n",
+						Pattern.DOTALL);
+				Pattern httpGetPattern = Pattern
+						.compile(
+								"^(.+)[ \\t]+(http://.+) HTTP/1.1\r\nHost:[ \\t]+(.+)\r\n.*\r\n\r\n",
+								Pattern.DOTALL);
+
 				Matcher httpsConnectMatcher = httpsConnectPattern.matcher(line);
 				Matcher httpGetMatcher = httpGetPattern.matcher(line);
-				
-				if (httpsConnectMatcher.find() ||https_mode) {
-					//https_mode= true;
+
+				if (httpsConnectMatcher.find() || https_mode) {
+					// https_mode= true;
 					System.out.println("Entrée HTTPS");
 					String ipWeb = httpsConnectMatcher.group(1);
-					int portWeb = Integer.parseInt(httpsConnectMatcher.group(2));
-					ConnexionHTTPS connexionHTTPS = new ConnexionHTTPS(connectionSocket, ipWeb, portWeb);
+					int portWeb = Integer
+							.parseInt(httpsConnectMatcher.group(2));
+					ConnexionHTTPS connexionHTTPS = new ConnexionHTTPS(
+							connectionSocket, ipWeb, portWeb);
 					connexionHTTPS.lancer();
-					System.out.println("Sortie HTTPS");	
+					System.out.println("Sortie HTTPS");
 					connectionSocket.shutdownInput();
 					connectionSocket.shutdownOutput();
-				}
-				else if(httpGetMatcher.find()){
+				} else if (httpGetMatcher.find()) {
 					System.out.println("Entrée HTTP");
-					String requete = httpGetMatcher.group(1) + " " + httpGetMatcher.group(2);
-					//System.out.println(requete);
+					String requete = httpGetMatcher.group(1) + " "
+							+ httpGetMatcher.group(2);
+					// System.out.println(requete);
 					String ipWeb = httpGetMatcher.group(3);
-					ConnexionHTTP connexionHTTP = new ConnexionHTTP(connectionSocket, ipWeb, 80, buf);
+					ConnexionHTTP connexionHTTP = new ConnexionHTTP(
+							connectionSocket, ipWeb, 80, buf);
 					connexionHTTP.lancer();
 					System.out.println("Sortie HTTP");
 				}
@@ -61,13 +70,14 @@ public class Transchiffrement {
 			buf = new byte[Constantes.BUFFER_SIZE];
 		}
 	}
-	
-	
-	public void initialisationKeyStore(){
+
+	public void initialisationKeyStore() {
 		System.setProperty("javax.net.ssl.keyStore", Constantes.KEYSTORE_FILE);
-		System.setProperty("javax.net.ssl.keyStorePassword", Constantes.KEYSTORE_PASSWORD);
+		System.setProperty("javax.net.ssl.keyStorePassword",
+				Constantes.KEYSTORE_PASSWORD);
 		System.setProperty("javax.net.ssl.trustStore", Constantes.KEYSTORE_FILE);
-		System.setProperty("javax.net.ssl.trustStorePassword", Constantes.KEYSTORE_PASSWORD);
-		System.setProperty("https.protocols","TLSv1");
+		System.setProperty("javax.net.ssl.trustStorePassword",
+				Constantes.KEYSTORE_PASSWORD);
+		System.setProperty("https.protocols", "TLSv1");
 	}
 }
