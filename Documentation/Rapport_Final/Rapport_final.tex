@@ -199,6 +199,8 @@ Suite à la phase d'analyse, nous avons décidé d'utiliser les sockets, qui son
 \subsection{Journalisation des échanges}
 Nous avons réalisé une classe, qui nous permet de stocker dans un fichier tout le trafic qui traverse le proxy.
 
+Ensuite, nous avons développé une seconde méthode, pour chercher un éventuel champ password dans un formulaire POST, ou passé avec GET. Même si en théorie le mot de passe ne doit jamais être passé dans l'adresse, il existe toujours des développeurs peu précautionneux.
+
 \section{Tests}
 
 \chapter{Recherche de collision sur des certificats hachés en MD5}
