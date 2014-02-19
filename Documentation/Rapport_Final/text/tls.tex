@@ -1,31 +1,12 @@
-\documentclass[11pt]{article}
-%Gummi|061|=)
-\title{\textbf{Protocole SSL/TLS}}
-\author{Hamdani Ouissem\\
-	}
-\date{}
-
-\usepackage[utf8]{inputenc}
-
-\usepackage[T1]{fontenc}
-\usepackage[francais]{babel} 
-\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, includeheadfoot]{geometry} %pour les marges
-
-%\usepackage[hidelinks]{hyperref}
-
-\begin{document}
-
-\maketitle
-
-\section{définition}
+\subsubsection{définition}
 le protocole TLS/SSL est un protocole de sécurisation des échanges sur internet.Il fonctionne suivant un mode client/serveur
 TLS/SSL assure l'authentification, la confidentialité et l'intégrité.
-\section{Fragmentation}
+\subsubsection{Fragmentation}
 la fragmentation des blocs d'informations en des "record" TLS/SSL porte sur des données 2\^\ 14 octets ou moins.
-\section {Fonction HMAC}
+\subsubsection{Fonction HMAC}
 Pour protéger l'intégrité du message TLS/SSL utilise le code MAC,
 le chiffrement utilise une construction HMAC qui est basée sur une fonction de hashage.
-\section{Le protocole "record" TLS/SSL}
+\subsubsection{Le protocole "record" TLS/SSL}
 \begin{itemize}
 \item L'envoie:
 TLS/SSL prend les messages à transmettre, fragmente les données en des blocs, compresse les données (optionnel), applique le MAC, crypte et transmis le résultat. 
@@ -33,7 +14,7 @@ TLS/SSL prend les messages à transmettre, fragmente les données en des blocs, 
 La récéption:A la réception, les données sont déchiffrées, vérifiées, décompréssées, rassemblées, et aprés ils sont livrées à des clients de niveau supérieur.
 \end{itemize}
 le protocle handshake utilise ce genre d'échange de message.
-\section{Le protocole handshake:}
+\subsubsection{Le protocole handshake:}
 
 le protocole handshake est responsable pour la négociation d'une session.Cette session se décompose des éléments suivants:
 \begin{itemize}
@@ -54,7 +35,7 @@ le protocole handshake utilise les étapes suivantes:
 \item Fournir les paramètres de sécurité.
 \item permettre au client et au serveur de vérifier qu'ils ont le m\^eme paramètre de sécurité et que le handshake a eu lieu sans altération d'un attaquant.
 \end{itemize}
-\subsection {Hello message}
+\paragraph{Hello message}
 le message "Hello message" est utilisé pour renforcer les échanges sécurisés entre le client et le serveur.
 \subsubsection {Hello request:}
 "Hello request" est une notification pour que le client doit commencer la négaciation d'une connexion.Le message "hello request" peut \^etre envoyer à n'importe quel moment.
@@ -65,21 +46,20 @@ Lors de la première connexion du client au serveur, il est nécessaire d'envoye
 Le serveur va envoyer ce message suite a une réponse du message "client hello" si l'algorithme est accepté si non envoie handshake "failure alert".
 \subsubsection {Signature algorithms}
 le client l'utilise pour indiquer au serveur quel paire signature/hash peut \^etre utilisé.
-\subsection {Server Certificate}
+\paragraph{Server Certificate}
 le serveur doit envoyer un certificat.
 ce certificat doit être appropriée pour  la suite de chiffrement et toutes les extensions négociées.
-\subsection {Server key exchange message}
+\paragraph{Server key exchange message}
 envoyer par le serveur aprés le message "server certificate" et que si cette dernière ne contient pas assez de données pour permettre au client l'échange du secret.
-\subsection {Certificate Request}
+\paragraph{Certificate Request}
 Ce message, s'il est envoyé va suivre le message "ServerKeyExchange"
-\subsection {Server Hello Done}
+\paragraph{Server Hello Done}
 envoyerpaar le serveur pour indiquer la fin du message "Server Hello Done". Le serveur attend une réponse du client.
-\subsection {Client Certificate}
+\paragraph{Client Certificate}
 ce message est envoyé seulement si le serveur demande un certificat.
-\subsection {Client Key Exchange Message}
+\paragraph{Client Key Exchange Message}
 avec ce message le secret est définie soit transmission directe avec RSA ou par Diffie-Hellman pour que les deux entités se mettent d'accord sur le même code secret.
-\subsection {Certificate Verify}
+\paragraph{Certificate Verify}
 il est utlisé pour impliquer une vérification explicit du certificat client.
-\subsection {Finished}
+\paragraph{Finished}
 envoyer aprés un échange chiffré pour vérifier que l'échange et l'authentification est passé entre les deux entités utilisant le protocole handshake.
-\end{document}

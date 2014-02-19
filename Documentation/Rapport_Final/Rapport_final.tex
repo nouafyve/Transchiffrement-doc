@@ -18,7 +18,8 @@
 \usepackage{multirow}
 \usepackage{rotating}
 \usepackage{gensymb}
-
+\usepackage{tikz}
+\usepackage{pgfplots}
 
 
 \linespread{1.1} % Line spacing
@@ -35,11 +36,11 @@
 
 \setlength{\headheight}{40pt}
 
-\newcommand{\hmwkTitle}{Projet transchiffrement SSL/TLS\\Rapport final} % Assignment title
+\newcommand{\hmwkTitle}{Projet transchiffrement SSL/TLS} % Assignment title
 \newcommand{\hmwkClass}{Master 2 SSI } % Course/class
-\newcommand{\hmwkAuthorName}{Émile GÉNÉRAT} % Your name
-\newcommand{\hmwkSubject}{Recherche} % Subject
-\newcommand{\hmwkDocName}{} % Document name
+\newcommand{\hmwkAuthorName}{Julien BOURDON, Émile GÉNÉRAT} % Your name
+\newcommand{\hmwkSubject}{} % Subject
+\newcommand{\hmwkDocName}{Rapport final} % Document name
 
 \newcommand{\version}{1.0} % Document version
 \newcommand{\docDate}{20 février 2014} % Document date
@@ -116,41 +117,95 @@
 
 \chapter{Présentation du projet}
 
-\section{Spécifications}
+
+\section{Introduction}
 \input{../../PDD/introduction.tex}
 
 
-Rappel des cas d'utilisation de la STB
+
+\section{Spécifications}
+
+\subsection{Cas d'utilisation}
+\includegraphics[width=0.8\textwidth]{../../STB/images/cas_utilisation.pdf}
+
+\subsection{Schéma du système}
+\includegraphics[width=0.8\textwidth]{../../STB/images/schema_autorites.pdf}
+
+
+\section{Gestion de projet}
 
 \subsection{L'équipe}
 
-\section{Gestion de projet}
-Rappels du PDD
-Gestion des risques
+Pour mener à bien ce projet, nous sommes une équipe de 5 étudiants.
 
-Évolution du planning et des priorités
+Nous nous sommes répartis autour des deux parties principales du projet, le proxy et la recherche de collision.
 
-\chapter{Présentation des résultats}
-\section{Proxy SSL/TLS}
-\subsection{Analyse}
+
+\subsection{Présentation des livrables}
+
+Les fonctionnalités finales attendues sont :
+\begin{itemize}
+\item une application servant de proxy  
+\item un dossier de recherche sur les collisions MD5, ainsi qu'une mise en oeuvre.
+\end{itemize}
+
+\subsection{Évolution du planning et des priorités}
+
+Nous avons rencontré des difficultés dans la réalisation du projet.
+En accord avec le client, nous avons privilégié la réalisation du programme applicatif de proxy.
+
+\subsection{Gestion des risques}
+
+Nous avons établi une liste des risques qui pouvaient menacer la réussite du projet.
+
+Ces risques ont fait l'objet d'une attention particulière, tout au long du projet.
+
+\chapter{Proxy SSL/TLS}
+\section{Analyse}
+
+\subsection{Cibles visées par l'attaque}
+
 \subsection{Protocole TLS}
-Handshake
+\input{text/tls.tex}
 
-\subsection{Conception}
-\paragraph{UML}
+\section{Conception}
+
+\subsection{UML}
 \includegraphics[width=0.8\textwidth]{images/uml.pdf}
 
-\subsubsection*{Implémentation}
+\section{Implémentation}
+\subsection{Faire accepter une autorité}
+\input{text/Autorites.tex}
 
+\subsection{Threads}
 
-\paragraph{Threads}
+Une fois les connexions établies, nous 
+
 \includegraphics[width=0.8\textwidth]{images/thread.pdf}
 
-\paragraph{Sockets}
+\subsection{Sockets}
+Pour ce projet, nous devons faire communiquer les différents composants du projet ensemble. Ces composants sont :
+\begin{itemize}
+\item le navigateur du client ;
+\item le proxy ;
+\item le serveur Web.
+\end{itemize}
 
+Suite à la phase d'analyse, nous avons décidé d'utiliser les sockets, qui sont implémentées en Java.
 
-\section{Recherche de collision sur des certificats hachés en MD5}
+\subsection{Keystore}
+\input{text/java.tex}
+
+\subsection{Journalisation des échanges}
+Nous avons réalisé une classe, qui nous permet de stocker dans un fichier tout le trafic qui traverse le proxy.
+
+\section{Tests}
+
+\chapter{Recherche de collision sur des certificats hachés en MD5}
 
 \chapter{Synthèse}
+
+\chapter{Annexes}
+\section{Captures d'écran de l'installation de l'autorité}
 
 \end{document}
