@@ -1,4 +1,4 @@
-package ssi;
+
 
 import java.io.BufferedInputStream;
 import java.net.ServerSocket;
@@ -15,7 +15,6 @@ public class Transchiffrement {
 	}
 
 	public void attendreRequete() throws Exception {
-		// Faire une boucle pour tourner en boucle
 		int count = -1;
 		byte[] buf = new byte[Constantes.BUFFER_SIZE];
 		boolean https_mode = false;
@@ -24,12 +23,9 @@ public class Transchiffrement {
 		serverSocket = new ServerSocket(Constantes.PROXY_PORT);
 		while (true) {
 			connectionSocket = serverSocket.accept();
-			BufferedInputStream in = new BufferedInputStream(
-					connectionSocket.getInputStream(), buf.length);
-
+			BufferedInputStream in = new BufferedInputStream(connectionSocket.getInputStream(), buf.length);
 			String line;
-
-			while ((count = in.read(buf)) > 0) {
+				count = in.read(buf);
 				line = new String(buf, 0, count, "UTF-8");
 				// System.out.println("Début de line" +line);
 				Pattern httpsConnectPattern = Pattern.compile(
@@ -43,8 +39,7 @@ public class Transchiffrement {
 				Matcher httpsConnectMatcher = httpsConnectPattern.matcher(line);
 				Matcher httpGetMatcher = httpGetPattern.matcher(line);
 
-				if (httpsConnectMatcher.find() || https_mode) {
-					// https_mode= true;
+				if (httpsConnectMatcher.find()) {
 					//System.out.println("Entrée HTTPS");
 					String ipWeb = httpsConnectMatcher.group(1);
 					int portWeb = Integer
@@ -53,8 +48,6 @@ public class Transchiffrement {
 							connectionSocket, ipWeb, portWeb);
 					connexionHTTPS.lancer();
 					//System.out.println("Sortie HTTPS");
-					connectionSocket.shutdownInput();
-					connectionSocket.shutdownOutput();
 				} else if (httpGetMatcher.find()) {
 					//System.out.println("Entrée HTTP");
 					String requete = httpGetMatcher.group(1) + " "
@@ -66,8 +59,7 @@ public class Transchiffrement {
 					connexionHTTP.lancer();
 					//System.out.println("Sortie HTTP");
 				}
-			}
-			buf = new byte[Constantes.BUFFER_SIZE];
+				buf = new byte[Constantes.BUFFER_SIZE];
 		}
 	}
 
