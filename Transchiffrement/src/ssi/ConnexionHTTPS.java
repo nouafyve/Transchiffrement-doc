@@ -1,4 +1,4 @@
-
+package ssi;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -47,7 +47,7 @@ public class ConnexionHTTPS extends Connexion {
 				ipWeb, portWeb);
 		sslsocketClient.setEnabledCipherSuites(sslsocketClient
 				.getSupportedCipherSuites());
-		//sslsocketClient.setSoTimeout(5000);
+		sslsocketClient.setSoTimeout(50000);
 		X509Certificate serveurCert = (X509Certificate) sslsocketClient
 				.getSession().getPeerCertificates()[0];
 		BufferedOutputStream requeteAuServeurWeb = new BufferedOutputStream(
@@ -71,7 +71,7 @@ public class ConnexionHTTPS extends Connexion {
 				ipClient, portClient, false);
 		sslSocket.setEnabledCipherSuites(sslSocket.getSupportedCipherSuites());
 		sslSocket.setUseClientMode(false);
-		//sslSocket.setSoTimeout(5000);
+		sslsocketClient.setSoTimeout(50000);
 		BufferedOutputStream outputStreamClient = new BufferedOutputStream(
 				sslSocket.getOutputStream(), Constantes.BUFFER_SIZE);
 

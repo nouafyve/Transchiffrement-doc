@@ -1,4 +1,4 @@
-
+package ssi;
 
 public interface Constantes {
 	public static final String KEYSTORE_FILE = "/home/pyrow/workspace/Transchiffrement/keystore_ok.jks";
