@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.security.KeyStore;
 import java.security.cert.X509Certificate;
 
@@ -43,51 +44,60 @@ public class ConnexionHTTPS extends Connexion {
 				.getDefault();
 
 		// Proxy <=> Server
-		SSLSocket sslsocketClient = (SSLSocket) sslsocketfactory.createSocket(
-				ipWeb, portWeb);
-		sslsocketClient.setEnabledCipherSuites(sslsocketClient
-				.getSupportedCipherSuites());
-		sslsocketClient.setSoTimeout(50000);
-		X509Certificate serveurCert = (X509Certificate) sslsocketClient
-				.getSession().getPeerCertificates()[0];
-		BufferedOutputStream requeteAuServeurWeb = new BufferedOutputStream(
-				sslsocketClient.getOutputStream(), Constantes.BUFFER_SIZE);
-		BufferedInputStream reponseDuServeurWeb = new BufferedInputStream(
-				sslsocketClient.getInputStream(), Constantes.BUFFER_SIZE);
+		try {
+			SSLSocket sslsocketClient = (SSLSocket) sslsocketfactory
+					.createSocket(ipWeb, portWeb);
+			sslsocketClient.setEnabledCipherSuites(sslsocketClient
+					.getSupportedCipherSuites());
+			sslsocketClient.setSoTimeout(50000);
+			X509Certificate serveurCert = (X509Certificate) sslsocketClient
+					.getSession().getPeerCertificates()[0];
+			BufferedOutputStream requeteAuServeurWeb = new BufferedOutputStream(
+					sslsocketClient.getOutputStream(), Constantes.BUFFER_SIZE);
+			BufferedInputStream reponseDuServeurWeb = new BufferedInputStream(
+					sslsocketClient.getInputStream(), Constantes.BUFFER_SIZE);
 
-		// Génération de fake-cert et importation dans le keystore du nouveau
-		// pkcs12.
-		GenerationCertificat gen = new GenerationCertificat(serveurCert);
-		// Chargement du nouveau keystore dans la variable Java.
-		keyStore.load(new FileInputStream(Constantes.KEYSTORE_FILE),
-				keyStorePasswordChar);
-		// Réinitiation des objets utiles à la création du socket avec le bon
-		// keystore.
-		kmf.init(keyStore, keyStorePasswordChar);
-		ctx.init(kmf.getKeyManagers(), null, null);
-		factory = ctx.getSocketFactory();
+			// Génération de fake-cert et importation dans le keystore du
+			// nouveau
+			// pkcs12.
+			GenerationCertificat gen = new GenerationCertificat(serveurCert);
+			// Chargement du nouveau keystore dans la variable Java.
+			keyStore.load(new FileInputStream(Constantes.KEYSTORE_FILE),
+					keyStorePasswordChar);
+			// Réinitiation des objets utiles à la création du socket avec le
+			// bon
+			// keystore.
+			kmf.init(keyStore, keyStorePasswordChar);
+			ctx.init(kmf.getKeyManagers(), null, null);
+			factory = ctx.getSocketFactory();
 
-		SSLSocket sslSocket = (SSLSocket) factory.createSocket(socketClient,
-				ipClient, portClient, false);
-		sslSocket.setEnabledCipherSuites(sslSocket.getSupportedCipherSuites());
-		sslSocket.setUseClientMode(false);
-		sslsocketClient.setSoTimeout(50000);
-		BufferedOutputStream outputStreamClient = new BufferedOutputStream(
-				sslSocket.getOutputStream(), Constantes.BUFFER_SIZE);
+			SSLSocket sslSocket = (SSLSocket) factory.createSocket(
+					socketClient, ipClient, portClient, false);
+			sslSocket.setEnabledCipherSuites(sslSocket
+					.getSupportedCipherSuites());
+			sslSocket.setUseClientMode(false);
+			sslsocketClient.setSoTimeout(50000);
+			BufferedOutputStream outputStreamClient = new BufferedOutputStream(
+					sslSocket.getOutputStream(), Constantes.BUFFER_SIZE);
 
-		BufferedInputStream in = new BufferedInputStream(
-				sslSocket.getInputStream(), Constantes.BUFFER_SIZE);
+			BufferedInputStream in = new BufferedInputStream(
+					sslSocket.getInputStream(), Constantes.BUFFER_SIZE);
 
-		byte[] buffer = new byte[4096];
+			byte[] buffer = new byte[4096];
 
-		Thread firstThread = new Thread(new Transfert(sslSocket.getInputStream(),requeteAuServeurWeb, sslSocket.getRemoteSocketAddress().toString(), sslsocketClient.getRemoteSocketAddress().toString()));
-		firstThread.start();
-		Thread myThread = new Thread(new Transfert(reponseDuServeurWeb,
-				outputStreamClient, sslsocketClient.getRemoteSocketAddress()
-						.toString(), sslSocket.getRemoteSocketAddress()
-						.toString()));
-		myThread.start();
-
+			Thread firstThread = new Thread(new Transfert(
+					sslSocket.getInputStream(), requeteAuServeurWeb, sslSocket
+							.getRemoteSocketAddress().toString(),
+					sslsocketClient.getRemoteSocketAddress().toString()));
+			firstThread.start();
+			Thread myThread = new Thread(new Transfert(reponseDuServeurWeb,
+					outputStreamClient, sslsocketClient
+							.getRemoteSocketAddress().toString(), sslSocket
+							.getRemoteSocketAddress().toString()));
+			myThread.start();
+		} catch (SocketException e) {
+			System.out.println("Réseau inaccessible");
+		}
 	}
 
 	public void envoyerMessageClient(String message) throws Exception {

@@ -45,18 +45,13 @@ public class Transchiffrement {
 					String ipWeb = httpsConnectMatcher.group(1);
 					
 					System.out.println("IP web : "+ipWeb);
-					
 					if(!validate(ipWeb)){
 						InetAddress address = InetAddress.getByName(ipWeb); 
 						ipWeb = address.getHostAddress();
 					}
 					System.out.println("IP web : "+ipWeb);	
-					
 					int portWeb = Integer.parseInt(httpsConnectMatcher.group(2));
-					
-					
-					
-					//System.out.println(portWeb);
+
 					
 					ConnexionHTTPS connexionHTTPS = new ConnexionHTTPS(
 							connectionSocket, ipWeb, portWeb);
@@ -75,8 +70,7 @@ public class Transchiffrement {
 						ipWeb = address.getHostAddress();
 					}
 					System.out.println("IP web : "+ipWeb);
-					ConnexionHTTP connexionHTTP = new ConnexionHTTP(
-							connectionSocket, ipWeb, 80, buf);
+					ConnexionHTTP connexionHTTP = new ConnexionHTTP(connectionSocket, ipWeb, 80, buf);
 					connexionHTTP.lancer();
 					//System.out.println("Sortie HTTP");
 				}
