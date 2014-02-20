@@ -8,31 +8,34 @@ Ensuite, à chaque fois que l'utilisateur demande une connexion vers un site Web
 
 L'intérêt de la manipulation est de posséder la clé privée associée.
 
-javax.net.ssl.keyStorePassword - Password to access the private key from the keystore file specified by javax.net.ssl.keyStore. This password is used twice: To unlock the keystore file (store password), and To decrypt the private key stored in the keystore (key password).
-
-javax.net.ssl.trustStore - Location of the Java keystore file containing the collection of CA certificates trusted by this application process (trust store). On Windows, the specified pathname must use forward slashes, /, in place of backslashes.
+Le mot de passe du keyStore permet d'accéder au fichier physique du keyStore, puis de déchiffrer la clé privée stockée dans le keyStore.
 
 Si nous ne définissons pas de keyStore, il en existe un par défaut, à l'emplacement :
 \begin{verbatim}
 $JAVA_HOME/lib/security/jssecacerts
+\end{verbatim}
+ou
+\begin{verbatim}
 $JAVA_HOME/lib/security/cacerts
 \end{verbatim}
 
 
-A truststore contains CA certifcates to trust. If your server’s certificate is signed by a recognized CA, the default truststore that ships with the JRE will already trust it (because it already trusts trustworthy CAs), so you don’t need to build your own, or to add anything to the one from the JRE.
+Un autre objet cryptographique en Java est le trustStore. Cet objet contient des certificats de CA à qui l'on fait confiance. Cette liste est semblable à celle que l'on peut trouver dans Firefox par exemple.
+
+Pour résumer, nous stockons nos certificats dans le keyStore, et nous réutilisons les certificats d'autorité existants (par exemple Verisign) dans le trustore.
 
 
+\paragraph{Handshake}
+
+Le handshake désigne le processus de connexion du client avec le serveur.
+
+Il peut être lancé explicitement si besoin, sinon il est implicitement appelé. Cet appel est réalisé avant toute première lecture ou écriture dans un des  flux entrant ou sortant de la socket.
 
 
+C'est à cette étape que l'on vérifie si l'authentification est valide.
 
 
+Le serveur TLS utilise sa clé privée lors de l'échange de clés.
+Le serveur envoie le certificat du keyStore et la clé publique au client.
 
-In SSL handshake purpose of trustStore is to verify credentials and purpose of keyStore is to provide credential.
-
-keyStore in Java stores private key and certificates corresponding to there public keys and require if you are SSL Server or SSL requires client authentication.
-
-TrustStore stores certificates from third party, your Java application communicate or certificates signed by CA(certificate authorities like Verisign, Thawte, Geotrust or GoDaddy) which can be used to identify third party.
-
-TrustManager determines whether remote connection should be trusted or not i.e. whether remote party is who it claims to and KeyManager decides which authentication credentials should be sent to the remote host for authentication during SSL handshake.
-
-If you are an SSL Server you will use private key during key exchange algorithm and send certificates corresponding to your public keys to client, this certificate is acquired from keyStore. On SSL client side, if its written in Java, it will use certificates stored in trustStore to verify identity of Server. SSL certificates are most commonly comes as .cer file which is added into keyStore or trustStore by using any key management utility e.g. keytool.
+Pour manipuler le contenu du keyStore, nous utilisons l'utilitaire keytool.
