@@ -1,6 +1,7 @@
 package ssi;
 
 import java.io.BufferedInputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.regex.Matcher;
@@ -42,8 +43,21 @@ public class Transchiffrement {
 				if (httpsConnectMatcher.find()) {
 					//System.out.println("Entrée HTTPS");
 					String ipWeb = httpsConnectMatcher.group(1);
-					int portWeb = Integer
-							.parseInt(httpsConnectMatcher.group(2));
+					
+					System.out.println("IP web : "+ipWeb);
+					
+					if(!validate(ipWeb)){
+						InetAddress address = InetAddress.getByName(ipWeb); 
+						ipWeb = address.getHostAddress();
+					}
+					System.out.println("IP web : "+ipWeb);	
+					
+					int portWeb = Integer.parseInt(httpsConnectMatcher.group(2));
+					
+					
+					
+					//System.out.println(portWeb);
+					
 					ConnexionHTTPS connexionHTTPS = new ConnexionHTTPS(
 							connectionSocket, ipWeb, portWeb);
 					connexionHTTPS.lancer();
@@ -54,6 +68,13 @@ public class Transchiffrement {
 							+ httpGetMatcher.group(2);
 					// System.out.println(requete);
 					String ipWeb = httpGetMatcher.group(3);
+					ipWeb = ipWeb.substring(0, ipWeb.indexOf("\n")-1);
+					System.out.println("IP web : "+ipWeb);
+					if(!validate(ipWeb)){
+						InetAddress address = InetAddress.getByName(ipWeb); 
+						ipWeb = address.getHostAddress();
+					}
+					System.out.println("IP web : "+ipWeb);
 					ConnexionHTTP connexionHTTP = new ConnexionHTTP(
 							connectionSocket, ipWeb, 80, buf);
 					connexionHTTP.lancer();
@@ -63,6 +84,19 @@ public class Transchiffrement {
 		}
 	}
 
+	private final String PATTERN = 
+	        "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+	        "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+	        "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+	        "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+
+	public boolean validate(final String ip){          
+
+	      Pattern pattern = Pattern.compile(PATTERN);
+	      Matcher matcher = pattern.matcher(ip);
+	      return matcher.matches();             
+	}
+	
 	public void initialisationKeyStore() {
 		System.setProperty("javax.net.ssl.keyStore", Constantes.KEYSTORE_FILE);
 		System.setProperty("javax.net.ssl.keyStorePassword",

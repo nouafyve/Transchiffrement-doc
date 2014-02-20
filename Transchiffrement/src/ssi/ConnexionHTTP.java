@@ -27,7 +27,6 @@ public class ConnexionHTTP extends Connexion {
 				socketToWeb.getOutputStream(), Constantes.BUFFER_SIZE);
 		BufferedInputStream reponseServeur = new BufferedInputStream(
 				socketToWeb.getInputStream(), Constantes.BUFFER_SIZE);
-		String trueIp = ipWeb.substring(0, ipWeb.indexOf("\n")-1);
 		DateFormat dateFormat = new SimpleDateFormat(
 				"yyyy_MM_dd_HH");
 		DateFormat dateFormatDetail = new SimpleDateFormat("mm:ss");
@@ -35,14 +34,14 @@ public class ConnexionHTTP extends Connexion {
 		JournalFichier jf = new JournalFichier(
 				dateFormat.format(date));
 		//System.out.println(dateFormatDetail.format(date) + "   " + texteEntree + " => " + texteSortie +"\n"+ line);
-		jf.ecrire(dateFormatDetail.format(date) + "   " + socketClient.getRemoteSocketAddress().toString() + " => " + "/"+trueIp+":"+80 +"\n"+ requeteCourte);
+		jf.ecrire(dateFormatDetail.format(date) + "   " + socketClient.getRemoteSocketAddress().toString() + " => " + "/"+ipWeb+":"+80 +"\n"+ requeteCourte);
 		jf.close();
 		requeteServeur.write(requeteCourte.getBytes());
 		requeteServeur.flush();
 		Transfert threadClientVersServerWeb = new Transfert(entreeClient,
-				requeteServeur,socketClient.getRemoteSocketAddress().toString() ,"/"+trueIp+":"+80);
+				requeteServeur,socketClient.getRemoteSocketAddress().toString() ,"/"+ipWeb+":"+80);
 		Transfert threadServeurWebVersClient = new Transfert(reponseServeur,
-				sortieClient, "/"+trueIp+":"+80, socketClient.getRemoteSocketAddress().toString());
+				sortieClient, "/"+ipWeb+":"+80, socketClient.getRemoteSocketAddress().toString());
 		threadClientVersServerWeb.start();
 		threadServeurWebVersClient.start();
 	}
