@@ -1,65 +1,69 @@
-\subsubsection{définition}
-le protocole TLS/SSL est un protocole de sécurisation des échanges sur internet.Il fonctionne suivant un mode client/serveur
+\subsubsection{Définition}
+Le protocole TLS/SSL est un protocole de sécurisation des échanges sur internet. Il fonctionne suivant un mode client/serveur
 TLS/SSL assure l'authentification, la confidentialité et l'intégrité.
 \subsubsection{Fragmentation}
-la fragmentation des blocs d'informations en des "record" TLS/SSL porte sur des données 2\^\ 14 octets ou moins.
+La fragmentation des blocs d'informations en des "record" TLS/SSL porte sur des données 2\^\ 14 octets ou moins.
 \subsubsection{Fonction HMAC}
 Pour protéger l'intégrité du message TLS/SSL utilise le code MAC,
-le chiffrement utilise une construction HMAC qui est basée sur une fonction de hashage.
+le chiffrement utilise une construction HMAC qui est basée sur une fonction de hachage.
 \subsubsection{Le protocole "record" TLS/SSL}
 \begin{itemize}
-\item L'envoie:
-TLS/SSL prend les messages à transmettre, fragmente les données en des blocs, compresse les données (optionnel), applique le MAC, crypte et transmis le résultat. 
+\item L'envoi:
+TLS/SSL prend les messages à transmettre, fragmente les données en des blocs, compresse les données (optionnel), applique le MAC, chiffre et transmet le résultat. 
 \item
-La récéption:A la réception, les données sont déchiffrées, vérifiées, décompréssées, rassemblées, et aprés ils sont livrées à des clients de niveau supérieur.
+La réception:
+A la réception, les données sont déchiffrées, vérifiées, décompressées, rassemblées, puis elles sont livrées à des clients de niveau supérieur.
 \end{itemize}
-le protocle handshake utilise ce genre d'échange de message.
+le protocole handshake utilise ce genre d'échange de message.
 \subsubsection{Le protocole handshake:}
 
-le protocole handshake est responsable pour la négociation d'une session.Cette session se décompose des éléments suivants:
+Le protocole handshake est responsable pour la négociation d'une session.
+Cette session se compose des éléments suivants:
 \begin{itemize}
-\item session identifier:ce sont des séquence de bit arbitraires choisis par le serveur pour identifier une session active.
-
-\item peer certificate: ce champ contient le certificat X509v3 .l'état de cet élément peut être nulle.
-\item compression method: l'algorithme utilisé pour compresser les données avant le chiffrement.
-\item cipher spec:spécifie la fonction utilisées pour générer des clés, algorithme de chiffrement, algorithme MAC et les attributs cryptographiques.
-\item master secret:le serect partagés entre le client et le serveur.
-\item is resumable: un flag qui indique si la session peut etre utilisés pour initialiser une nouvelle connection ou non.\\
+\item Session identifier: séquences de bit arbitraires choisis par le serveur pour identifier une session active.
+\item Peer certificate: ce champ contient le certificat X509v3. 
+\item Compression method: l'algorithme utilisé pour compresser les données avant le chiffrement.
+\item Cipher spec: spécifie la fonction utilisée pour générer des clés, l'algorithme de chiffrement, l'algorithme MAC et les attributs cryptographiques.
+\item Master secret: le secret partagé entre le client et le serveur.
+\item Is resumable: un flag qui indique si la session peut être utilisée pour initialiser une nouvelle connexion ou non.\\
 \end{itemize}
-le protocole handshake utilise les étapes suivantes:
+Le protocole handshake utilise les étapes suivantes:
 \begin{itemize}
-\item échanger un message "hello messages" pour se mettre d'accord sur l'algorithme.
-\item échanger des paramètres cryptographiques pour accepter le secret entre le client et le serveur.
-\item échanger les certificats et des informations cryptographiques pour permettre au client et au serveur de s'authentifier. 
-\item générer un secret du secret préliminaire et échange des valeurs aléatoires.
+\item Echanger un message "hello messages" pour se mettre d'accord sur l'algorithme.
+\item Echanger des paramètres cryptographiques pour accepter le secret entre le client et le serveur.
+\item Echanger les certificats et des informations cryptographiques pour permettre au client et au serveur de s'authentifier. 
+\item Générer un secret à partir d'un autre et échange des valeurs aléatoires.
 \item Fournir les paramètres de sécurité.
-\item permettre au client et au serveur de vérifier qu'ils ont le m\^eme paramètre de sécurité et que le handshake a eu lieu sans altération d'un attaquant.
+\item Permettre au client et au serveur de vérifier qu'ils ont le même paramètre de sécurité et que le handshake a eu lieu sans altération d'un attaquant.
 \end{itemize}
-\paragraph{Hello message}
-le message "Hello message" est utilisé pour renforcer les échanges sécurisés entre le client et le serveur.
-\subsubsection {Hello request:}
-"Hello request" est une notification pour que le client doit commencer la négaciation d'une connexion.Le message "hello request" peut \^etre envoyer à n'importe quel moment.
-
-\subsubsection {Client hello}
-Lors de la première connexion du client au serveur, il est nécessaire d'envoyer un "client hello" comme premier message.Le client peut aussi envoyer un "client hello" comme une réponse de "hello request".
-\subsubsection {Server hello}
-Le serveur va envoyer ce message suite a une réponse du message "client hello" si l'algorithme est accepté si non envoie handshake "failure alert".
-\subsubsection {Signature algorithms}
-le client l'utilise pour indiquer au serveur quel paire signature/hash peut \^etre utilisé.
+\paragraph{Hello request}
+C'est une notification pour que le client initie la négociation d'une connexion.
+Le message "Hello request" peut être envoyé à n'importe quel moment.
+\paragraph{Client Hello}
+Lors de la première connexion du client au serveur, il est nécessaire d'envoyer un "Client hello" comme premier message.
+Le client peut aussi envoyer un "Client hello" comme une réponse de "Hello request".
+Ce message contient la date, un nonce et les algorithmes disponibles.
+\paragraph{Server Hello}
+Le serveur va envoyer ce message suite a un "Client hello" si il y a un algorithme commun, sinon il envoie un "Failure alert".
+Ce message contient la date, un nonce et l'algorithme choisi.
 \paragraph{Server Certificate}
-le serveur doit envoyer un certificat.
-ce certificat doit être appropriée pour  la suite de chiffrement et toutes les extensions négociées.
-\paragraph{Server key exchange message}
-envoyer par le serveur aprés le message "server certificate" et que si cette dernière ne contient pas assez de données pour permettre au client l'échange du secret.
-\paragraph{Certificate Request}
-Ce message, s'il est envoyé va suivre le message "ServerKeyExchange"
+Le serveur envoie son certificat pour s'authentifier auprès du client.
+Ce message contient un Site-Cert ainsi que les certificats de la chaîne de certification (Autorité).
+\paragraph{Client Certificate Request}
+Optionnel, seulement si le serveur veut que le client soit authentifié.
 \paragraph{Server Hello Done}
-envoyerpaar le serveur pour indiquer la fin du message "Server Hello Done". Le serveur attend une réponse du client.
+Indique la fin d'envoi du serveur.
 \paragraph{Client Certificate}
-ce message est envoyé seulement si le serveur demande un certificat.
-\paragraph{Client Key Exchange Message}
-avec ce message le secret est définie soit transmission directe avec RSA ou par Diffie-Hellman pour que les deux entités se mettent d'accord sur le même code secret.
-\paragraph{Certificate Verify}
-il est utlisé pour impliquer une vérification explicit du certificat client.
-\paragraph{Finished}
-envoyer aprés un échange chiffré pour vérifier que l'échange et l'authentification est passé entre les deux entités utilisant le protocole handshake.
+Si (Client Certificate Request) est émis, alors le client envoie son certificat pour l'authentification client. 
+\paragraph{Client Key Exchange}
+Paquet chiffré avec la clé publique du serveur qui contient une clé de session générée à partir des deux nonces échangés. Si le serveur est capable de déchiffrer et de répondre, il est authentifié auprès du client.
+\paragraph{Client Verify}
+Si (Client Certificate Request) est émis, le client devra signer avec sa clé privée un haché des échanges précédents, ce qui l'authentifiera auprès du serveur. 
+\paragraph{Change Cipher Spec.}
+Précise que tous les paquets envoyés à la suite du "Client Finished" seront chiffrés avec la clé de session échangée et les algorithmes choisis. 
+\paragraph{Client Finished}
+Informe que le client a fini et contient un haché de la totalité des échanges. 
+\paragraph{Change Cipher Spec.}
+Précise qu'à partir de maintenant, le serveur va envoyer des paquets chiffrés. 
+\paragraph{Server Finished}
+Contient un haché de tous les échanges chiffré avec la clé de session et un MAC.
