@@ -216,9 +216,9 @@ Le responsable du module concerné par l’anomalie sera chargé de la résoudre
 \hline 
 \rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
 \hline 
-1 & On clique sur l'exécutable de l'application & Exécutable proxy & L'application s'installe sur le client &  \\ 
+1 & On clique sur l'exécutable de l'application & Exécutable proxy & L'application s'installe sur le client & OK \\ 
 \hline
-2 & On vérifie que le processus associé au proxy est actif sur la machine & & Un processus associé au proxy est actif sur le client & \\
+2 & On vérifie que le processus associé au proxy est actif sur la machine & & Un processus associé au proxy est actif sur le client & OK\\
 \hline
 Commentaires & \multicolumn{4}{|l|}{} \\ 
 \hline
@@ -238,7 +238,7 @@ Commentaires & \multicolumn{4}{|l|}{} \\
 \hline 
 \rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
 \hline 
-1 & Installer l'autorité directement sur le navigateur du client & Certificat de l'autorité & Le navigateur accepte le certificat &  \\ 
+1 & Installer l'autorité directement sur le navigateur du client & Certificat de l'autorité & Le navigateur accepte le certificat &  OK\\ 
 \hline 
 Commentaires & \multicolumn{4}{|l|}{} \\ 
 \hline
@@ -258,10 +258,10 @@ Commentaires & \multicolumn{4}{|l|}{} \\
 \hline 
 \rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
 \hline 
-1 & Inclure le certificat dans l'acceptation des termes et conditions du proxy & Certificat de l'autorité & Le certificat de l'autorité est inclus dans l'acceptation du proxy &  \\ 
+1 & Inclure le certificat dans l'acceptation des termes et conditions du proxy & Certificat de l'autorité & Le certificat de l'autorité est inclus dans l'acceptation du proxy & OK \\ 
 \hline
 2 & Le client accepte les termes et conditions du proxy & & Le certificat de 
-l'autorité va automatiquement s'installer sur le navigateur du client & 
+l'autorité va automatiquement s'installer sur le navigateur du client & OK
 \\
 \hline 
 Commentaires & \multicolumn{4}{|l|}{} \\ 
@@ -282,14 +282,14 @@ Commentaires & \multicolumn{4}{|l|}{} \\
 \hline 
 \rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
 \hline 
-1 & Le client envoie une requête HTTP sur un serveur &  & Le proxy reçoit la requête HTTP &  \\ 
+1 & Le client envoie une requête HTTP sur un serveur &  & Le proxy reçoit la requête HTTP & OK\\ 
 \hline
-2 & Le proxy envoie la requête HTTP vers le serveur & & Le serveur reçoit la requête HTTP & \\
+2 & Le proxy envoie la requête HTTP vers le serveur & & Le serveur reçoit la requête HTTP & OK\\
 \hline
 3 & Le serveur envoie la réponse au proxy & & Le proxy 
-reçoit la réponse du serveur & \\
+reçoit la réponse du serveur & OK\\
 \hline 
-4 & Le proxy envoie la réponse vers le client & & Le client reçoit la réponse & 
+4 & Le proxy envoie la réponse vers le client & & Le client reçoit la réponse & OK
 \\
 \hline
 Commentaires & \multicolumn{4}{|l|}{} \\ 
@@ -311,30 +311,30 @@ Commentaires & \multicolumn{4}{|l|}{} \\
 \hline
 \rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
 \hline 
-1 & Le client envoie une requête HTTPS & URL du serveur & Le proxy reçoit la requête HTTPS &  \\ 
+1 & Le client envoie une requête HTTPS & URL du serveur & Le proxy reçoit la requête HTTPS & OK \\ 
 \hline
-2 & Le proxy envoie la requête HTTPS vers le serveur & & Le serveur reçoit la requête HTTPS & \\
+2 & Le proxy envoie la requête HTTPS vers le serveur & & Le serveur reçoit la requête HTTPS & OK\\
 \hline
-3 & Le serveur envoie son certificat au proxy & Certificat serveur & Le proxy reçoit le certificat & \\
+3 & Le serveur envoie son certificat au proxy & Certificat serveur & Le proxy reçoit le certificat & OK\\
 \hline 
-4 & Le proxy génère son certificat & Certificat proxy & Le proxy envoie son certificat au client & \\
+4 & Le proxy génère son certificat & Certificat proxy & Le proxy envoie son certificat au client & OK\\
 \hline
 5 & Le client reçoit le certificat du proxy & Certificat proxy & Le client vérifie la 
-validité du certificat & \\
+validité du certificat & OK\\
 \hline
 6 & Le client accepte le certificat & & Le client envoie une clé de session au 
-proxy & \\
+proxy & OK\\
 \hline
-7 & Le proxy reçoit la clé de session & Clé session client & Le proxy génère sa clé de session & \\
+7 & Le proxy reçoit la clé de session & Clé session client & Le proxy génère sa clé de session & OK\\
 \hline
 8 & Le proxy envoie sa clé de session au serveur & Clé session proxy & Le serveur 
-reçoit la clé de session & \\
+reçoit la clé de session & OK\\
 \hline
 9 & Session ouverte entre le serveur et le proxy & & Le serveur et le proxy 
-peuvent échanger des messages chiffrés & \\
+peuvent échanger des messages chiffrés & OK \\
 \hline
 10 & Session ouverte entre le proxy et le client & & Le proxy et le client 
-peuvent échanger des messages chiffrés & \\
+peuvent échanger des messages chiffrés & OK\\
 \hline
 Commentaires & \multicolumn{4}{|l|}{} \\ 
 \hline
@@ -358,29 +358,29 @@ Commentaires & \multicolumn{4}{|l|}{} \\
 \hline 
 \rowcolor{Orange} ID & Actions & Données & Résultats attendus & OK/KO \\ 
 \hline 
-1 & Le client envoie une requête HTTPS au proxy & URL du serveur & Le proxy reçoit la requête HTTPS &  \\ 
+1 & Le client envoie une requête HTTPS au proxy & URL du serveur & Le proxy reçoit la requête HTTPS &  OK\\ 
 \hline
-2 & Le proxy déchiffre la requête HTTPS & & Le proxy log la requête en clair & \\
+2 & Le proxy déchiffre la requête HTTPS & & Le proxy log la requête en clair & OK\\
 \hline
 3 & Le proxy chiffre la requête & Clé session proxy-serveur & La requête est 
-correctement chiffrée & \\
+correctement chiffrée & OK \\
 \hline
-4 & Le proxy envoie la requête chiffrée au serveur & & Le serveur reçoit la requête & \\
+4 & Le proxy envoie la requête chiffrée au serveur & & Le serveur reçoit la requête & OK\\
 \hline
 5 & Le serveur envoie une réponse au proxy & & Le proxy reçoit la 
-réponse & \\
+réponse & OK\\
 \hline
 6 & Le proxy déchiffre la réponse du serveur & & Le proxy log la réponse au 
-serveur en clair & \\
+serveur en clair & OK\\
 \hline
 7 & Le proxy chiffre la réponse & Clé session client-proxy & La réponse est 
-correctement chiffrée & \\
+correctement chiffrée & OK\\
 \hline
 8 & Le proxy envoie la réponse chiffrée au client & & Le client reçoit la réponse 
-& \\
+& OK\\
 \hline
 9 & Le client déchiffre la réponse & & Le client peut lire et traiter le réponse 
-& \\
+& OK\\
 \hline
 Commentaires & \multicolumn{4}{|l|}{} \\ 
 \hline
