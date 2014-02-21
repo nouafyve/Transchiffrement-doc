@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="ProjetSSI" company="" webLink="http://" view-date="2014-01-17" view-index="0" gantt-divider-location="480" resource-divider-location="300" version="2.0" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="ProjetSSI" company="" webLink="http://" view-date="2014-01-10" view-index="0" gantt-divider-location="480" resource-divider-location="300" version="2.0" locale="en_US">
     <description/>
     <view zooming-state="default:3" id="gantt-chart">
         <field id="tpd4" name="Begin date" width="9" order="0"/>
@@ -58,7 +58,7 @@
             <depend id="45" type="2" difference="0" hardness="Strong"/>
             <customproperty taskproperty-id="tpc3" value="50"/>
         </task>
-        <task id="21" name="Développement proxy applicatif" color="#8cb6ce" meeting="false" start="2014-01-20" duration="23" complete="32" expand="true">
+        <task id="21" name="Développement proxy applicatif" color="#8cb6ce" meeting="false" start="2014-01-20" duration="23" complete="96" expand="true">
             <task id="43" name="Développement structure proxy" color="#8cb6ce" meeting="false" start="2014-01-20" duration="5" complete="100" expand="true">
                 <depend id="3" type="2" difference="0" hardness="Strong"/>
                 <customproperty taskproperty-id="tpc3" value="20"/>
@@ -77,60 +77,55 @@
                 <depend id="42" type="2" difference="0" hardness="Strong"/>
                 <customproperty taskproperty-id="tpc3" value="20"/>
             </task>
-            <task id="3" name="Etablissement d'une connexion chiffrée" color="#8cb6ce" meeting="false" start="2014-01-27" duration="2" complete="0" expand="true">
+            <task id="3" name="Etablissement d'une connexion chiffrée" color="#8cb6ce" meeting="false" start="2014-01-27" duration="2" complete="100" expand="true">
                 <depend id="4" type="2" difference="0" hardness="Strong"/>
                 <depend id="42" type="2" difference="0" hardness="Strong"/>
                 <customproperty taskproperty-id="tpc3" value="30"/>
             </task>
-            <task id="4" name="Transchiffrement des paquets" color="#8cb6ce" meeting="false" start="2014-01-29" duration="4" complete="0" expand="true">
+            <task id="4" name="Transchiffrement des paquets" color="#8cb6ce" meeting="false" start="2014-01-29" duration="4" complete="100" expand="true">
                 <depend id="41" type="2" difference="0" hardness="Strong"/>
                 <depend id="42" type="2" difference="0" hardness="Strong"/>
                 <customproperty taskproperty-id="tpc3" value="40"/>
             </task>
-            <task id="42" name="Tests unitaires" color="#8cb6ce" meeting="false" start="2014-02-04" duration="3" complete="0" expand="true">
+            <task id="42" name="Tests unitaires" color="#8cb6ce" meeting="false" start="2014-02-04" duration="3" complete="100" expand="true">
                 <depend id="31" type="2" difference="0" hardness="Strong"/>
                 <depend id="41" type="2" difference="0" hardness="Strong"/>
                 <customproperty taskproperty-id="tpc3" value="50"/>
             </task>
-            <task id="30" name="Rédaction de la documentation" color="#8cb6ce" meeting="false" start="2014-01-27" duration="10" complete="0" expand="true">
+            <task id="30" name="Rédaction de la documentation" color="#8cb6ce" meeting="false" start="2014-01-27" duration="10" complete="100" expand="true">
                 <customproperty taskproperty-id="tpc3" value="20"/>
             </task>
-            <task id="41" name="Intégration des composants de l'application" color="#8cb6ce" meeting="false" start="2014-02-07" duration="2" complete="0" expand="true">
+            <task id="41" name="Intégration des composants de l'application" color="#8cb6ce" meeting="false" start="2014-02-07" duration="2" complete="100" expand="true">
                 <depend id="31" type="2" difference="0" hardness="Strong"/>
                 <customproperty taskproperty-id="tpc3" value="30"/>
             </task>
-            <task id="31" name="Tests d'intégration" color="#8cb6ce" meeting="false" start="2014-02-11" duration="1" complete="0" expand="true">
+            <task id="31" name="Tests d'intégration" color="#8cb6ce" meeting="false" start="2014-02-11" duration="1" complete="100" expand="true">
                 <depend id="96" type="2" difference="0" hardness="Strong"/>
                 <customproperty taskproperty-id="tpc3" value="40"/>
             </task>
-            <task id="32" name="Prise en compte des remarques du Client" color="#8cb6ce" meeting="false" start="2014-02-13" duration="5" complete="0" expand="true">
+            <task id="32" name="Prise en compte des remarques du Client" color="#8cb6ce" meeting="false" start="2014-02-13" duration="5" complete="75" expand="true">
                 <depend id="20" type="2" difference="0" hardness="Strong"/>
                 <customproperty taskproperty-id="tpc3" value="30"/>
             </task>
         </task>
-        <task id="22" name="Etude forge faux certificats" color="#00cc33" meeting="false" start="2014-01-20" duration="23" complete="21" expand="true">
-            <task id="6" name="Etat de l'art collisions MD5" color="#00cc33" meeting="false" start="2014-01-20" duration="8" complete="80" expand="true">
+        <task id="22" name="Etude forge faux certificats" color="#00cc33" meeting="false" start="2014-01-20" duration="23" complete="96" expand="true">
+            <task id="6" name="Etat de l'art collisions MD5" color="#00cc33" meeting="false" start="2014-01-20" duration="8" complete="100" expand="true">
                 <depend id="7" type="2" difference="0" hardness="Strong"/>
                 <customproperty taskproperty-id="tpc3" value="160"/>
             </task>
-            <task id="7" name="Rapport faisabilité collision" color="#00cc33" meeting="false" start="2014-01-30" duration="3" complete="0" expand="true">
+            <task id="7" name="Rapport faisabilité collision" color="#00cc33" meeting="false" start="2014-01-30" duration="3" complete="100" expand="true">
                 <depend id="8" type="2" difference="0" hardness="Strong"/>
                 <depend id="29" type="2" difference="0" hardness="Strong"/>
                 <customproperty taskproperty-id="tpc3" value="40"/>
             </task>
-            <task id="8" name="Développement application recherche collision" color="#00cc33" meeting="false" start="2014-02-04" duration="5" complete="0" expand="true">
-                <depend id="1" type="2" difference="0" hardness="Strong"/>
+            <task id="8" name="Développement application recherche collision" color="#00cc33" meeting="false" start="2014-02-04" duration="5" complete="100" expand="true">
                 <customproperty taskproperty-id="tpc3" value="150"/>
             </task>
-            <task id="1" name="Lancement programme recherche collisions" color="#00cc33" meeting="false" start="2014-02-11" duration="2" complete="0" expand="true">
-                <depend id="96" type="2" difference="0" hardness="Strong"/>
-                <customproperty taskproperty-id="tpc3" value="30"/>
-            </task>
-            <task id="29" name="Rédaction dossier récapitulatif" color="#00cc33" meeting="false" start="2014-02-04" duration="7" complete="0" expand="true">
+            <task id="29" name="Rédaction dossier récapitulatif" color="#00cc33" meeting="false" start="2014-02-04" duration="7" complete="100" expand="true">
                 <depend id="96" type="2" difference="0" hardness="Strong"/>
                 <customproperty taskproperty-id="tpc3" value="140"/>
             </task>
-            <task id="97" name="Prise en compte des remarques" color="#00cc33" meeting="false" start="2014-02-13" duration="5" complete="0" expand="true">
+            <task id="97" name="Prise en compte des remarques" color="#00cc33" meeting="false" start="2014-02-13" duration="5" complete="78" expand="true">
                 <depend id="20" type="2" difference="0" hardness="Strong"/>
                 <customproperty taskproperty-id="tpc3" value="30"/>
             </task>
@@ -237,7 +232,6 @@
         <allocation task-id="97" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="8" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="29" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="1" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="20" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="95" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="9" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
