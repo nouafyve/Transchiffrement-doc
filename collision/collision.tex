@@ -143,7 +143,11 @@ Nous verrons ensuite quel(s) impact(s) une collision sur des certificats peut av
 \section{Le schéma de Merkle-Damgard}
 Le schéma de merkle-Damgard décrit comment construire une fonction de hachage munie d'une fonction de compression. MD5 est basé sur ce schéma dont le principe de fonctionnement est le suivant:\\
 
-\includegraphics[scale=.61]{./pics/md.png}
+\begin{figure}[h!]
+  \includegraphics[scale=.61]{./pics/md.png}
+  \caption{Principe de fonctionnement de Merkle-Damgard}
+\end{figure}
+
 \vspace{.5cm}
 
 \begin{itemize}
@@ -250,7 +254,11 @@ L'algorithme de fonction de collision est réalisé de la manière suivante:\\
 \subsection{Schématisation du fonctionnement de MD5}
 Le fonction de MD5 est montré par le schéma suivant, où $CV_{q}$ est l'ensemble des chaines IHV, $Y_{q}$ est q\up{ième} bloc de message de longueur 512 bits.\\
 
-\includegraphics[scale=.61]{./pics/md5process.png}
+\begin{figure}[h!]
+  \includegraphics[scale=.61]{./pics/md5process.png}
+  \caption{Fonctionnement de MD5}
+\end{figure}
+
 
 %%==========================================================================
 %%==========================================================================
@@ -321,7 +329,11 @@ La technique repose sur le fait qu'on peut trouver un couple de message de longu
 
 L'idée principale est d'éliminer la difference (delta)IHV en r étape où r désigne les étapes pour construire r bloc de quasi collisions.
 
-\includegraphics[scale=.61]{./pics/col.png}
+\subsection{Algorithme de la méthode de Marc Stevens}
+\begin{figure}[h!]
+  \includegraphics[scale=.61]{./pics/col.png}
+  \caption{Algoritme de recherche des blocs de quasi-collisons}
+\end{figure}
 
 
 \subsubsection{Construction des préfixes choisis de collisions}
@@ -495,31 +507,48 @@ En second lieu vient la compréhension des bits de conditions et la génération
 
 
 \newpage
-\vspace{3cm}
+
 \section{ANNEXES}
+\vspace{1cm}
 
-\subsection{Algorithme de Wang et Yu}
+\subsection{Algorithme de Wang et Yu implanté par Stevens}
+\begin{figure}[h!]
+  \includegraphics[scale=.61]{./pics/fblock.png}
+  \caption{Algorithme de recherche du premier bloc de collision}
+\end{figure}
 
+\begin{figure}[h!]
+  \includegraphics[scale=.61]{./pics/sblock.png}
+  \caption{Algoritme de recherche du second bloc de collison}
+\end{figure}
 
-
-\subsection{Algorithme de Stevens}
+\newpage
+\subsection{Algorithme de la méthode de Marc Stevens}
 \begin{figure}[h!]
   \includegraphics[scale=.61]{./pics/ncb.png}
   \caption{Algoritme de recherche des blocs de quasi-collisons}
 \end{figure}
 
-\begin{figure}
-  \includegraphics[scale=.61]{./pics/ui.png}
+
+\begin{figure}[h!]
+  \includegraphics[scale=.50]{./pics/ui.png}
   \caption{Algorithme de construction du chemin différentiel}
 \end{figure}
 
+\begin{figure}[h!]
+  \includegraphics[scale=.82]{./pics/fcb.png}
+  \caption{Algorithme pour trouver des blocs de collision}
+\end{figure}
+
+
 
 \newpage
-\large{Bibliographie}
+
+\section{Bibliographie}
 \bibliographystyle{style}
 \bibliography{collision_ref}
 
 
-dopt 18565559
+%dopt 18565559
 
 \end{document}
