@@ -407,6 +407,7 @@ Si le certificat est auto-signé (autorité de certification et créateur de la 
 %%==========================================================================
 \subsection{Structure d'un certificat}
 
+\begin{minipage}{.4\linewidth}
 \begin{itemize}
 \item Version
 \item Numéro de série
@@ -430,8 +431,11 @@ Si le certificat est auto-signé (autorité de certification et créateur de la 
   \item Liste des extensions
   \end{itemize}
 \end{itemize}
+\end{minipage}\hfill
+\begin{minipage}{.4\linewidth}
+\includegraphics[width=8cm, height=7cm]{./pics/cert.jpg}
+\end{minipage}
 
-\includegraphics[scale=.61]{./pics/cert.jpg}
 
 %%==========================================================================
 \subsection{Création d'un faux certificat}
@@ -449,11 +453,6 @@ Les bits d'anniversaire introduit pour calculer les blocs de collisions sont au 
 Après les bits d'anniversaire, on trouve les blocs de quasi collision de 512 bits chacun. Sur le vrai certificat, cela se résume à 208 + 96 + x * 512 = p bits du module RSA, où x est le nombre de bloc de quasi collision. Prenons comme exemple x = 3, on à alors 208 + 96 + 3 * 512 = 1840 bits.
 
 On sait que la longueur du module RSA est de 2048 bits. On constate qu'on à alors 2048 - 1840 = 208 bits après les bits de collisions qu'ils reste pour compléter les 2048 bits du module RSA du vrai certificat. Ces 208 bits doivent être déterminer de telle sorte que la factorisation du module RSA soit connue.
-
-Tous les bits après les bits de collision sont copié sur le faux certificat.\\
-
-//////
-
 
 %%==========================================================================
 \subsection{Détails de construction des certificats}
@@ -479,7 +478,13 @@ Comme on peut le voir, les étapes 3 et 4 sont primordiales mais également les 
 %%==========================================================================
 \section{Transchiffrement et collision MD5}
 
-//////
+En intégrant un certificat issue d'une collision md5 dans le proxy, on a pas besoin de compte root pour installer notre autorité sur n'importe quel système d'exploitation. De plus, il ne sera pas nécessaire d'ajouter manuellement une autorité. 
+
+En ajoutant ce "faux" certificat, on peut ainsi controller tous les ordinateurs dont les certificats ont été signés par le "faux" certificat racine. Ce qui rend le processus de transchiffrement plus intéressant car en ne procédant que par le transchiffrement, la portée des controlles de machines se réduit à ceux que l'on a sous la main.
+
+Un des grands avantages d'utiliser une collision combiné au transchiffrement est l'augmentation du champs d'action du transchiffrement. 
+
+Avec ce document est fourni les certificats issue d'une collision MD5 établi par M. Stevens et Arjen Lenstra.
 
 
 \section{Difficultés rencontrés}
@@ -491,8 +496,13 @@ En second lieu vient la compréhension des bits de conditions et la génération
 
 \newpage
 \vspace{3cm}
-\bf{\LARGE{ANNEXES}}\\
+\section{ANNEXES}
 
+\subsection{Algorithme de Wang et Yu}
+
+
+
+\subsection{Algorithme de Stevens}
 \begin{figure}[h!]
   \includegraphics[scale=.61]{./pics/ncb.png}
   \caption{Algoritme de recherche des blocs de quasi-collisons}
@@ -507,9 +517,9 @@ En second lieu vient la compréhension des bits de conditions et la génération
 \newpage
 \large{Bibliographie}
 \bibliographystyle{style}
-\bibliography{collision}
+\bibliography{collision_ref}
 
 
-dopte 18565559
+dopt 18565559
 
 \end{document}
