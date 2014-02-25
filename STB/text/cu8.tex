@@ -9,7 +9,7 @@
    \hline
    Condition d'arrêt & Envoi de cette trame au destinataire. \\
    \hline
-   Cas d'exception  & Si le proxy n'est pas capable de déchiffrer la trame, on la jette. \\
+   Cas d'exception  & Si le proxy n'est pas capable de déchiffrer la trame, \hl{le proxy la transmet telle quelle, et l'évènement est journalisé dans un fichier d'erreur.} \\
    \hline   
 \end{tabular}
 ~\\
