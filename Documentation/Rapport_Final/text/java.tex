@@ -1,14 +1,21 @@
-En Java, pour manipuler des certificats, nous utilisons des objets de types keyStore.
+En Java, pour manipuler des certificats, nous pouvons utiliser des objets de type KeyStore.
+~~\\
 
-Le keyStore doit contenir la clé privée et le certificat de l'application, dans notre cas, le proxy.
+Un KeyStore est stocké sous forme de fichier dans lequel sont répertoriés tous les certificats dont on a besoin. Pour plus de sécurité, il faut entrer un mot de passe pour toute action de consultation ou de modification.
+~~\\
 
-Dans notre cas, nous avons aussi besoin de reconnaître l'autorité qui a signé le certificat du site Web distant.
+Dans notre cas, le KeyStore général contient tous les certificats d'autorité utilisés par Java ainsi que notre autorité SSISign. Ce KeyStore est utilisé pour initier les connexions entre le proxy et les différents serveurs. C'est pourquoi nous avons besoin de reconnaître l'autorité qui a signé le certificat du site Web distant.
+~~\\
 
-Ensuite, à chaque fois que l'utilisateur demande une connexion vers un site Web, il faut générer un certificat Fake-Cert. Ce certificat reprend les différentes informations du certificat authentique, à l'exception de la clé publique.
+Ensuite, à chaque fois que l'utilisateur demande une connexion vers un site Web, il faut générer un certificat Fake-Cert. Ce certificat reprend les différentes informations du certificat authentique, à l'exception de la clé publique et de l'issuer (l'autorité qui a signé le certificat).
+~~\\
 
-L'intérêt de la manipulation est de posséder la clé privée associée.
+A partir de ce certificat, nous concaténons les certificats de Fake-Cert et de SSISign avec la clé privée associée au certificat de Fake-Cert que nous venons de générer. Une fois la concaténation réalisée, nous en créons un fichier de type Pkcs12.
+Pour finir, on récupère une copie du KeyStore général auquel on ajoute le Pkcs12 que nous venons de créer.
+~~\\
 
-Le mot de passe du keyStore permet d'accéder au fichier physique du keyStore, puis de déchiffrer la clé privée stockée dans le keyStore.
+Ce KeyStore sera utilisé pour communiquer avec le client par le biais de notre Fake-Cert puisque le client a déjà accepté notre autorité SSISign sur son navigateur.
+~~\\
 
 Si nous ne définissons pas de keyStore, il en existe un par défaut, à l'emplacement :
 \begin{verbatim}
@@ -18,24 +25,22 @@ ou
 \begin{verbatim}
 $JAVA_HOME/lib/security/cacerts
 \end{verbatim}
+~~\\
 
+Un autre objet cryptographique en Java est le TrustStore. Cet objet contient des certificats d'autorité à qui l'on fait confiance. Cette liste est semblable à celle que l'on peut trouver dans Firefox par exemple.
+~~\\
 
-Un autre objet cryptographique en Java est le trustStore. Cet objet contient des certificats de CA à qui l'on fait confiance. Cette liste est semblable à celle que l'on peut trouver dans Firefox par exemple.
-
-Pour résumer, nous stockons nos certificats dans le keyStore, et nous réutilisons les certificats d'autorité existants (par exemple Verisign) dans le trustore.
+Pour résumer, nous stockons nos certificats dans des KeyStore, et nous réutilisons les certificats d'autorité existants (par exemple Verisign) dans le TrustStore.
 
 
 \paragraph{Handshake}
+~~\\
 
-Le handshake désigne le processus de connexion du client avec le serveur.
+Le Handshake désigne le processus de connexion d'un client avec le serveur.
+Il peut être lancé explicitement si besoin, sinon il est implicitement appelé. Cet appel est réalisé avant toute première lecture ou écriture dans un des flux entrant ou sortant de la socket SSL.
+~~\\
 
-Il peut être lancé explicitement si besoin, sinon il est implicitement appelé. Cet appel est réalisé avant toute première lecture ou écriture dans un des  flux entrant ou sortant de la socket.
+C'est à cette étape que l'on vérifie si l'authentification est valide. Le serveur TLS utilise sa clé privée lors de l'échange de clés et envoie le certificat adéquat et sa chaîne de certification contenus dans le KeyStore au client.
+~~\\
 
-
-C'est à cette étape que l'on vérifie si l'authentification est valide.
-
-
-Le serveur TLS utilise sa clé privée lors de l'échange de clés.
-Le serveur envoie le certificat du keyStore et la clé publique au client.
-
-Pour manipuler le contenu du keyStore, nous utilisons l'utilitaire keytool.
+Pour manipuler le contenu d'un KeyStore, nous utilisons l'utilitaire keytool.
