@@ -16,7 +16,7 @@ public class Transchiffrement {
 	}
 
 	public void attendreRequete() throws Exception {
-		int count = -1;
+		int count = 0;
 		byte[] buf = new byte[Constantes.BUFFER_SIZE];
 		boolean https_mode = false;
 		ServerSocket serverSocket;

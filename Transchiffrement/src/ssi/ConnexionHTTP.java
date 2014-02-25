@@ -33,7 +33,7 @@ public class ConnexionHTTP extends Connexion {
 					"yyyy_MM_dd_HH");
 			DateFormat dateFormatDetail = new SimpleDateFormat("mm:ss");
 			Date date = new Date();
-			JournalFichier jf = new JournalFichier(
+			JournalFichier jf = new JournalFichier("logs/"+
 					dateFormat.format(date));
 			//System.out.println(dateFormatDetail.format(date) + "   " + texteEntree + " => " + texteSortie +"\n"+ line);
 			jf.ecrire(dateFormatDetail.format(date) + "   " + socketClient.getRemoteSocketAddress().toString() + " => " + "/"+ipWeb+":"+80 +"\n"+ requeteCourte);

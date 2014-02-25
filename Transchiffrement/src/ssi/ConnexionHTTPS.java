@@ -2,6 +2,7 @@ package ssi;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.net.Socket;
 import java.net.SocketException;
@@ -60,16 +61,29 @@ public class ConnexionHTTPS extends Connexion {
 			// Génération de fake-cert et importation dans le keystore du
 			// nouveau
 			// pkcs12.
-			GenerationCertificat gen = new GenerationCertificat(serveurCert);
-			// Chargement du nouveau keystore dans la variable Java.
-			keyStore.load(new FileInputStream(Constantes.KEYSTORE_FILE),
-					keyStorePasswordChar);
-			// Réinitiation des objets utiles à la création du socket avec le
-			// bon
-			// keystore.
-			kmf.init(keyStore, keyStorePasswordChar);
-			ctx.init(kmf.getKeyManagers(), null, null);
-			factory = ctx.getSocketFactory();
+			File test = new File(Constantes.KEYSTORE_PATH+ipWeb+".jks"); 
+			if( !test.exists() ) {
+				System.out.println("ON LE CREE ICI SEULEMENT");
+			//if(!keyStore.containsAlias(ipWeb)){
+//			Process p = Runtime.getRuntime().exec(
+//					"keytool -list -v -keystore keystore_ok.jks -storepass 000000 -alias "+ipWeb);
+//			p.waitFor();
+//			if(p.exitValue() == 0){
+//				System.out.println("Certificat déjà stocké");
+//			}
+//			else{
+				GenerationCertificat gen = new GenerationCertificat(serveurCert, ipWeb);
+			}
+				// Chargement du nouveau keystore dans la variable Java.
+				keyStore.load(new FileInputStream(Constantes.KEYSTORE_PATH+ipWeb+".jks"),
+						keyStorePasswordChar);
+				// Réinitiation des objets utiles à la création du socket avec le
+				// bon
+				// keystore.
+				kmf.init(keyStore, keyStorePasswordChar);
+				ctx.init(kmf.getKeyManagers(), null, null);
+				factory = ctx.getSocketFactory();
+			
 
 			SSLSocket sslSocket = (SSLSocket) factory.createSocket(
 					socketClient, ipClient, portClient, false);

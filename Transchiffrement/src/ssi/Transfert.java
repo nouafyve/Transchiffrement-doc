@@ -45,10 +45,12 @@ public class Transfert extends Thread {
 						buffer = line.getBytes();
 						byteRead-=6;
 					}
-					JournalFichier jf = new JournalFichier(dateFormat.format(date));
-					jf.ecrire(dateFormatDetail.format(date) + "   "
-							+ texteEntree + " => " + texteSortie + "\n" + line +"\n");
-					jf.close();
+					if(!line.contains("image/") && !line.contains("text/css") && !line.contains("application/javascript")){
+						JournalFichier jf = new JournalFichier("logs/"+dateFormat.format(date));
+						jf.ecrire(dateFormatDetail.format(date) + "   "
+								+ texteEntree + " => " + texteSortie + "\n" + line +"\n");
+						jf.close();
+					}
 					sortie.write(buffer, 0, byteRead);
 					sortie.flush();
 				}
