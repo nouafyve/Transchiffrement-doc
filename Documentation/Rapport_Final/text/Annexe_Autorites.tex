@@ -1,0 +1,76 @@
+\subsection{Mozilla Firefox}
+
+Tout d'abord, l'administrateur ouvre Firefox puis clique sur Edit > Preferences.
+
+\includegraphics[width=\textwidth]{images_autorites/OngletPref.png}
+\newpage
+Ensuite, il choisit Advanced > Certificates > View Certificates.
+
+\includegraphics[width=\textwidth]{images_autorites/OngletCert.png}
+\newpage
+Il va ensuite dans Authorities > Import.
+
+\includegraphics[width=\textwidth]{images_autorites/OngletCA.png}
+\newpage
+Il choisit ensuite le certificat de l'autorité qu'il veut installer puis valide.
+
+\includegraphics[width=\textwidth]{images_autorites/OngletImport.png}
+\newpage
+Une fenêtre s'ouvre et propose de faire confiance à cette autorité pour 3 types de Certificats. L'administrateur coche les 3 cases pour que son autorité soit reconnue valide sur tous les types puis clique sur ok.
+
+\includegraphics[width=\textwidth]{images_autorites/OngletConfirm.png} 
+
+
+Voilà, l'autorité est installée et tous les certificats signés par cette autorité seront reconnus comme valides.
+\newpage
+\subsection{Chrome}
+
+La démarche est très similaire à celle de firefox.
+
+Tout d'abord, l'administrateur va dans Modifier > Préférences
+
+\includegraphics[width=\textwidth]{images_autorites/ChromePref.png} 
+\newpage
+
+Puis il clique sur Afficher les paramètres avancés.
+
+\includegraphics[width=\textwidth]{images_autorites/ChromeAvance.png} 
+\newpage
+
+Ensuite, dans la partie HTTPS/SSL, il clique sur Gérer les certificats
+
+\includegraphics[width=\textwidth]{images_autorites/ChromeCert.png} 
+\newpage
+
+Il se déplace dans Autorités et clique sur Importer
+
+\includegraphics[width=\textwidth]{images_autorites/ChromeCA.png} 
+\newpage
+
+Il choisit le certificat de l'autorité et valide.
+
+\includegraphics[width=\textwidth]{images_autorites/ChromeImport.png} 
+\newpage
+
+Enfin, il coche les 3 cases et clique sur ok pour finaliser l'installation de l'autorité.
+
+\includegraphics[width=\textwidth]{images_autorites/ChromeValide.png} 
+\newpage
+
+\section{Forcer l'acceptation de l'autorité par un client}
+Dans cette section, nous forçons l'utilisateur a accepter notre autorité de certification. Si il ne l'a pas, il ne pourra pas naviguer sur internet.
+Nous proposons donc un lien pour récupérer le certificat d'autorité sur lequel il faut cliquer.
+
+\includegraphics[width=\textwidth]{images_autorites/Page.png} 
+\newpage
+
+Ensuite, la fenêtre de validation s'ouvre et le client doit cocher les cases puis valider.
+
+\includegraphics[width=\textwidth]{images_autorites/Cert.png} 
+\newpage
+
+A ce stade, l'autorité est installée et si le client veut retenter de l'installer, un message le prévient qu'il a déjà fini l'installation.
+
+\includegraphics[width=\textwidth]{images_autorites/Alerte.png}
+
+On peut voir qu'en seulement quelques clics, l'utilisateur installe une autorité dont il ne connaît rien et qui peut être utilisée pour déchiffrer toutes ses informations personnelles. 
