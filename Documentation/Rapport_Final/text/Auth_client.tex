@@ -1,0 +1,23 @@
+\subsection{Authentification client}
+
+L'authentification client sur un site web avec l'utilisation de certificats permet de créer une authentification forte.
+Ce type d'authentification est beaucoup plus sûr qu'une authentification par 
+login et mot de passe, trop facilement trouvable par un attaquant.
+
+Cependant, il est rare qu'un site web sécurisé avec HTTPS utilise de l'authentification 
+client. Pour gérer une authentification client, les serveurs doivent être configurés d'une certaine manière. 
+Pour exemple le site des impôts Français a essayer de mettre en place ce 
+type d'authentification mais cela c'est révélé être un échec dû à la difficulté 
+apparente pour une majeur partie des utilisateurs.
+
+Dans le cadre de notre projet, l'utilisation d'une authentification client entre le proxy et le serveur web n'est 
+pas réalisable du fait que nous ne gérons pas les serveurs des sites web, et il 
+est impossible d'imposer à un site une authentification client alors qu'il 
+n'implémente pas cette méthode.
+
+D'autre part si le site web demandé par un client demande l'authentification de 
+ce dernier, elle ne sera pas possible à implémentée. Un certificat client est 
+généré et signé par l'AC du serveur, or le proxy établit une connexion SSL avec 
+le client en utilisant ca propre AC, et ne pourra donc pas reconnaitre le 
+certificat du client comme valide, lors de la création du contexte SSL avec le client. 
+

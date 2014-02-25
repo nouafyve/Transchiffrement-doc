@@ -38,7 +38,7 @@
 
 \newcommand{\hmwkTitle}{Projet transchiffrement SSL/TLS} % Assignment title
 \newcommand{\hmwkClass}{Master 2 SSI } % Course/class
-\newcommand{\hmwkAuthorName}{Julien BOURDON, Émile GÉNÉRAT} % Your name
+\newcommand{\hmwkAuthorName}{Julien BOURDON, Émile GÉNÉRAT, Jean-Baptiste SOUCHAL} % Your name
 \newcommand{\hmwkSubject}{} % Subject
 \newcommand{\hmwkDocName}{Rapport final} % Document name
 
@@ -96,20 +96,6 @@
 
 \newpage
 
-%Tableau de mises à jour
-\vspace*{1cm}
-\begin{center}
-\textbf{\huge{Versions}}\\
-\vspace*{3cm}
-	\begin{tabularx}{16cm}{|c|c|X|}
-	\hline
-	\bfseries{Version} & \bfseries{Date} & \bfseries{Modifications réalisées}\\
-	\hline
-	1.0 & 20/02/2014 & Création\\
-	\hline
-	\end{tabularx}
-\end{center}
-
 %La table des matières
 \clearpage
 \tableofcontents
@@ -138,15 +124,20 @@
 
 Pour mener à bien ce projet, nous sommes une équipe de 5 étudiants.
 
-Nous nous sommes répartis autour des deux parties principales du projet, le proxy et la recherche de collision.
+Nous nous sommes répartis autour des deux parties principales parties du projet.
+\begin{itemize}
+  \item Un proxy de transchiffrement SSL.
+  \item La rechercher de collision sur des certificats de type MD5.
 
+\end{itemize}
 
 \subsection{Présentation des livrables}
 
 Les fonctionnalités finales attendues sont :
 \begin{itemize}
-\item une application servant de proxy  
-\item un dossier de recherche sur les collisions MD5, ainsi qu'une mise en oeuvre.
+\item Une application servant de proxy réalisant du transchiffrement SSL.
+\item Un dossier de recherche sur les collisions de certificats de type MD5, ainsi qu'une mise en oeuvre 
+par un algorithme de recherche.
 \end{itemize}
 
 \subsection{Évolution du planning et des priorités}
@@ -172,6 +163,19 @@ Ces risques ont fait l'objet d'une attention particulière, tout au long du proj
 
 \subsection{UML}
 \includegraphics[width=0.8\textwidth]{images/uml.pdf}
+~~\\
+~~\\
+Rôle des différentes classes:
+\begin{itemize}
+	\item Transchiffrement: classe principale de l'application, elle contient le main et va permettre la création de la socket serveur et la détection du type de connexion entrantes (HTTP ou HTTPS).
+	\item GenerationCertificat: cette classe permet de forger un faux certificat en fonction de celui récupéré lors de l'établissement d'une connexion HTTPS.
+	\item Transfert: classe permettant la création de threads pour l'échange des données entre les différentes entités (voir schéma partie 2.4.1).
+	\item Connexion: une classe abstraite qui permet de mutualiser le code commun entre les connexions HTTP ou HTTPS.
+	\item ConnexionHTTP: permet de gérer les connexions HTTP, avec le lancement de deux threads pour l'échange des données grâce a la classe Transfert.
+	\item ConnexionHTTPS: permet de gérer les connexions HTTPS, appel de la classe GenerationCertificat pour forger le faux certificat et lancement de deux threads pour l'échange des données grâce a la classe Transfert.
+	\item Constantes: cette classe regroupe toutes les valeurs constantes utilisées dans la plupart des classes du projet.
+	\item JournalFichier: cette classe permet la création, l'ouverture et le remplissage d'un fichier de avec les logs récupérés lors des échanges de type HTTP et HTTPS.
+\end{itemize}
 
 \section{Implémentation}
 \subsection{Faire accepter une autorité}
@@ -197,9 +201,15 @@ Suite à la phase d'analyse, nous avons décidé d'utiliser les sockets, qui son
 \input{text/java.tex}
 
 \subsection{Journalisation des échanges}
-Nous avons réalisé une classe, qui nous permet de stocker dans un fichier tout le trafic qui traverse le proxy.
+Un des objectif du proxy de transchiffrement est de pouvoir enregistrer tous les 
+échanges entre un client et un serveur lors de leur communication. Dans ce but nous
+avons réalisé une classe qui nous permet de stocker dans un fichier tout le trafic qui traverse le proxy.
 
-Ensuite, nous avons développé une seconde méthode, pour chercher un éventuel champ password dans un formulaire POST, ou passé avec GET. Même si en théorie le mot de passe ne doit jamais être passé dans l'adresse, il existe toujours des développeurs peu précautionneux.
+Ensuite, nous avons développé une seconde méthode, pour chercher un éventuel champ password
+dans un formulaire POST, ou passé avec GET. Même si en théorie le mot de passe ne doit jamais
+être passé dans l'adresse, il existe toujours des développeurs peu précautionneux.
+\section{Abstract}
+\input{text/Auth_client.tex}
 
 \section{Tests}
 
