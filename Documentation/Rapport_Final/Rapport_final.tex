@@ -183,7 +183,15 @@ Rôle des différentes classes:
 
 \subsection{Threads}
 
-Une fois les connexions établies, nous 
+Une fois une connexion établie, nous avons au niveau du proxy deux Sockets (bi-directionnelles), une vers le serveur, et une vers le client.
+
+Chaque Socket est composée de deux Stream (uni-directionnels), un en entrée et l'autre en sortie.
+
+Jusqu'à ce que la connexion soit interrompue, nous devons faire transiter les paquets, de l'entrée vers la sortie, et réciproquement pour le deuxième stream de la socket.
+
+Pour ce faire, pour chaque nous lançons un objet de type Transfert dans un nouveau Thread.
+
+Cela permet de continuer les traitements en parallèle, sans que l'application soit bloquée par un read.
 
 \includegraphics[width=0.8\textwidth]{images/thread.pdf}
 
@@ -228,6 +236,7 @@ dans un formulaire POST, ou passé avec GET. Même si en théorie le mot de pass
 \chapter{Synthèse}
 
 \chapter{Annexes}
+\input{text/Annexe_Autorites.tex}
 \section{Captures d'écran de l'installation de l'autorité}
 
 \end{document}
