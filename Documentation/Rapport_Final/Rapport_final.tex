@@ -198,12 +198,78 @@ Cela permet de continuer les traitements en parallèle, sans que l'application s
 \subsection{Sockets}
 Pour ce projet, nous devons faire communiquer les différents composants du projet ensemble. Ces composants sont :
 \begin{itemize}
-\item le navigateur du client ;
-\item le proxy ;
-\item le serveur Web.
+\item Le navigateur du client.
+\item Le proxy.
+\item Le serveur Web.
 \end{itemize}
 
 Suite à la phase d'analyse, nous avons décidé d'utiliser les sockets, qui sont implémentées en Java.
+=======
+Suite à la phase d'analyse, nous avons décidé d'utiliser les sockets, qui sont implémentées en Java 
+et mise en place sur le proxy. Le proxy a besoin de mettre en place deux 
+connexions distinctes, une avec le client (navigateur web) et une avec le serveur web. Il faut donc utiliser 
+deux types de connexions:
+\begin{itemize}
+  \item Serveur, pour établir une connexion avec le client.
+  \item Client, pour établir une connexion avec le serveur web distant
+\end{itemize}
+Il existe deux grand types de socket dans la librairie Java, Socket et SSLSocket 
+avec leur dérivées ServerSocket et SSLServerSocket.
+~~\\
+Lors d'une connexion HTTPS, l'utilisation des sockets SSL permet directement de 
+faire le chiffrement et le déchiffrement des données. Les données échangées sont 
+uniquement chiffrées dans les sockets SSL, en entrée et sortie les données sont 
+lisibles en clair sur le proxy.
+Pour chiffrer et déchiffrer avec les bons algorithmes, on utilise la liste des 
+algorithmes disponibles sur le serveur web et prenant le premier algorithme 
+commun entre ceux du serveur et ceux disponible par les sockets SSL Java.
+La méthode utilisée pour trouver ces algorithme est getCipherSuite().
+~~\\
+La création de sockets SSL demande au préalable la création d'un contexte SSL. 
+Ce contexte se créer en utilisant le certificat du serveur, ou le certificat 
+généré par le proxy. Une fois le contexte mis en place on peut créer les sockets 
+SSL, et donc mettre en place le tunnel SSL. Les sockets seront automatiquement configurées pour échanger des données 
+uniquement avec le serveur web qui détient le certificat qui a permis la 
+création du contexte.
+Sans contexte, la création de sockets SSL ne permet pas d'échanger des données 
+dans un tunnel SSL.
+
+Chacun des deux types de sockets sont implémentées en en mode simple (Socket) et 
+en mode SSL (SSLSocket) suivant le type de connexion demandée par le client. A 
+noter qu'il est obligaoire de créer des sockets simple même en cas de connexion 
+HTTPS.
+
+Création des sockets pour la connexion HTTP sur chacune des deux parties du proxy:
+\begin{itemize}
+  \item Serveur: on commence par créer une socket de type ServerSocket qui va 
+  être en écoute et attendre la connexion d'un client avec la méthode accept(). 
+  Cette méthode est blocante tant qu'il n'y a pas d'initialisation de connexion 
+  par un client. Dès que la ServerSocket reçoit une demande de connexion
+  elle va créer une socket de type Socket. Ces deux sockets seront utilisées pour la communication entre le client (navigateur web) et le proxy.
+  Quelque soit le type de la requête du client (HTTP ou HTTPS), la 
+  création de ces deux sockets est obligatoire.
+  
+  \item Client: après la création de la connexion Serveur, on récupère 
+  l'adresse IP et le port dans la requête du client pour faire une demande de 
+  connexion auprès du serveur web, ce qui entraîne la création d'une socket de 
+  type Socket. Cette socket sera utilisée uniquement pour la communication entre 
+  le proxy et le serveur web distant. 
+\end{itemize}
+
+Création des sockets pour la connexion HTTPS sur chacune des deux parties du proxy:
+\begin{itemize}
+  \item Serveur: la première partie est identique qu'en HTTP. Pour la deuxième 
+  partie on récupère le certificat du serveur pour forger notre propre 
+  certificat serveur basé sur celui du serveur web. Ensuite on créer un contexte 
+  avec ce nouveau certificat pour créer une SSLServerSocket et une SSLSocket 
+  pour léchange des données dans le tunnel SSL entre le navigateur web et le 
+  proxy.
+  
+  \item Client: on récupère l'adresse IP et le port dans la requête du client 
+  pour aller chercher le certificat du serveur web. A partir de ce certificat on 
+  créer un contexte SSL pour pourvoir générer la sockets SSL et mettre en place 
+  le tunnel SSL entre le proxy et le serveur web distant.
+\end{itemize}
 
 \subsection{Keystore}
 \input{text/java.tex}

@@ -21,3 +21,6 @@ généré et signé par l'AC du serveur, or le proxy établit une connexion SSL 
 le client en utilisant ca propre AC, et ne pourra donc pas reconnaitre le 
 certificat du client comme valide, lors de la création du contexte SSL avec le client. 
 
+L'utilisation de l'authentification client par un serveur web est une méthode qui pourrait permettre de contourner
+un proxy de transchiffrement SSL comme le nôtre. En effet, avec un tel dispositif d'authentification, le proxy
+ne serait pas capable d'établir de connexion SSL et donc d'analyser ou logger les données des échanges SSL.

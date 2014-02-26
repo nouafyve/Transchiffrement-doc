@@ -40,14 +40,14 @@
 
 \newcommand{\hmwkTitle}{Transchiffrement} % Assignment title
 \newcommand{\hmwkClass}{Master 2 SSI } % Course/class
-\newcommand{\hmwkAuthorName}{Yves Nouafo, Ouissem Hamdani} % Your name
+\newcommand{\hmwkAuthorName}{Yves NOUAFO, Ouissem HAMDANI} % Your name
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Architecture Logicielle} % Document name
 
-\newcommand{\version}{1.0} % Document version
-\newcommand{\docDate}{28 novembre 2013} % Document date
-\newcommand{\checked}{} % Checker name
-\newcommand{\approved}{Magali Bardet} % Approver name
+\newcommand{\version}{1.1} % Document version
+\newcommand{\docDate}{22 janvier 2014} % Document date
+\newcommand{\checked}{Julien BOURDON} % Checker name
+\newcommand{\approved}{} % Approver name
 
 \makeatletter
 \newcommand{\resettranslate}{\let\translate\@firstofone}
@@ -101,7 +101,7 @@
 %Tableau de mises à jour
 \vspace*{1cm}
 \begin{center}
-\textbf{\huge{MISES À JOUR}}\\
+\textbf{\huge{Versions}}\\
 \vspace*{3cm}
 	\begin{tabularx}{16cm}{|c|c|X|}
 	\hline
@@ -109,18 +109,9 @@
 	\hline
 	1.0 & 28/11/2013 & Création\\
 	\hline
-	& & \\
+	1.1 & 22/01/2014 & Prise en compte des modifications de la STB 1.1\\
 	\hline
-	& & \\
-	\hline
-	& & \\
-	\hline
-	& & \\
-	\hline
-	& & \\
-	\hline
-	& & \\
-	\hline
+	
 	\end{tabularx}
 \end{center}
 
@@ -158,7 +149,7 @@ Mener une étude sur la possibilité de trouver une seconde pré-image sur l'alg
 %=========================================================
 \section{Documents applicables et de références}
 \begin{itemize}
-\item STB (Spécification Techniques des besoins)
+\item STB (Spécification Techniques des besoins) v1.1
 \item MD5 considered harmful today [Alexander Sotirov, Marc Stevens, 2008]
 \end{itemize}
 
@@ -169,15 +160,15 @@ Mener une étude sur la possibilité de trouver une seconde pré-image sur l'alg
 %=========================================================
 \section{Terminologie et sigles utilisés}
 
-\begin{itemize}
-\item SSL/TLS: Secure Sockets Layer, Transport Layer Security 
-\item MD5: Message Digest 5
-\item Client: utilisateur d'une machine privée
-\item Proxy: machine intermédiaire écoutant sur le réseau qui sera en charge de réaliser le transchiffrement en utilisant le protocole SSL/TLS
-\item Serveur: serveur Web accessible à partir d'une URL
-\item BDD: base de données où seront stockées les clés publiques
+\begin{description}
+\item[SSL/TLS] Secure Sockets Layer, Transport Layer Security 
+\item[MD5] Message Digest 5
+\item[Client] utilisateur d'une machine privée
+\item[Proxy] machine intermédiaire écoutant sur le réseau qui sera en charge de réaliser le transchiffrement en utilisant le protocole SSL/TLS
+\item[Serveur] serveur Web accessible à partir d'une URL
+\item[BDD] base de données où seront stockées les clés publiques
 %\item Autorité de certification: certificat intermédiaire servant au chiffrement SSL/TLS depuis le proxy.
-\end{itemize}
+\end{description}
 
 
 %=========================================================
@@ -206,6 +197,14 @@ Pour pouvoir faire marcher le projet, celui-ci devra être supporté par un syst
 \item Ubuntu serveur 12.04. 
 \end{itemize}
 
+
+\subsection{Choix du langage de développement}
+Nous utiliserons le langage Java pour différentes raisons :
+\begin{itemize}
+\item C'est un langage pré-compilé, les performances devraient donc être meilleures qu'un langage interprété comme le Python ou le Perl.
+\item De nombreuses librairies sont déjà implémentées dans ce langage, dont OpenSSL pour le chiffrement, ou des classes pour manipuler les paquets IP.
+\item Nous sommes déjà formés à ce langage, ce qui minimisera la durée de formation.
+\end{itemize}
 
 %\subsection{Produits logiciels nécessaires}
 
@@ -605,22 +604,6 @@ f:
 
 La particularité de cette fonction est que connaissant f(x), il est difficile de retrouvé x mais connaissant x il est facile de calculer f(x).
 
-\subsection{Présentation de MD5}
-
-MD5 suit le schéma de construction de Merkle-Damgard qui consiste à ajouter au message un padding pour obtenir un message dont la longeur est multiple de 512. Le padding est effectué en ajoutant la suite "100...0000" suivi de la longueur de la taille originale du message.\\
-
-Le message est ensuite découpé en N blocs de 512 bits, B1...BN.\\
-
-La compression du message se fait à l'aide des tailles de blocs et de l'IHV. L'IHV est la valeur intermédiaire de hachage. Elle est calculée grâce à la formule de compréssion suivante: IHV(i) = MD5Compress(IHV(i-1),B(i)).\\
-
-Le valeur de hachage qui en resulte est le dernier IHV calculé. On a alors IHV(N) = IHV(0) || ... || IHV(N-1).\\
-
-\subsection{Aper\c u d'une collision à prefixe choisi}
-
-De nombreuses études ont été menées sur le fait de pouvoir trouver des collisions sur MD5.
-
-\subsubsection{\'Etude de cas: Wang,Yu}
-\'Etant donnée de messages choisi arbitrairement, if faut trouver une collision sous MD5. Comme les deux messages sont de tailles différentes, il faut appliquer un padding au plus court des deux.....
 %%==============================
 
 \end{document}
