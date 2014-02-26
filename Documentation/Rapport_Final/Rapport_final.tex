@@ -203,17 +203,7 @@ Pour ce projet, nous devons faire communiquer les différents composants du proj
 \item le serveur Web.
 \end{itemize}
 
-Suite à la phase d'analyse, nous avons décidé d'utiliser les sockets, qui sont implémentées en Java 
-et mise en place sur le proxy. Le proxy a besoin de mettre en place deux 
-connexions, une avec le client et une avec le serveur. Il faut donc utiliser 
-deux types de sockets:
-\begin{itemize}
-  \item Serveur, pour établir une connexion avec le client.
-  \item Client, pour établir une connexion avec le serveur web distant
-\end{itemize}
-Chacun des deux types de sockets sont implémentées en en mode simple (Socket) et 
-en mode SSL (SSLSocket) suivant le type de connexion demandée par le client.
-
+Suite à la phase d'analyse, nous avons décidé d'utiliser les sockets, qui sont implémentées en Java.
 
 \subsection{Keystore}
 \input{text/java.tex}
