@@ -20,6 +20,7 @@
 \usepackage{gensymb}
 \usepackage{tikz}
 \usepackage{pgfplots}
+\usepackage{algorithm2e}
 
 
 \linespread{1.1} % Line spacing
@@ -183,6 +184,29 @@ Rôle des différentes classes:
 	\item Constantes: cette classe regroupe toutes les valeurs constantes utilisées dans la plupart des classes du projet.
 	\item JournalFichier: cette classe permet la création, l'ouverture et le remplissage d'un fichier de avec les logs récupérés lors des échanges de type HTTP et HTTPS.
 \end{itemize}
+~~\\
+
+Pseudo algorithme de la classe principale:~~\\
+
+\begin{algorithm}[H]
+  ServerSocket server\;
+  Socket connexion\;
+  \While{true}{
+    connexion = server.accept\;
+    Requete req\;
+    Pattern http\;
+    Pattern https\;
+    \eIf{http.find in req}{
+      new ConnexionHTTP\;
+    }{
+      \eIf{https.find in https}{
+        new ConnexionHTTPS\;
+      }
+    }
+  }
+\end{algorithm}
+
+
 
 \section{Implémentation}
 \subsection{Faire accepter une autorité}
@@ -209,9 +233,8 @@ Pour ce projet, nous devons faire communiquer les différents composants du proj
 \item Le proxy.
 \item Le serveur Web.
 \end{itemize}
+~~\\
 
-Suite à la phase d'analyse, nous avons décidé d'utiliser les sockets, qui sont implémentées en Java.
-=======
 Suite à la phase d'analyse, nous avons décidé d'utiliser les sockets, qui sont implémentées en Java 
 et mise en place sur le proxy. Le proxy a besoin de mettre en place deux 
 connexions distinctes, une avec le client (navigateur web) et une avec le serveur web. Il faut donc utiliser 
@@ -223,6 +246,7 @@ deux types de connexions:
 Il existe deux grand types de socket dans la librairie Java, Socket et SSLSocket 
 avec leur dérivées ServerSocket et SSLServerSocket.
 ~~\\
+
 Lors d'une connexion HTTPS, l'utilisation des sockets SSL permet directement de 
 faire le chiffrement et le déchiffrement des données. Les données échangées sont 
 uniquement chiffrées dans les sockets SSL, en entrée et sortie les données sont 
@@ -232,6 +256,7 @@ algorithmes disponibles sur le serveur web et prenant le premier algorithme
 commun entre ceux du serveur et ceux disponible par les sockets SSL Java.
 La méthode utilisée pour trouver ces algorithme est getCipherSuite().
 ~~\\
+
 La création de sockets SSL demande au préalable la création d'un contexte SSL. 
 Ce contexte se créer en utilisant le certificat du serveur, ou le certificat 
 généré par le proxy. Une fois le contexte mis en place on peut créer les sockets 
@@ -240,11 +265,13 @@ uniquement avec le serveur web qui détient le certificat qui a permis la
 création du contexte.
 Sans contexte, la création de sockets SSL ne permet pas d'échanger des données 
 dans un tunnel SSL.
+~~\\
 
 Chacun des deux types de sockets sont implémentées en en mode simple (Socket) et 
 en mode SSL (SSLSocket) suivant le type de connexion demandée par le client. A 
 noter qu'il est obligaoire de créer des sockets simple même en cas de connexion 
 HTTPS.
+~~\\
 
 Création des sockets pour la connexion HTTP sur chacune des deux parties du proxy:
 \begin{itemize}
@@ -254,7 +281,7 @@ Création des sockets pour la connexion HTTP sur chacune des deux parties du pro
   par un client. Dès que la ServerSocket reçoit une demande de connexion
   elle va créer une socket de type Socket. Ces deux sockets seront utilisées pour la communication entre le client (navigateur web) et le proxy.
   Quelque soit le type de la requête du client (HTTP ou HTTPS), la 
-  création de ces deux sockets est obligatoire.
+  création de ces deux sockets est obligatoire.~~\\
   
   \item Client: après la création de la connexion Serveur, on récupère 
   l'adresse IP et le port dans la requête du client pour faire une demande de 
@@ -262,6 +289,7 @@ Création des sockets pour la connexion HTTP sur chacune des deux parties du pro
   type Socket. Cette socket sera utilisée uniquement pour la communication entre 
   le proxy et le serveur web distant. 
 \end{itemize}
+~~\\
 
 Création des sockets pour la connexion HTTPS sur chacune des deux parties du proxy:
 \begin{itemize}
@@ -270,7 +298,7 @@ Création des sockets pour la connexion HTTPS sur chacune des deux parties du pr
   certificat serveur basé sur celui du serveur web. Ensuite on créer un contexte 
   avec ce nouveau certificat pour créer une SSLServerSocket et une SSLSocket 
   pour léchange des données dans le tunnel SSL entre le navigateur web et le 
-  proxy.
+  proxy. ~~\\
   
   \item Client: on récupère l'adresse IP et le port dans la requête du client 
   pour aller chercher le certificat du serveur web. A partir de ce certificat on 
