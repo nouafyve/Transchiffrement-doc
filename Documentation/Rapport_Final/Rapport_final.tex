@@ -121,15 +121,22 @@
 \section{Gestion de projet}
 
 \subsection{L'équipe}
-
-Pour mener à bien ce projet, nous sommes une équipe de 5 étudiants.
-
+Pour mener à bien ce projet, nous sommes une équipe de 5 étudiants. 
+L'équipe est composée de:
+\begin{itemize}
+\item GENERAT Emile 
+\item SOUCHAL Jean-Baptiste
+\item NOUAFO Yves
+\item HAMDANI Ouissem
+\item BOURDON Julien
+\end{itemize}
 Nous nous sommes répartis autour des deux parties principales parties du projet.
 \begin{itemize}
-  \item Un proxy de transchiffrement SSL.
-  \item La rechercher de collision sur des certificats de type MD5.
+  \item Un proxy de transchiffrement SSL (3 personnes).
+  \item La recherche de collision sur des certificats de type MD5 (2 personnes).
 
 \end{itemize}
+
 
 \subsection{Présentation des livrables}
 
@@ -276,12 +283,18 @@ Création des sockets pour la connexion HTTPS sur chacune des deux parties du pr
 
 \subsection{Journalisation des échanges}
 Un des objectif du proxy de transchiffrement est de pouvoir enregistrer tous les 
-échanges entre un client et un serveur lors de leur communication. Dans ce but nous
-avons réalisé une classe qui nous permet de stocker dans un fichier tout le trafic qui traverse le proxy.
+échanges entre un client et un serveur lors de leur communication.~~\\
+Dans ce but nous avons réalisé une classe qui nous permet de stocker dans un fichier tout le trafic qui traverse le proxy.~~\\
 
-Ensuite, nous avons développé une seconde méthode, pour chercher un éventuel champ password
-dans un formulaire POST, ou passé avec GET. Même si en théorie le mot de passe ne doit jamais
-être passé dans l'adresse, il existe toujours des développeurs peu précautionneux.
+Une fois arrivé sur le proxy, tout ce qui entre est déchiffré et on peut donc le stocker en clair.~~\\
+
+Pour plus de clarté, nos fichiers de journalisation sont nommés selon la date (annee\_mois\_jour\_heure).~~\\
+
+Dans ces fichiers, chaque réception de paquet est placé à la suite d'une ligne nous précisant la date de réception et le sens du trafic comme ceci : ~~\\
+
+heure\_minute\_seconde : /ip\_emmeteur:port\_emmeteur => /ip\_destinataire:port\_destinataire~~\\
+
+On pourra ainsi voir toutes les pages demandées par un client mais également les valeurs des variables envoyées par ce dernier. Par exemple, un utilisateur remplissant un champ de mot de passe l'enverra au serveur et nous serons capables de lire le mot de passe en clair dans les fichiers de journalisation.
 \section{Abstract}
 \input{text/Auth_client.tex}
 
