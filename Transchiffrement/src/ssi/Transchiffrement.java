@@ -15,10 +15,9 @@ public class Transchiffrement {
 		proxy.attendreRequete();
 	}
 
-	public void attendreRequete() throws Exception {
+	private void attendreRequete() throws Exception {
 		int count = 0;
 		byte[] buf = new byte[Constantes.BUFFER_SIZE];
-		boolean https_mode = false;
 		ServerSocket serverSocket;
 		Socket connectionSocket;
 		serverSocket = new ServerSocket(Constantes.PROXY_PORT);
@@ -44,12 +43,12 @@ public class Transchiffrement {
 					//System.out.println("Entrée HTTPS");
 					String ipWeb = httpsConnectMatcher.group(1);
 					
-					System.out.println("IP web : "+ipWeb);
-					if(!validate(ipWeb)){
+					//System.out.println("IP web : "+ipWeb);
+					if(!validateIPPattern(ipWeb)){
 						InetAddress address = InetAddress.getByName(ipWeb); 
 						ipWeb = address.getHostAddress();
 					}
-					System.out.println("IP web : "+ipWeb);	
+					//System.out.println("IP web : "+ipWeb);	
 					int portWeb = Integer.parseInt(httpsConnectMatcher.group(2));
 
 					
@@ -64,12 +63,12 @@ public class Transchiffrement {
 					// System.out.println(requete);
 					String ipWeb = httpGetMatcher.group(3);
 					ipWeb = ipWeb.substring(0, ipWeb.indexOf("\n")-1);
-					System.out.println("IP web : "+ipWeb);
-					if(!validate(ipWeb)){
+					//System.out.println("IP web : "+ipWeb);
+					if(!validateIPPattern(ipWeb)){
 						InetAddress address = InetAddress.getByName(ipWeb); 
 						ipWeb = address.getHostAddress();
 					}
-					System.out.println("IP web : "+ipWeb);
+					//System.out.println("IP web : "+ipWeb);
 					ConnexionHTTP connexionHTTP = new ConnexionHTTP(connectionSocket, ipWeb, 80, buf);
 					connexionHTTP.lancer();
 					//System.out.println("Sortie HTTP");
@@ -84,14 +83,14 @@ public class Transchiffrement {
 	        "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
 	        "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
-	public boolean validate(final String ip){          
+	private boolean validateIPPattern(final String ip){          
 
 	      Pattern pattern = Pattern.compile(PATTERN);
 	      Matcher matcher = pattern.matcher(ip);
 	      return matcher.matches();             
 	}
 	
-	public void initialisationKeyStore() {
+	private void initialisationKeyStore() {
 		System.setProperty("javax.net.ssl.keyStore", Constantes.KEYSTORE_FILE);
 		System.setProperty("javax.net.ssl.keyStorePassword",
 				Constantes.KEYSTORE_PASSWORD);

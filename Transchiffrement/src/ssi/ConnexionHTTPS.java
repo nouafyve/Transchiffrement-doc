@@ -26,6 +26,7 @@ public class ConnexionHTTPS extends Connexion {
 
 	public void lancer() throws Exception {
 		envoyerMessageClient("200 OK");
+		
 		// System.out.println("HTTPS SSL/TLS : " + ipWeb + " " + portWeb);
 		char[] keyStorePasswordChar = Constantes.KEYSTORE_PASSWORD
 				.toCharArray();
@@ -63,7 +64,6 @@ public class ConnexionHTTPS extends Connexion {
 			// pkcs12.
 			File test = new File(Constantes.KEYSTORE_PATH+ipWeb+".jks"); 
 			if( !test.exists() ) {
-				System.out.println("ON LE CREE ICI SEULEMENT");
 			//if(!keyStore.containsAlias(ipWeb)){
 //			Process p = Runtime.getRuntime().exec(
 //					"keytool -list -v -keystore keystore_ok.jks -storepass 000000 -alias "+ipWeb);

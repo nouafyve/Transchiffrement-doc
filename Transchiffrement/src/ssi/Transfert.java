@@ -1,14 +1,12 @@
 package ssi;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.io.BufferedOutputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.zip.GZIPInputStream;
+
+import javax.net.ssl.SSLException;
 
 import ssi.paquets.JournalFichier;
 
@@ -18,19 +16,21 @@ public class Transfert extends Thread {
 	private final OutputStream sortie;
 	private final String texteEntree;
 	private final String texteSortie;
-
+	private boolean is_running = false;
+	
 	public Transfert(InputStream entree, OutputStream sortie,
 			String texteEntree, String texteSortie) {
 		this.entree = entree;
 		this.sortie = sortie;
 		this.texteEntree = texteEntree;
 		this.texteSortie = texteSortie;
+		this.is_running = true;
 	}
 
 	public void run() {
 		byte[] buffer = new byte[Constantes.BUFFER_SIZE];
 		int i = 0;
-		while (true) {
+		while (is_running) {
 			try {
 				buffer = new byte[Constantes.BUFFER_SIZE];
 				int byteRead = entree.read(buffer, 0, Constantes.BUFFER_SIZE);
@@ -46,7 +46,7 @@ public class Transfert extends Thread {
 						byteRead-=6;
 					}
 					if(!line.contains("image/") && !line.contains("text/css") && !line.contains("application/javascript")){
-						JournalFichier jf = new JournalFichier("logs/"+dateFormat.format(date));
+						JournalFichier jf = new JournalFichier(Constantes.PROJECT_FOLDER + "logs/"+dateFormat.format(date)+".txt");
 						jf.ecrire(dateFormatDetail.format(date) + "   "
 								+ texteEntree + " => " + texteSortie + "\n" + line +"\n");
 						jf.close();
@@ -54,11 +54,20 @@ public class Transfert extends Thread {
 					sortie.write(buffer, 0, byteRead);
 					sortie.flush();
 				}
-			} catch (Exception e) {
+			} catch (SSLException e) {
+				String message_cause = e.getMessage();
+				if(message_cause.contains("Received fatal alert: unknown_ca")){
+					System.out.println("Erreur unknown ca");					
+					is_running = false;
+				}
+				else{
+					e.printStackTrace();
+				}
+			}
+			catch(Exception e){
 				e.printStackTrace();
 			}
 			i++;
 		}
 	}
-
 }
