@@ -60,12 +60,20 @@ public class Transfert extends Thread {
 					System.out.println("Erreur unknown ca");					
 					is_running = false;
 				}
+				else if(message_cause.contains("Received fatal alert: bad_certificate")){
+					System.out.println("Erreur bad cert");			
+					is_running = false;
+				}
 				else{
 					e.printStackTrace();
 				}
 			}
 			catch(Exception e){
-				e.printStackTrace();
+				String message_cause = e.getMessage();
+				if(message_cause.contains("read timed out")){
+					System.out.println("Read timed out");			
+					is_running = false;
+				}
 			}
 			i++;
 		}

@@ -26,6 +26,7 @@ public class Transchiffrement {
 			BufferedInputStream in = new BufferedInputStream(connectionSocket.getInputStream(), buf.length);
 			String line;
 				count = in.read(buf);
+				if(count !=-1){
 				line = new String(buf, 0, count, "UTF-8");
 				// System.out.println("Début de line" +line);
 				Pattern httpsConnectPattern = Pattern.compile(
@@ -74,6 +75,7 @@ public class Transchiffrement {
 					//System.out.println("Sortie HTTP");
 				}
 				buf = new byte[Constantes.BUFFER_SIZE];
+				}
 		}
 	}
 

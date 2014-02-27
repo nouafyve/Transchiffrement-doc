@@ -26,8 +26,7 @@ public class ConnexionHTTPS extends Connexion {
 
 	public void lancer() throws Exception {
 		envoyerMessageClient("200 OK");
-		
-		// System.out.println("HTTPS SSL/TLS : " + ipWeb + " " + portWeb);
+
 		char[] keyStorePasswordChar = Constantes.KEYSTORE_PASSWORD
 				.toCharArray();
 

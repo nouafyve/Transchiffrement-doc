@@ -13,12 +13,23 @@ public class GenerationCertificat {
 			p.waitFor();
 			// Création de la requête de signature avec le bi-clé généré en
 			// utilisant les informations du certificat serveur.
-			System.out.println(serveur.getSubjectDN().toString().replace(", ", "/"));
+			String subject = serveur.getSubjectDN().toString().replace("/",", ");
+			String[] morceaux = subject.split(", ");
+			subject = "";
+			for(String s : morceaux){
+				if(s.contains("=")){
+					subject += ("/"+s);
+				}
+				else{
+					subject += (", "+s);
+				}
+			}
+			subject = subject.replace(" ", "").replace("\"","");
+			System.out.println(subject);
 			p = Runtime.getRuntime().exec(
-					"openssl req -new -key "+Constantes.PROJECT_FOLDER +"cles/fakeCle.pem -out "+ Constantes.PROJECT_FOLDER +"cles/fake-cert.csr -subj /"
-							+ serveur.getSubjectDN().toString().replace(", ", "/").replace(" ", ""));
+					"openssl req -new -key "+Constantes.PROJECT_FOLDER +"cles/fakeCle.pem -out "+ Constantes.PROJECT_FOLDER +"cles/fake-cert.csr -subj "
+							+ subject);
 			p.waitFor();
-			//CN=*.facebook.com/O="Facebook/Inc."/L=Palo Alto/ST=California/C=US
 			// Signature de fake-cert avec SSISign.
 			p = Runtime
 					.getRuntime()
