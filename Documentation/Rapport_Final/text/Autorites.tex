@@ -9,24 +9,6 @@ Nous allons maintenant voir comment on peut faire accepter l'installation d'une 
 Nous prenons, ici, le cas d'un administrateur ayant un accès à tous les ordinateurs d'une entreprise.
 Cette personne veut faire accepter une autorité de certification dont il est le propriétaire pour pouvoir lire tous les paquets qui transitent et surtout les chiffrés.
 Nous allons expliquer comment faire pour les principaux navigateurs utilisés sous linux.
-Voilà un tableau comparatif des pourcentages d'utilisation des navigateurs : 
-
-Moyenne générale (Janvier 2014) :
-\begin{itemize}
-\item{Chrome} 		43.67\%
-\item{Internet Explorer}		 22,85\%
-\item{Firefox} 		18,9\%
-\item{Safari} 		9.73\%
-\item{Opera}	 		1,3\%	
-\item{Autres} 		3.55\%
-\end{itemize}	
-
-
-D'après le site : \begin{verbatim}
-http://gs.statcounter.com/
-\end{verbatim}
-
-Nous allons privilégier Firefox et Chrome, cela nous permettra de viser plus de 60\% des machines.
 
 Nous pouvons imaginer que l'administrateur installe ces navigateurs sur les machines de l'entreprise.
 \newpage
@@ -40,6 +22,25 @@ Lorsqu'un utilisateur
 
 
 \subsection{Collision MD5}
-Dans ce cas, aucune opération manuelle n'est nécessaire, ni par l'utilisateur, ni par l'administrateur.
+Dans les trois précédentes parties nous avons vu comment imposer ou installer une 
+autorité de certification dans le navigateur web d'un utilisateur. Cette 
+autorité va permettre l'acceptation du certificat proxy.
 
+La collision de certificat de type MD5 permet de générer un certificat ayant 
+exactement la même signature que le certificat original du serveur web visé, et 
+donc totalement valide auprès du navigateur web. A chaque échange de certificat, 
+la signature de ce dernier est vérifiée auprès de son autorité de certification, 
+la faux certificat ayant une signature identique sera reconnu comme valide.
+~~\\
+
+Le but de la recherche de collision sur les certificats de type MD5 est donc d'éviter les
+procédures mis en place et décrites dans ces trois dernières parties. La forge d'un faux 
+certificat à partir d'un certificat serveur, reconnu par une autorité de 
+certification valide aux yeux de tous les navigateurs, va permettre à notre 
+proxy d'être reconnu comme un vrai serveur web. De ce fait il ne sera plus 
+nécessaire de faire accepter notre autorité au navigateur du client.
+
+Dans ce cas, aucune opération manuelle n'est nécessaire, ni par l'utilisateur, ni par l'administrateur.
+Cela simplifie grandement la mise en place du proxy et limite également la
+détection du proxy par l'utilisateur.
 

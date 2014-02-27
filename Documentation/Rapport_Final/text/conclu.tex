@@ -1,0 +1,42 @@
+Tout d'abord ce projet nous a permis de mettre en évidence, dans le cadre d'un 
+réseau interne, un risque de confidentialité majeur pour les utilisateurs. Comme
+nous l'avons démontré, la mise en place d'un proxy de transchiffrement SSL sur un réseau permet 
+une lisibilité totale des échanges utilisant le protocole SSL.
+
+D'autre part, et de façon contradictoire, un tel proxy permet de lutter plus 
+efficacement contres les logiciels malveillants qui utilisent le protocole SSL 
+pour pénétrer au sein d'un réseau.
+~~\\
+
+Il est fort probable qu'un certains nombres d'entreprises utilisent ce type de proxy 
+pour surveiller le trafic entrant et sortant de leurs réseaux, mais également 
+dans le but de surveiller leurs utilisateurs sans avoir leurs approbations. 
+
+Dans le cas ou une entreprise utilise un proxy de transchiffrement SSL pour 
+surveiller le trafic, elle ne pourra faire autrement que de filtrer n'importe 
+quel échange sécurisé et à fortiori récupérer des informations personnelles sur 
+les utilisateurs de son réseau. Dans ce cas de figure, les utilisateurs 
+devraient en être informé et l'entreprise devrait être dans l'obligation de ne 
+faire aucun usage de ces informations. Dans les faits, aucune étude ne permet de 
+prouver de tel conventions entre une entreprise et ces utilisateurs.
+~~\\
+
+Ce projet nous a  également appris que la confiance que nous mettons en certaines autorités doit être mûrement réfléchie.
+En effet, si une personne de confiance comme un administrateur système, ou une personne malveillante arrive à
+configurer un proxy de transchiffrement sur un réseau comme nous l'avons fait et que les utilisateurs
+s'empressent d'accepter une nouvelle autorité inconnue, alors toute la sécurité est remise en cause.
+
+Notre expérience personnelle tend à prouver qu'il est facile de faire accepter 
+une autorité à un utilisateur lambda sans aucune connaissance particulière en 
+informatique et encore moins en sécurité informatique.
+
+Grâce à la négligence des utilisateurs et du proxy que nous avons développé, nous sommes en mesure de récupérer toutes les données échangées
+via le protocole HTTPS, entre autre récupérer les accès d'un utilisateur à ses comptes en ligne, de consulter les mails, qui contiennent souvent
+des informations personnelles.
+~~\\
+
+Dans un autre registre, la gestion de projet, qui a occuper les premières semaines de notre 
+projet, nous a permis de construire une vision d'ensemble du projet à l'aide de document de 
+spécifications.
+La gestion de projet, qui pour nous est encore récent dans notre conception de projet, a permis de faire évoluer
+nos méthodes de réflexion et d'analyse d'un sujet de manière professionnelle et adaptable en fonction des besoins du client.

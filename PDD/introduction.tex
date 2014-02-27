@@ -1,13 +1,41 @@
-Pour garantir la confidentialité du trafic internet, les sites ont de plus en plus souvent recours au chiffrement des échanges. Ce chiffrement s'effectue de bout en bout, du client jusqu'au serveur.
+Dans le cadre de notre projet professionnel de dernière année de Master en Sécurité des Systèmes 
+Informatiques, nous avons réalisé le projet "Transchiffrement SSL" qui s'articule sur deux axes. Un proxy de transchiffrement SSL, suivi d'une 
+étude sur la collision de certificats de type MD5.
+
+Ce projet a fait l'objet d'une étude en amont pour préparer la phase de 
+développement. Cette étude nous a permis d'avoir une vision d'ensemble du projet 
+ainsi qu'un listing détaillé de toutes les tâches à réalisées lors de la phase 
+de développement.~~\\
+
+Pour garantir la confidentialité du trafic internet, les sites ont de plus en plus souvent recours au chiffrement des échanges en utilisant le protocole HTTPS.
+Ce chiffrement s'effectue de bout en bout, du client jusqu'au serveur à l'aide d'un tunnel SSL.
 Ainsi, un intrus qui intercepte les connexions ne peut pas lire les paquets qui transitent.
 
 
-Fréquemment, les entreprises analysent le trafic entrant et sortant de leur réseau. Cette analyse du contenu des paquets permet par exemple de chercher la présence de virus.
+Fréquemment, les entreprises analysent le trafic entrant et sortant de leur réseau.
+Cette analyse du contenu des paquets, grâce à des IDS par exemple, permet de rechercher la présence de virus,
+malware ou autres comportements suspect sur un réseau non sécurisé. Or de plus en plus, les 
+logiciels malveillants utilisent le protocole HTTPS pour s'introduire dans un 
+réseau. L'utilisation de ce protocole rend inutile toutes les techniques 
+d'écoute sur un réseau non sécurisé.
 
 
-Le but du projet est de fournir une solution de transchiffrement, qui permette d'analyse en clair au sein du proxy les paquets, qu'ils soient issus d'une connexion en clair ou chiffrée. Dans ce dernier cas, il faut établir une connexion chiffrée vers le client, et une autre vers le serveur distant. Ce système permet de faire une attaque de type "Man In The Middle".
+Le but du projet est de fournir une solution de transchiffrement SSL, qui permette d'analyse en clair au sein du proxy les paquets,
+qu'ils soient issus d'une connexion en clair ou chiffrée. Dans ce dernier cas, il faut établir une connexion chiffrée vers le client,
+et une autre vers le serveur distant à partir du proxy de transchiffrement.
+La mise en place d'un tel dispositif est à double tranchant, d'un côté il permet 
+l'analyse du trafic HTTPS pour la détection de logiciels malveillants et donc la 
+sécurisation d'un réseau, mais de façon contradictoire il permet "l'espionnage" 
+des données échangées lors d'une connexion normalement secrète.
 
+Ce système permet donc de faire une attaque de type "Man In The Middle" du point 
+du vue défensif, pour l'analyse du réseau ou du point de vue attaquant pour 
+l'espionnage des données.
+~~\\
 
-Pour cela, nous aurons besoin d'une autorité de certification reconnue par le client pour générer des certificats.
-Il existe plusieurs méthodes, dont l'étude des collisions MD5.
-Le but de la collision revient à générer un deuxième certificat dont la clé publique est différente, mais qui a la même signature MD5.
+La deuxième partie du projet porte sur l'étude de collisions sur des certificats
+de type MD5. Le but d'une telle collision est donc de forger un faux certificat 
+ayant exactement la même signature que l'original. Ainsi un navigateur web ne 
+fera aucune différence avec le certificat original et le faux certificat, les 
+deux seront reconnus comme valide auprès de l'autorité de certification du serveur 
+web.

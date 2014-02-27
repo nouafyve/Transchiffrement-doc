@@ -125,13 +125,13 @@
 Pour mener à bien ce projet, nous sommes une équipe de 5 étudiants. 
 L'équipe est composée de:
 \begin{itemize}
-\item GENERAT Emile 
+\item GENERAT Emile [Chef de projet]
 \item SOUCHAL Jean-Baptiste
 \item NOUAFO Yves
 \item HAMDANI Ouissem
 \item BOURDON Julien
 \end{itemize}
-Nous nous sommes répartis autour des deux parties principales parties du projet.
+Nous nous sommes répartis autour des deux principales parties du projet.
 \begin{itemize}
   \item Un proxy de transchiffrement SSL (3 personnes).
   \item La recherche de collision sur des certificats de type MD5 (2 personnes).
@@ -147,8 +147,7 @@ Les fonctionnalités finales attendues sont :
 \item Un dossier de recherche sur les collisions de certificats de type MD5, ainsi qu'une mise en oeuvre 
 par un algorithme de recherche.
 \end{itemize}
-
-\subsection{Évolution du planning et des priorités}
+~~\\
 
 Nous avons rencontré des difficultés dans la réalisation du projet.
 En accord avec le client, nous avons privilégié la réalisation du programme applicatif de proxy.
@@ -163,6 +162,24 @@ Ces risques ont fait l'objet d'une attention particulière, tout au long du proj
 \section{Analyse}
 
 \subsection{Cibles visées par l'attaque}
+Voilà un tableau comparatif des pourcentages d'utilisation des navigateurs : 
+
+Moyenne générale (Janvier 2014) :
+\begin{itemize}
+\item{Chrome} 		43.67\%
+\item{Internet Explorer}		 22,85\%
+\item{Firefox} 		18,9\%
+\item{Safari} 		9.73\%
+\item{Opera}	 		1,3\%	
+\item{Autres} 		3.55\%
+\end{itemize}	
+
+
+D'après le site : \begin{verbatim}
+http://gs.statcounter.com/
+\end{verbatim}
+
+Nous allons privilégier Firefox et Chrome, cela nous permettra de viser plus de 60\% des machines.
 
 \subsection{Protocole TLS}
 \input{text/tls.tex}
@@ -174,19 +191,28 @@ Ces risques ont fait l'objet d'une attention particulière, tout au long du proj
 ~~\\
 ~~\\
 Rôle des différentes classes:
-\begin{itemize}
-	\item Transchiffrement: classe principale de l'application, elle contient le main et va permettre la création de la socket serveur et la détection du type de connexion entrantes (HTTP ou HTTPS).
-	\item GenerationCertificat: cette classe permet de forger un faux certificat en fonction de celui récupéré lors de l'établissement d'une connexion HTTPS.
-	\item Transfert: classe permettant la création de threads pour l'échange des données entre les différentes entités (voir schéma partie 2.4.1).
-	\item Connexion: une classe abstraite qui permet de mutualiser le code commun entre les connexions HTTP ou HTTPS.
-	\item ConnexionHTTP: permet de gérer les connexions HTTP, avec le lancement de deux threads pour l'échange des données grâce a la classe Transfert.
-	\item ConnexionHTTPS: permet de gérer les connexions HTTPS, appel de la classe GenerationCertificat pour forger le faux certificat et lancement de deux threads pour l'échange des données grâce a la classe Transfert.
-	\item Constantes: cette classe regroupe toutes les valeurs constantes utilisées dans la plupart des classes du projet.
-	\item JournalFichier: cette classe permet la création, l'ouverture et le remplissage d'un fichier de avec les logs récupérés lors des échanges de type HTTP et HTTPS.
-\end{itemize}
+	\paragraph{Transchiffrement:} classe principale de l'application, elle contient le main et
+	va permettre la création de la socket serveur et la détection du type de connexion entrantes (HTTP ou HTTPS).
+	(voir le pseudo algorithme en fin de partie).
+	\paragraph{GenerationCertificat:} cette classe permet de forger un faux certificat en fonction
+	de celui récupéré lors de l'établissement d'une connexion HTTPS. Ce certificat 
+	sera utilisé pour la partie serveur du proxy et donc la mise en place du tunnel 
+	SSL entre le navigateur web et le client.
+	\paragraph{Transfert:} classe permettant la création de threads pour l'échange
+	des données entre les différentes entités (voir schéma partie 2.4.1).
+	\paragraph{Connexion:} une classe abstraite qui permet de mutualiser le code commun
+	entre les classes ConnexionHTTP et ConnexionHTTPS.
+	\paragraph{ConnexionHTTP:} permet de gérer les connexions HTTP, avec le lancement
+	de deux threads pour l'échange des données grâce a la classe Transfert.
+	\paragraph{ConnexionHTTPS:} permet de gérer les connexions HTTPS, création du contexte SSL, appel de la classe
+	GenerationCertificat pour forger le faux certificat et lancement de deux threads pour l'échange des données grâce a la classe Transfert.
+	\paragraph{Constantes:} cette classe regroupe toutes les valeurs constantes
+	utilisées dans la plupart des classes du projet.
+	\paragraph{JournalFichier:} cette classe permet la création, l'ouverture et le remplissage
+	de fichiers avec les logs récupérés lors des échanges de type HTTP et HTTPS.
 ~~\\
 
-Pseudo algorithme de la classe principale:~~\\
+Pseudo algorithme de la classe principale Transchiffrement:~~\\
 
 \begin{algorithm}[H]
   ServerSocket server\;
@@ -277,7 +303,7 @@ Création des sockets pour la connexion HTTP sur chacune des deux parties du pro
 \begin{itemize}
   \item Serveur: on commence par créer une socket de type ServerSocket qui va 
   être en écoute et attendre la connexion d'un client avec la méthode accept(). 
-  Cette méthode est blocante tant qu'il n'y a pas d'initialisation de connexion 
+  Cette méthode est bloquante tant qu'il n'y a pas d'initialisation de connexion 
   par un client. Dès que la ServerSocket reçoit une demande de connexion
   elle va créer une socket de type Socket. Ces deux sockets seront utilisées pour la communication entre le client (navigateur web) et le proxy.
   Quelque soit le type de la requête du client (HTTP ou HTTPS), la 
@@ -297,7 +323,7 @@ Création des sockets pour la connexion HTTPS sur chacune des deux parties du pr
   partie on récupère le certificat du serveur pour forger notre propre 
   certificat serveur basé sur celui du serveur web. Ensuite on créer un contexte 
   avec ce nouveau certificat pour créer une SSLServerSocket et une SSLSocket 
-  pour léchange des données dans le tunnel SSL entre le navigateur web et le 
+  pour l'échange des données dans le tunnel SSL entre le navigateur web et le 
   proxy. ~~\\
   
   \item Client: on récupère l'adresse IP et le port dans la requête du client 
@@ -330,7 +356,8 @@ On pourra ainsi voir toutes les pages demandées par un client mais également l
 
 \chapter{Recherche de collision sur des certificats hachés en MD5}
 
-\chapter{Synthèse}
+\chapter{Conclusion}
+\input{text/conclu.tex}
 
 \chapter{Annexes}
 \input{text/Annexe_Autorites.tex}
