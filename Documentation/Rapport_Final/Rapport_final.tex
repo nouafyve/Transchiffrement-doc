@@ -22,6 +22,8 @@
 \usepackage{pgfplots}
 \usepackage{algorithm2e}
 
+\usepackage{algorithmic}
+
 
 \linespread{1.1} % Line spacing
 
@@ -295,7 +297,7 @@ dans un tunnel SSL.
 
 Chacun des deux types de sockets sont implémentées en en mode simple (Socket) et 
 en mode SSL (SSLSocket) suivant le type de connexion demandée par le client. A 
-noter qu'il est obligaoire de créer des sockets simple même en cas de connexion 
+noter qu'il est obligatoire de créer des sockets simple même en cas de connexion 
 HTTPS.
 ~~\\
 
@@ -342,7 +344,7 @@ Dans ce but nous avons réalisé une classe qui nous permet de stocker dans un f
 
 Une fois arrivé sur le proxy, tout ce qui entre est déchiffré et on peut donc le stocker en clair.~~\\
 
-Pour plus de clarté, nos fichiers de journalisation sont nommés selon la date (annee\_mois\_jour\_heure).~~\\
+Pour plus de clarté, nos fichiers de journalisation sont nommés selon la date (année\_mois\_jour\_heure).~~\\
 
 Dans ces fichiers, chaque réception de paquet est placé à la suite d'une ligne nous précisant la date de réception et le sens du trafic comme ceci : ~~\\
 
@@ -355,12 +357,43 @@ On pourra ainsi voir toutes les pages demandées par un client mais également l
 \section{Tests}
 \input{text/tests.tex}
 \chapter{Recherche de collision sur des certificats hachés en MD5}
+\input{text/collision.tex}
 
 \chapter{Conclusion}
 \input{text/conclu.tex}
 
 \chapter{Annexes}
-\input{text/Annexe_Autorites.tex}
 \section{Captures d'écran de l'installation de l'autorité}
+\input{text/Annexe_Autorites.tex}
+\section{Algorithmes}
+\subsection{Algorithme de Wang et Yu implanté par Stevens}
+\begin{figure}[h!]
+  \includegraphics[scale=.61]{./images/fblock.png}
+  \caption{Algorithme de recherche du premier bloc de collision}
+\end{figure}
+
+\begin{figure}[h!]
+  \includegraphics[scale=.61]{./images/sblock.png}
+  \caption{Algorithme de recherche du second bloc de collision}
+\end{figure}
+
+\newpage
+\subsection{Algorithme de la méthode de Marc Stevens}
+\begin{figure}[h!]
+  \includegraphics[scale=.61]{./images/ncb.png}
+  \caption{Algorithme de recherche des blocs de quasi-collisions}
+\end{figure}
+
+
+\begin{figure}[h!]
+  \includegraphics[scale=.50]{./images/ui.png}
+  \caption{Algorithme de construction du chemin différentiel}
+\end{figure}
+
+\begin{figure}[h!]
+  \includegraphics[scale=.82]{./images/fcb.png}
+  \caption{Algorithme pour trouver des blocs de collision}
+\end{figure}
+
 
 \end{document}

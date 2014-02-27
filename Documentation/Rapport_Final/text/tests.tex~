@@ -1,0 +1,38 @@
+\paragraph{Environnement de test}
+Les tests ont été effectués dans un environnement de type Unix (Ubuntu, Mac OS 
+X) pour la partie utilisateur.~~\\
+
+Les machines utilisées pour les tests ont requis une connexion internet ainsi qu'un
+navigateur web supportant l'usage de certificats de type MD5. Aucune restriction sur la configuration matérielle des machines.~~\\
+
+L'analyse des échanges entre les différentes entités a été faite à l'aide de l'outil Wireshark.
+\begin{itemize}
+\item une machine virtuelle « proxy » où est installé le proxy 
+\item une machine « client » qui joue le rôle d'utilisateur lambda sur le réseau
+\end{itemize}
+
+\paragraph{Stratégie de test}
+Un test a été validé lorsqu’il répondait à l’exigence fonctionnelle à laquelle il était lié.~~\\
+
+Un test non validé a fait l’objet d’un retour vers le(s) développeur(s) du module concerné.
+Chaque test non validé a impliqué la correction, par le(s) développeur(s), du module concerné dans
+un délai raisonnable en fonction du planning et du plan de développement mis en place par le chef de
+projet.~~\\
+
+Après correction, le module a de nouveau été testé. Après avoir effectué tous les tests, les
+résultats ont été envoyés au chef de projet.
+
+\paragraph{Gestion des anomalies}
+Le responsable du module concerné par l’anomalie a été chargé de la résoudre dans un délai raisonnable en fonction de la gravité de cette anomalie pour le fonctionnement global
+  de l’application. ~~\\
+    
+  Le délai de correction a dû être inclus dans le planning du développeur en fonction
+  du plan de développement émis par le chef de projet.
+  
+\paragraph{Explications}
+Nous avons tout d'abord fait nos tests en local pour plus de simplicité, c'est pourquoi nous avions un serveur web gérant une partie en HTTP et une autre en HTTPS.~~\\
+
+Une fois le proxy fonctionnant sur notre serveur web en local, nous avons testé différents sites amenant chacun leurs problèmes.~~\\
+
+Les tests ont donc été centrés sur certains sites HTTPS (le HTTP n'étant pas un problème).
+Par exemple, nous avons pu avoir accès au numéro de compte ainsi qu'au mot de passe d'un membre de notre groupe.
