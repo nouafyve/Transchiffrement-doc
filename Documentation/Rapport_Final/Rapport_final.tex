@@ -214,23 +214,23 @@ Rôle des différentes classes:
 
 Pseudo algorithme de la classe principale Transchiffrement:~~\\
 
-\begin{algorithm}[H]
-  ServerSocket server\;
-  Socket connexion\;
-  \While{true}{
-    connexion = server.accept\;
-    Requete req\;
-    Pattern http\;
-    Pattern https\;
-    \eIf{http.find in req}{
-      new ConnexionHTTP\;
-    }{
-      \eIf{https.find in https}{
-        new ConnexionHTTPS\;
-      }
-    }
-  }
-\end{algorithm}
+%\begin{algorithm}[H]
+%  ServerSocket server\;
+%  Socket connexion\;
+%  \While{true}{
+%    connexion = server.accept\;
+%    Requete req\;
+%    Pattern http\;
+%    Pattern https\;
+%    \eIf{http.find in req}{
+%      new ConnexionHTTP\;
+%    }{
+%      \eIf{https.find in https}{
+%        new ConnexionHTTPS\;
+%      }
+%    }
+%  }
+%\end{algorithm}
 
 
 
@@ -353,7 +353,7 @@ On pourra ainsi voir toutes les pages demandées par un client mais également l
 \input{text/Auth_client.tex}
 
 \section{Tests}
-
+\input{text/test.tex}
 \chapter{Recherche de collision sur des certificats hachés en MD5}
 
 \chapter{Conclusion}
