@@ -28,16 +28,15 @@
 		  \begin{enumerate}
 		  \item Diff\'erence entre les premiers blocs de 512 bits 
 		    \begin{itemize}
-		    \item $\Delta$$M_{0}$ = $M'_{0}$ - $M_{0}$ = (0, 0, 0, 0, 2 exp(31) , 0, 0, 0, 0, 0, 0, 2 exp(15), 0, 0, 2 exp(31), 0)
-%		    \item $\Delta$$M_{0}$ = $M'_{0}$ - $M_{0}$ = (0, 0, 0, 0, 2\up{31}, 0, 0, 0, 0, 0, 0, 2\up{15}, 0, 0, 2\up{31}, 0)
+		    \item $\Delta$$M_{0}$ = $M'_{0}$ - $M_{0}$ = (0, 0, 0, 0, $2^{31}$ , 0, 0, 0, 0, 0, 0, $2^{15}$, 0, 0, $2^{31}$, 0)
 		    \end{itemize}
 %		  \item Diff\'erence entre les seconds blocs de 512 bits 
 		    \begin{itemize}
-		    \item $\Delta$$M_{0}$ = $M'_{0}$ - $M_{0}$ = (0, 0, 0, 0, 2 exp(31), 0, 0, 0, 0, 0, 0, -2\ exp(15), 0, 0, 2 exp(31), 0)
+		    \item $\Delta$$M_{0}$ = $M'_{0}$ - $M_{0}$ = (0, 0, 0, 0, $2^{31}$, 0, 0, 0, 0, 0, 0, -$2^{15}$, 0, 0, $2^{31}$, 0)
 		    \end{itemize}
 		  \item Diff\'erence entre les signatures des deux premiers blocs
 		   \begin{itemize}
-		   \item $\Delta$$IV_{1}$ = $IV'_{1}$ - $IV_{1}$ = (2 exp(31), 2 exp(31) + 2 exp(31), 2 exp(25) + 2 exp(31), 2 exp(25) + 2 exp(31))
+		   \item $\Delta$$IV_{1}$ = $IV'_{1}$ - $IV_{1}$ = ($2^{31}$, $2^{31}$ + $2^{31}$, $2^{15}$ + $2^{31}$, $2^{15}$ + $2^{31}$)
 		   \end{itemize}
 
 		  \end{enumerate}
@@ -48,6 +47,11 @@
 		 \item Ne permet pas le calcul de pr\'e-image.
 		 \item M et M' sont deux messages de 1024 bits chacun.
 		 \item M et M' sont obtenus apr\`es deux passages dans la fonction MD5Compress.
+		 \item Complexité de recherche
+		 \begin{itemize}
+		 \item premier bloc: $2^{33}$
+		 \item second bloc: $2^{29}$
+		 \end{itemize}
 		\end{itemize}
 		\end{block}
 	\end{frame} 
@@ -94,8 +98,11 @@
 		    \item Le chemin est d\'efini \`a l'aide de bits de conditions.
 		    \end{itemize}
 		  \end{itemize}
+		  
+		  La complexité de cette m\'ethode est de $2^{16}$ appels \`a la fonction de compression MD5.
 		\end{block}
 	\end{frame}
+	
 			
 			
 			
