@@ -5,23 +5,32 @@ Nous allons maintenant voir comment on peut faire accepter l'installation d'une 
 
 
 
-\subsection{Installation par un administrateur mal intentionné}
+\subsubsection{Installation par un administrateur}
 Nous prenons, ici, le cas d'un administrateur ayant un accès à tous les ordinateurs d'une entreprise.
 Cette personne veut faire accepter une autorité de certification dont il est le propriétaire pour pouvoir lire tous les paquets qui transitent et surtout les chiffrés.
 Nous allons expliquer comment faire pour les principaux navigateurs utilisés sous linux.
 
 Nous pouvons imaginer que l'administrateur installe ces navigateurs sur les machines de l'entreprise.
+
+Nous avons développé un script qui se connecte aux différentes machines en SSH en utilisant un compte root installé à l'avance.
+
+Ensuite, nous déployons dans les fichiers de configuration de Firefox et de Chrome le certificat de l'autorité.
 \newpage
 
 
 
-\subsection{Installation par l'utilisateur}
+\subsubsection{Installation par l'utilisateur}
 Dans ce cas, peu importe le navigateur du client, on lui demande d'installer un certificat sur sa machine.
 
-Lorsqu'un utilisateur
+L'utilisateur clique sur un lien de téléchargement, et il doit faire confiance au certificat.
+Si la page de téléchargement présente le logo de l'entreprise, et des captures d'écran explicatives, l'utilisateur cliquera.
+
+Idéalement, il faudrait configurer le DHCP pour rendre la page de téléchargement par défaut.
+
+Dans notre cas, il faut expliquer aux utilisateurs par email par exemple, que la configuration du réseau a changé et qu'ils doivent télécharger le nouveau certificat sur cette page.
 
 
-\subsection{Collision MD5}
+\subsubsection{Collision MD5}
 Dans les trois précédentes parties nous avons vu comment imposer ou installer une 
 autorité de certification dans le navigateur web d'un utilisateur. Cette 
 autorité va permettre l'acceptation du certificat proxy.

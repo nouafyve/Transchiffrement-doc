@@ -41,13 +41,13 @@
 
 \newcommand{\hmwkTitle}{Projet transchiffrement SSL/TLS} % Assignment title
 \newcommand{\hmwkClass}{Master 2 SSI } % Course/class
-\newcommand{\hmwkAuthorName}{Julien BOURDON, Émile GÉNÉRAT, Jean-Baptiste SOUCHAL} % Your name
+\newcommand{\hmwkAuthorName}{J. BOURDON, É. GÉNÉRAT, O. HAMDANI} % Your name
 \newcommand{\hmwkSubject}{} % Subject
 \newcommand{\hmwkDocName}{Rapport final} % Document name
 
 \newcommand{\version}{1.0} % Document version
-\newcommand{\docDate}{20 février 2014} % Document date
-\newcommand{\checked}{} % Checker name
+\newcommand{\docDate}{28 février 2014} % Document date
+\newcommand{\checked}{J. BOURDON, É. GÉNÉRAT} % Checker name
 \newcommand{\approved}{} % Approver name
 
 \makeatletter
@@ -76,22 +76,23 @@
 \pagestyle{fancy}
 
 \vspace*{5cm}
-\begin{center}\textbf{\Huge{\hmwkDocName}}\end{center}
+\begin{center}\textbf{\Huge{Rapport final \\ Transchiffrement SSL/TLS}}\end{center}
 \vspace*{4.5cm}
 	
 
 \fcolorbox{black}{gris}{
 \begin{minipage}{15cm}
 \begin{tabularx}{10cm}{lXl}
-	\bfseries{Version} & & \version\\
-	& & \\
 	\bfseries{Date} & & \docDate\\
 	& & \\
 	\bfseries{Rédigé par} & & \hmwkAuthorName \\
-	& & \\
-	\bfseries{Relu par} & & \checked \\
-	& & \\
-	\bfseries{Approuvé par} & & \approved \\
+
+	
+& & Y. NOUAFO, J-B SOUCHAL \\
+	& & \\	
+	
+	
+		\bfseries{Client} & & Magali BARDET \\
 	& & \\
 \end{tabularx}
 \end{minipage}
@@ -186,16 +187,16 @@ Nous allons privilégier Firefox et Chrome, cela nous permettra de viser plus de
 \subsection{Protocole TLS}
 \input{text/tls.tex}
 
+\input{text/Auth_client.tex}
+
 \section{Conception}
 
 \subsection{UML}
-\includegraphics[width=0.8\textwidth]{images/uml.pdf}
-~~\\
-~~\\
+\includegraphics[height=0.35\textheight, angle=90]{images/uml.pdf}
+\newpage
 Rôle des différentes classes:
 	\paragraph{Transchiffrement:} classe principale de l'application, elle contient le main et
 	va permettre la création de la socket serveur et la détection du type de connexion entrantes (HTTP ou HTTPS).
-	(voir le pseudo algorithme en fin de partie).
 	\paragraph{GenerationCertificat:} cette classe permet de forger un faux certificat en fonction
 	de celui récupéré lors de l'établissement d'une connexion HTTPS. Ce certificat 
 	sera utilisé pour la partie serveur du proxy et donc la mise en place du tunnel 
@@ -214,7 +215,7 @@ Rôle des différentes classes:
 	de fichiers avec les logs récupérés lors des échanges de type HTTP et HTTPS.
 ~~\\
 
-Pseudo algorithme de la classe principale Transchiffrement:~~\\
+%Pseudo algorithme de la classe principale Transchiffrement:~~\\
 
 %\begin{algorithm}[H]
 %  ServerSocket server\;
@@ -351,9 +352,9 @@ Dans ces fichiers, chaque réception de paquet est placé à la suite d'une lign
 heure\_minute\_seconde : /ip\_emmeteur:port\_emmeteur => /ip\_destinataire:port\_destinataire~~\\
 
 On pourra ainsi voir toutes les pages demandées par un client mais également les valeurs des variables envoyées par ce dernier. Par exemple, un utilisateur remplissant un champ de mot de passe l'enverra au serveur et nous serons capables de lire le mot de passe en clair dans les fichiers de journalisation.
-\section{Abstract}
-\input{text/Auth_client.tex}
 
+
+\newpage
 \section{Tests}
 \input{text/tests.tex}
 \chapter{Recherche de collision sur des certificats hachés en MD5}
