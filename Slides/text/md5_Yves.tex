@@ -1,0 +1,127 @@
+\begin{frame}
+		\frametitle{Attaque de Wang}		
+		\begin{block}{Type d'attaque}
+		\begin{itemize}
+		\item attaque par collision
+		  \begin{itemize}
+		  \item trouver M = ($M_0, M_1$) et M' = ($M'_0, M'_1$) tel que MD5(M) = MD5(M')
+		  \end{itemize}
+		\item Utiliser une m\'ethode dite diff\'erentielle
+		 \begin{itemize}
+		 \item analyser les diff\'erences fix\'ee entre deux messages 
+		 \end{itemize}
+		\end{itemize}
+		\end{block}
+		
+		\begin{block}{Caract\'erisation}
+		\begin{itemize}
+		\item (a, b, c, d) = MD5($a_0, b_0, c_0, d_0, M_0$)
+		\item (a', b', c', d') = MD5($a_0, b_0, c_0, d_0, M'_0$)
+		\item on a MD5($a, b, c, d, M_1$) = MD5($a', b', c', d', M'_1$).
+\end{itemize}
+		\end{block}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{D\'eroulement de l'attaque}
+		\begin{block}{Condition pour mener l'attaque}
+		  \begin{enumerate}
+		  \item Diff\'erence entre les premiers blocs de 512 bits 
+		    \begin{itemize}
+		    \item $\Delta$$M_{0}$ = $M'_{0}$ - $M_{0}$ = (0, 0, 0, 0, 2 exp(31) , 0, 0, 0, 0, 0, 0, 2 exp(15), 0, 0, 2 exp(31), 0)
+%		    \item $\Delta$$M_{0}$ = $M'_{0}$ - $M_{0}$ = (0, 0, 0, 0, 2\up{31}, 0, 0, 0, 0, 0, 0, 2\up{15}, 0, 0, 2\up{31}, 0)
+		    \end{itemize}
+%		  \item Diff\'erence entre les seconds blocs de 512 bits 
+		    \begin{itemize}
+		    \item $\Delta$$M_{0}$ = $M'_{0}$ - $M_{0}$ = (0, 0, 0, 0, 2 exp(31), 0, 0, 0, 0, 0, 0, -2\ exp(15), 0, 0, 2 exp(31), 0)
+		    \end{itemize}
+		  \item Diff\'erence entre les signatures des deux premiers blocs
+		   \begin{itemize}
+		   \item $\Delta$$IV_{1}$ = $IV'_{1}$ - $IV_{1}$ = (2 exp(31), 2 exp(31) + 2 exp(31), 2 exp(25) + 2 exp(31), 2 exp(25) + 2 exp(31))
+		   \end{itemize}
+
+		  \end{enumerate}
+		\end{block}
+	
+		\begin{block}{R\'esum\'e}
+		 \begin{itemize}
+		 \item Ne permet pas le calcul de pr\'e-image.
+		 \item M et M' sont deux messages de 1024 bits chacun.
+		 \item M et M' sont obtenus apr\`es deux passages dans la fonction MD5Compress.
+		\end{itemize}
+		\end{block}
+	\end{frame} 
+
+
+
+
+	\begin{frame}
+		\frametitle{Attaque de Marc Stevens}
+		\begin{block}{}
+		  \begin{itemize}
+		  \item S'appuie sur les recherches de Wang.
+		  \item Permet le calcul de pr\'efixe.
+		  \item Construction progressive des blocs de collisions.
+		  \end{itemize}
+		\end{block}
+	
+		\begin{block}{Caract\'erisation}
+		  \begin{itemize}
+		  \item Trouver M = P . S et  M' = P' . S' tel que MD5(M) = MD5(M').
+		  \item (P, P') pr\'efixes de (M, M') dont les valeurs sont fixes.
+		  \item (S, S') suffixes de (M, M')
+		  \end{itemize}
+		\end{block}
+	\end{frame}
+
+	
+	\begin{frame}
+		\frametitle{Attaque de Marc Stevens}
+		\begin{block}{D\'ecomposition des suffixes S et S'}
+		S et S' ont la m\^eme structure qui suit:
+		  \begin{itemize}
+		  \item $S_r$: padding choisit tel que P . $S_r$ . $S_b$ . $S_c$ multiple de 512.
+		  \item $S_b$: bits d'anniversaires.
+		  \item $S_c$: bits de quasi collisions.
+		  \end{itemize}
+		\end{block}
+		
+		\begin{block}{Condition pour mener l'attaque}
+		  \begin{itemize}
+		  \item Utilise la m\'ethode diff\'erentielle et des bits de conditions.
+		    \begin{itemize}
+		    \item Permet de calculer un chemin diff\'erentiel \`a partir de $\Delta$IHV et $\Delta$B.
+		    \item Le chemin est d\'efini \`a l'aide de bits de conditions.
+		    \end{itemize}
+		  \end{itemize}
+		\end{block}
+	\end{frame}
+			
+			
+			
+			
+	\begin{frame}
+		\frametitle{Application aux certificats}
+		\begin{block}{Points essentiels}
+		  \begin{itemize}
+		  \item D\'etermination du pr\'efixe.
+		  \item O\`u op\'erer la recherche des blocs de collisions.
+		  \item Propagation des blocs de collisions.
+		  \end{itemize}
+		\end{block}
+		
+		\begin{block}{Principe}
+		  \begin{itemize}
+		  \item G\'en\'erer deux certificats \`a faire signer par l'autorit\'e: un vrai et un faux
+		    \begin{itemize}
+		    \item D\'eterminer le d\'ebut des modules RSA.
+		    \item Modification du module RSA du faux pour en contr\^oler la cl\'e priv\'ee.
+		    \end{itemize}
+		  \end{itemize}
+		\end{block}
+		
+	\frame{
+	\frametitle{Exemple de certificats}
+	
+	}
+	\end{frame}
