@@ -19,12 +19,12 @@
 		\frametitle{Sockets}	
 		\framesubtitle{Utilisation en HTTP}
 		\begin{itemize}
-			\item Entre Client et Proxy
+			\item Entre Client et Proxy \textit{Rôle serveur}
 			\begin{itemize}
 				\item Nécessité d'une ServerSocket en écoute.
 				\item Création d'une Socket à la suite d'une connexion.
 			\end{itemize}
-			\item Entre Serveur et Proxy
+			\item Entre Proxy et Serveur \textit{Rôle client}
 			\begin{itemize}
 				\item Récupération de l'ip et du port du serveur.
 				\item Création d'une Socket pour se connecter au serveur.
@@ -36,12 +36,12 @@
 		\frametitle{Sockets}	
 		\framesubtitle{Utilisation en HTTPS}
 		\begin{itemize}
-			\item Entre Client et Proxy
+			\item Entre Client et Proxy \textit{Rôle serveur}
 			\begin{itemize}
 				\item Même déroulement que pour HTTP au début.
 				\item Transformation de la Socket en SSLSocket en utilisant un Keystore pour trouver le certificat adéquat.
 			\end{itemize}
-			\item Entre Serveur et Proxy
+			\item Entre Proxy et Serveur \textit{Rôle client}
 			\begin{itemize}
 				\item Même déroulement que pour HTTP au début.
 				\item Création d'une SSLSocket pour se connecter au serveur et récupérer son certificat.
